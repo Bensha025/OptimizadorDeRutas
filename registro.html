@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro administrador</title>
+</head>
+<body>
+    <div class="form">
+        <form  >
+            <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario"> <br>
+            <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario"> <br>
+            <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario" onblur="validaCorreo();"> <br>
+            <input type="file" name="archivo" id="archivo"> <br>
+            <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
+            <input type="submit" value="Enviar" id="enviar">
+    </div>
+</body>
+    <script src="lib/jquery-3.3.1.min.js"></script>
+    <script type="module" src="Funciones/firebaseConect.js"></script>
+    <script type="module">
+        import { adminUser } from './Funciones/altasUsuarios.js';
+        import { validarCorreoAdmin } from './Funciones/altasUsuarios.js';
+        import { db, storage} from './Funciones/firebaseConect.js';
+        import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+        async function validaCorreo(){
+            const correo = document.getElementById("correo").value;
+            if (correo.includes("@")) {
+                const resultado = await validarCorreoAdmin(correo);
+                if(resultado == 1){
+                    alert("Correo registrado");
+                    document.getElementById("correo").value = "";
+                }
+            }else{
+                document.getElementById("correo").value = "";
+                alert("Ingresa un correo valido.")
+            }     
+        }
+
+        window.validaCorreo = validaCorreo;
+
+        async function uploadFile(file){
+            const storageRef = ref(storage, 'archivosAdmin/' + file.name);
+            
+            await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(storageRef); // Obtén la URL de descarga
+            
+            return url;
+        }
+        
+        async function validar(){
+            
+            const nombre = document.getElementById("usuario").value;
+            const apellido = document.getElementById("apellido").value;
+            const correo = document.getElementById("correo").value;
+            const pass = document.getElementById("pass").value;
+            const archivo = document.getElementById("archivo").files[0];
+
+            if (nombre !== "" && apellido !== "" && correo !== "" && pass !== "" && archivo !== ""){
+               try{
+                    
+               }catch(error){
+                console.error("Error al subir el archivo:", error);
+                alert("Error al subir el archivo. Inténtalo de nuevo.");
+               }
+                const archivoUrl = await uploadFile(archivo);
+                const userData = {
+                    nombre: nombre,
+                    apellido: apellido,
+                    correo: correo,
+                    pass: pass,
+                    archivo: archivoUrl, 
+                    rol: 0, 
+                    status: true, 
+                    eliminado: false
+                };
+                adminUser(userData);
+            } else {
+                alert("Por favor, completa todos los campos.");
+            }
+        }
+
+        document.getElementById("enviar").addEventListener("click", function(event) {
+        event.preventDefault(); 
+            validar();
+        });
+    </script>
+</html>

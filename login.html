@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="form">
+        <form  >
+            <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario"> <br>
+            <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
+            <input type="submit" value="Enviar" id="enviar">
+        </form>
+    </div>
+</body>
+    <script src="lib/jquery-3.3.1.min.js"></script>
+    <script type="module" src="/Funciones/firebaseConect.js"></script>
+    <script type="module">
+        // Importamos la funcion de validar el usuario (solo valida admin).
+        import { validarUser } from '/Funciones/validarUsuario.js';
+
+        function validar(){ // Obtenenemos correo y contraseña.
+            const correo = document.getElementById("correo").value;
+            const pass = document.getElementById("pass").value;
+
+            if (correo != "" && pass != ""){ // Validamos que no este vacio.
+                validarUser(correo,pass); // Pasamos los datos a una funcion externa para validar la info.
+            } else {
+                alert("Por favor, completa todos los campos.");
+            }
+        }
+
+        // Crea un evento (Cada que se pulse enviar, se ejecuta la funcion de validar).
+        document.getElementById("enviar").addEventListener("click", function(event){
+        event.preventDefault(); 
+            validar(); 
+        });
+    </script>
+</html>
