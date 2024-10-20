@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver</title>
+</head>
+<body>
+    <div class="tabla">
+        <div>
+            <div class="titulo"><h1>Lista de drivers</h1></div>
+        </div>
+        <div class="tabla1">
+            <div class="id1">Id <br> <i class="fa-solid fa-hashtag"></i></div>
+            <div class="nombre1">Nombre completo <br><i class="fa-solid fa-user"></i></div>
+            <div class="correo1">Correo <br><i class="fa-solid fa-envelope"></i></div>
+            <div class="rol1">Rol <br><i class="fa-solid fa-id-card"></i></div>
+            <div class="boton1">Eliminar <br><i class="fa-solid fa-trash"></i></div>
+            <div class="boton2">Ver detalle<br><i class="fa-solid fa-circle-info"></i></div>
+            <div class="boton3">Editar<br><i class="fa-solid fa-user-pen"></i></div> <br><br>
+        </div>
+        
+        <div class="resultado"></div> <!-- Div donde se mostrarán los resultados -->
+    </div>
+    <script type="module">
+        import { obtenerDriver } from './Funciones/consultaDriver.js';
+
+        obtenerDriver(); // Llama a la función para obtener los datos
+    </script>
+</body>
+</html>

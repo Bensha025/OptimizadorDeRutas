@@ -1,8 +1,8 @@
-#Optimizador de Rutas
+# Optimizador de Rutas
 
 ¡Bienvenido al proyecto universitario "Optimizador de Rutas"! Este repositorio alberga el desarrollo de una aplicación diseñada para optimizar la planificación de rutas de transporte, proporcionando soluciones eficientes para conductores y mejorando la experiencia de los usuarios finales.
 
-##Descripción del Proyecto
+## Descripción del Proyecto
 
 Este documento contiene la descripción formal de los requerimientos del sistema que conformarán la plataforma "Optimizador de Rutas". El objetivo de esta aplicación es:
 
@@ -10,15 +10,15 @@ Este documento contiene la descripción formal de los requerimientos del sistema
 - **Disminuir costos operativos**: Ayudar a los conductores a ahorrar en costos relacionados con el transporte.
 - **Reducir el tiempo de espera para los usuarios**: Acelerar la recepción de paquetes por parte de los destinatarios.
 
-##Especificación de Requerimientos de Software (ERS)
+## Especificación de Requerimientos de Software (ERS)
 
 Este documento se estructura bajo las directrices del estándar IEEE Práctica Recomendada para Especificaciones de Requisitos de Software ANSI/IEEE 830, 1998.
 
-###1. Propósito
+### 1. Propósito
 
 El propósito de este documento es definir los requerimientos funcionales y no funcionales que deberá cumplir el software "Optimizador de Rutas" al término de su construcción. Este sistema está destinado a mejorar la eficiencia en la planificación de rutas de transporte.
 
-###2. Alcance
+### 2. Alcance
 
 El proyecto “Optimizador de Rutas” tiene como objetivo desarrollar una plataforma que:
 
