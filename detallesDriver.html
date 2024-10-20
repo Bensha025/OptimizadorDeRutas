@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles Driver</title>
+</head>
+<body>
+    <a class="regresar" href="tablaDriver.html"> <i class="fa-solid fa-arrow-left"></i>&nbsp;Regresar al listado</a>
+            <div class="titulo"><h1>Información del Driver.</h1></div>
+            <div class="img">
+                <img src="">
+                <p>Imagen del Driver</p><br>
+            </div>
+            <div class="tabla">
+                <div class="tab">
+                    <div class="col1">
+                        <div>Id:</div><br>
+                        <div>Nombre:</div><br>
+                        <div>Apellidos:</div><br>
+                        <div>Correo:</div><br>
+                        <div>Carro:</div>
+                        <div>Modelo:</div>
+                        <div>status:</div><br> 
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+    <script type="module">
+        import { consultaDriverUnico } from './Funciones/consultaDriver.js';
+
+        // Obtiene el id del driver medianate la url.
+        function obtenerIdDeURL() {
+            const params = new URLSearchParams(window.location.search);
+                return params.get('id'); // Devuelve el valor del parámetro id
+        }
+
+        const id = obtenerIdDeURL();
+        consultaDriverUnico(id); // Llama a la función para obtener los datos
+    </script>
+</html>

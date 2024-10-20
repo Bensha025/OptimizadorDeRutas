@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles Driver</title>
+</head>
+    <div>
+        <a class="regresar" href="tablaDriver.html"> <i class="fa-solid fa-arrow-left"></i>&nbsp;Regresar al listado</a>
+        <div class="titulo"><h1>Editar información del Driver.</h1></div>
+        </div>
+        <div class="form">
+            <form  >
+                <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario"> <br>
+                <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario"> <br>
+                <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario" onblur="validaCorreo();"> <br>
+                <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su numero de teléfono" onblur="validarNumero();"><br>
+                <input type="text" name="carro" id="carro" placeholder="Ingrese la marca del carro"> <br>
+                <select name="modelo" id="modelo">
+                    <option value="0">Selecciona el modelo de tu vehículo</option>
+                </select><br>
+                <input type="file" name="archivo" id="archivo"> <br>
+                <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
+                <input type="submit" value="Editar" id="editar">
+            </form>
+        </div>
+</body>
+<script src="lib/jquery-3.3.1.min.js"></script>
+<script>
+    // Genera el modelo del carro desde el 2015 hasta el año actual.
+    const select = document.getElementById('modelo');
+    const anioMinimo = 2015;
+    const anioActual = new Date().getFullYear();
+
+    for (let anio = anioMinimo; anio <= anioActual + 1; anio++) {
+        const opcion = document.createElement('option');
+        opcion.value = anio; // Valor autoincrementable
+        opcion.textContent = anio; // Texto mostrado
+        select.appendChild(opcion);
+    }
+</script>
+<script type="module">
+    import { db, storage} from './Funciones/firebaseConect.js';
+    import { editarDriverUnico } from './Funciones/consultaDriver.js';
+    import { validarCorreoDriver } from './Funciones/editarDriver.js'
+    import { editDriverDatos } from './Funciones/editarDriver.js'
+    import { editDriverPass } from './Funciones/editarDriver.js'
+    import { editDriverArchivo } from './Funciones/editarDriver.js'
+    import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+    // Valida el correo.
+    async function validaCorreo(){
+        const correo = document.getElementById("correo").value;
+        if (correo.includes("@")) {
+            const resultado = await validarCorreoDriver(id, correo);
+            if(resultado == 1){
+                alert("Correo registrado");
+                document.getElementById("correo").value = "";
+            }
+        }else{
+            document.getElementById("correo").value = "";
+            alert("Ingresa un correo valido.")
+        }
+    }
+
+    window.validaCorreo = validaCorreo;
+
+    // Validamos el número de telefono.
+    function validarNumero(){
+        const telefono = document.getElementById("telefono").value;
+        if(telefono.length != 10){
+            alert("Telefono no valido");
+            document.getElementById("telefono").value = ""; // Se limpia el formulario evitando que se envie.
+            
+        }
+    }
+
+    window.validarNumero = validarNumero; // Llama a la función de manera global.
+
+    // Almacena la imagen.
+    async function uploadFile(file){
+        const storageRef = ref(storage, 'archivosDriver/' + file.name);
+            
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef); // Obtén la URL de descarga.
+            
+        return url;
+    }
+
+    function obtenerIdDeURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id'); // Devuelve el valor del parámetro id.
+    }
+
+    const id = obtenerIdDeURL();
+    
+    async function cargarDatos() {
+        await editarDriverUnico(id); // Llama a la función para obtener los datos.
+        
+        // Se cargan los datos en el formulario
+        const nombre = document.getElementById("usuario").value;
+        const apellido = document.getElementById("apellido").value;
+        const correo = document.getElementById("correo").value;
+        const telefono = document.getElementById("telefono").value;
+        const carro = document.getElementById("carro").value;
+        const modelo = document.getElementById("modelo").value;
+        const archivo = document.getElementById("archivo").files[0];       
+    }
+
+    async function validacion(){
+        // Validamos los datos que el usuario desea editar.
+        const nombre = document.getElementById("usuario").value;
+        const apellido = document.getElementById("apellido").value;
+        const correo = document.getElementById("correo").value;
+        const telefono = document.getElementById("telefono").value;
+        const carro = document.getElementById("carro").value;
+        const modelo = document.getElementById("modelo").value;
+        const pass = document.getElementById("pass").value;
+        const archivo = document.getElementById("archivo").files[0];
+
+        if(nombre != "" && apellido != "" && correo != "" && telefono != "" && 
+            carro != "" && modelo != ""){
+            const dataDriver = {
+                nombre: nombre,
+                apellido: apellido,
+                correo: correo,
+                telefono: telefono,
+                carro: carro,
+                modelo: modelo
+            };
+            editDriverDatos(id, dataDriver); // Llamamos la funcion para editar los datos.
+        }else{
+            alert("Faltan campos por llenar")
+        }
+        if(pass != ""){
+            const dataDriver = {
+                pass: pass
+            };
+            editDriverPass(id, dataDriver) // Llamamos la funcion para editar la contraseña.
+        }
+        if(archivo){ 
+            try{
+                const archivoUrl = await uploadFile(archivo);
+                const dataDriver = {
+                    archivo: archivoUrl
+                };
+                editDriverArchivo(id, dataDriver) // Llamamos la funcion para editar el archivo.
+            }catch (error){
+                console.error("Error al subir el archivo:", error);
+                alert("Error al subir el archivo. Inténtalo de nuevo.");
+            }
+        }
+    }
+
+
+    
+    cargarDatos(); // Llamamos la función para cargar los datos.
+
+    document.getElementById("editar").addEventListener("click", function(event){
+    event.preventDefault();
+        validacion(); 
+    }); // Creamos un evento cada que se ejecute el boton editar.
+    
+</script>
+</html>
