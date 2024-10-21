@@ -4,13 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <div class="form">
-        <form  >
-            <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario"> <br>
-            <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
-            <input type="submit" value="Enviar" id="enviar">
+    <div class="wrapper">
+        <form action="">
+            <h1>INICIAR SESION</h1>
+            <div class="input-box">
+                <input type="text" name="correo" id="correo" placeholder="email">
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" name="pass" id="pass" placeholder="password">
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Recuerdame </label>
+                <a href="#">Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+            
+            <div class="register-link">
+                <p>No tienes cuenta? <a href="#">Registrate</a></p>
+            </div>
         </form>
     </div>
 </body>
