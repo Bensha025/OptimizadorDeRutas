@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Administrador</title>
+</head>
+<body>
+    <div>
+        <a class="regresar" href="tablaAdministrador.html"> <i class="fa-solid fa-arrow-left"></i>&nbsp;Regresar al listado</a>
+        <div class="titulo"><h1>Editar información del Administrador.</h1></div>
+        </div>
+        <div class="form">
+            <form  >
+                <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario"> <br>
+                <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario"> <br>
+                <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario" onblur="validaCorreo();"> <br>
+                <input type="file" name="archivo" id="archivo"> <br>
+                <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
+                <input type="submit" value="Editar" id="editar">
+            </form>
+        </div>
+    </div>
+</body>
+    <script src="lib/jquery-3.3.1.min.js"></script>
+    <script type="module">
+        // Importamos funciones externas.
+        import { db, storage} from './Funciones/firebaseConect.js';
+        import { editarAdministradorUnico } from './Funciones/consultaAdministrador.js';
+        import { validarCorreoAdmin } from './Funciones/altasUsuarios.js';
+        import { editAdministradorDatos } from './Funciones/editarAdministrador.js'
+        import { editAdministradorPass } from './Funciones/editarAdministrador.js'
+        import { editAdministradorArchivo } from './Funciones/editarAdministrador.js'
+        import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+        // Valida el correo.
+        async function validaCorreo(){
+            const correo = document.getElementById("correo").value;
+            if (correo.includes("@")) {
+                const resultado = await validarCorreoAdmin(correo);
+                if(resultado == 1){
+                    alert("Correo registrado");
+                    document.getElementById("correo").value = "";
+                }
+            }else{
+                document.getElementById("correo").value = "";
+                alert("Ingresa un correo valido.")
+            }
+        }
+
+        window.validaCorreo = validaCorreo;
+
+        // Almacena la imagen.
+        async function uploadFile(file){
+            const storageRef = ref(storage, 'archivosAdministrador/' + file.name);
+            
+            await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(storageRef); // Obtén la URL de descarga
+            
+            return url;
+        }
+
+        function obtenerIdDeURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('id'); // Devuelve el valor del parámetro id.
+        }
+
+        const id = obtenerIdDeURL();
+
+        async function cargarDatos() {
+        await editarAdministradorUnico(id); // Llama a la función para obtener los datos.
+        
+        // Se cargan los datos en el formulario
+        const nombre = document.getElementById("usuario").value;
+        const apellido = document.getElementById("apellido").value;
+        const correo = document.getElementById("correo").value;
+        const archivo = document.getElementById("archivo").files[0];       
+        }
+
+        // Valida el formulario para enviarlo a la base de datos.
+        async function validacion(){
+            // Validamos los datos que el usuario desea editar.
+            const nombre = document.getElementById("usuario").value;
+            const apellido = document.getElementById("apellido").value;
+            const correo = document.getElementById("correo").value;
+            const pass = document.getElementById("pass").value;
+            const archivo = document.getElementById("archivo").files[0];
+
+            if(nombre != "" && apellido != "" && correo != ""){
+                const dataAdmin = {
+                    nombre: nombre,
+                    apellido: apellido,
+                    correo: correo,
+                };
+                editAdministradorDatos(id, dataAdmin); // Llamamos la funcion para editar los datos.
+            }else{
+                alert("Faltan campos por llenar")
+            }
+            if(pass != ""){
+                const dataAdmin = {
+                    pass: pass
+                };
+                editDriverPass(id, dataAdmin) // Llamamos la funcion para editar la contraseña.
+            }
+            if(archivo){ 
+                try{
+                    const archivoUrl = await uploadFile(archivo);
+                    const dataAdmin = {
+                        archivo: archivoUrl
+                    };
+                    editDriverArchivo(id, dataAdmin) // Llamamos la funcion para editar el archivo.
+                }catch (error){
+                    console.error("Error al subir el archivo:", error);
+                    alert("Error al subir el archivo. Inténtalo de nuevo.");
+                }
+            }
+        }
+
+        cargarDatos(); // Llamamos la función para cargar los datos.
+
+        document.getElementById("editar").addEventListener("click", function(event){
+        event.preventDefault();
+            validacion(); 
+        }); // Creamos un evento cada que se ejecute el boton editar.
+    </script>
+
+</html>
