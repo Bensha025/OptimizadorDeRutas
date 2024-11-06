@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizar ruta</title>
+</head>
+<body>
+    <button type="button" onclick="optimizar()">Optimizar ruta</button>
+    <button type="button" onclick="verRutas()">Ver detalles del lote</button><br><br>
+    <input type="text" id="buscarLote" placeholder="Ingresa el id del lote a buscar"><br>
+    <button type="button" onclick="buscarRutas()">Buscar lote</button> <br><br><br>
+    <div class="lotes"></div>
+    
+    <script type="module">
+        import { obtenerRuta } from './Funciones/optmizadorRuta.js'
+        import { obtenerLotes } from './Funciones/detallesLotes.js'
+        import { buscarLote } from './Funciones/detallesLotes.js'
+
+        async function optimizar() {
+            obtenerRuta();
+        }
+
+        window.optimizar = optimizar;
+
+        function verRutas() {
+            obtenerLotes();
+        }
+
+        window.verRutas = verRutas;
+        
+        function buscarRutas(){
+            const idLote = parseInt(document.getElementById("buscarLote").value);
+            buscarLote(idLote);
+        }
+
+        window.buscarRutas = buscarRutas;
+    </script>
+</body>
+</html>
