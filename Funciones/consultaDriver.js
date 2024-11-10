@@ -4,7 +4,7 @@ import { collection, query, where, getDocs, doc, updateDoc, getDoc } from "https
 // Función para obtener los datos de Firestore.
 export async function obtenerDriver() {
     const driverCollection = collection(db, "driver");
-    const consulta = query(driverCollection, where("status", "==", true), where("eliminado", "==", false));
+    const consulta = query(driverCollection, where("status", "==", true), where("eliminado", "==", false), where("validado", "==", true));
 
     try {
         const snapshot = await getDocs(consulta);
