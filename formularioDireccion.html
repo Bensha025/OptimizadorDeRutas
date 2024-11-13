@@ -13,8 +13,10 @@
             <label for="apellido">Apellido</label><br>
             <input type="text" id="nombre" placeholder="Ingrese su nombre">
             <input type="text" id="apellido" placeholder="Ingrese su apellido"> <br>
-            <label for="telefono">Telefono</label><br>
-            <input type="tel" id="telefono" placeholder="Ingrese su telefono" onblur="validarNumero();"> <br>
+            <label for="telefono">Telefono</label>
+            <label for="correo">correo</label><br>
+            <input type="tel" id="telefono" placeholder="Ingrese su telefono" onblur="validarNumero();">
+            <input type="text" id="correo" placeholder="Ingrese su correo" onblur="validarNumero();"> <br>
             <label for="cp">Código postal</label>
             <label for="estado">Estado</label><br>
             <input type="text" id="cp" placeholder="Ingrese su código postal" onblur="validarCp();">
@@ -42,8 +44,8 @@
         </form>
         <p id="output"></p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="module">
-
         import { obtenerCoordenadas } from './Funciones/validaDireccion.js'
         import { guardarDirec } from './Funciones/validaDireccion.js'
 
@@ -74,6 +76,7 @@
             const nombre = document.getElementById("nombre").value;
             const apellido = document.getElementById("apellido").value;
             const telefono = document.getElementById("telefono").value;
+            const correo = document.getElementById("correo").value;
             const cp = document.getElementById("cp").value;
             const estado = document.getElementById("estado").value;
             const colonia = document.getElementById("colonia").value;
@@ -92,18 +95,22 @@
                 }
             }
 
-            if(nombre && apellido && telefono && cp && estado && colonia && municipio 
-                && calle && numero && residencia){
+            if(nombre && apellido && telefono && correo && cp && estado && colonia  
+                && municipio && calle && numero && residencia){
                 const ubicacion = numero + " " + calle + ", " + municipio + ", " + estado + ", " + cp;
                 console.log(ubicacion);
                 const consulta = await obtenerCoordenadas(ubicacion);
                 console.log(consulta);
+
+                const generaGuia = Math.floor(Math.random() *  9000000) + 1000000; // Genera una guia de 7 dígitos
+                    
 
                 if(consulta == 1){
                    const direccionData ={
                     nombre: nombre,
                     apellido: apellido,
                     telefono: telefono,
+                    correo: correo,
                     cp: cp,
                     estado: estado,
                     colonia: colonia,
@@ -113,7 +120,8 @@
                     residencia: residencia,
                     ubicacion: ubicacion,
                     indicaciones: indicaciones,
-                    agregado: false
+                    agregado: false,
+                    guia: generaGuia
                    }
 
                     guardarDirec(direccionData);

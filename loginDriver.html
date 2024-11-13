@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login Driver</title>
 </head>
 <body>
     <div class="form">
@@ -18,14 +18,14 @@
     <script type="module" src="./Funciones/firebaseConect.js"></script>
     <script type="module">
         // Importamos la funcion de validar el usuario (solo valida admin).
-        import { validarUser } from './Funciones/validarUsuario.js';
+        import { validaDriver } from './Funciones/validarDriver.js';
 
         function validar(){ // Obtenenemos correo y contraseña.
             const correo = document.getElementById("correo").value;
             const pass = document.getElementById("pass").value;
 
             if (correo != "" && pass != ""){ // Validamos que no este vacio.
-                validarUser(correo,pass); // Pasamos los datos a una funcion externa para validar la info.
+                validaDriver(correo,pass); // Pasamos los datos a una funcion externa para validar la info.
             } else {
                 alert("Por favor, completa todos los campos.");
             }
