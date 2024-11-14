@@ -243,5 +243,81 @@ body {
             font-weight: bold;
         }
 
-/*Deslizar pantalla*/
+/*Detalle Driver*/
+
+    label {
+        display: block; /* Hacer que las etiquetas ocupen todo el ancho */
+        margin: 1px 0 0px; /* Margen entre etiqueta y campo */
+        color: #555; /* Color de la etiqueta */
+        font-size: 12px; /* Tamaño de fuente más pequeño */
+        font-family: 'Arial', sans-serif; /* Fuente de las etiquetas */
+        font-weight: 600; /* Peso de la fuente (puedes ajustar a 400, 500, etc.) */
+        text-transform: capitalize; /* Capitalizar la primera letra de cada palabra */
+    }
+    .body2 {
+        font-family: Arial, sans-serif; /* Fuente general */
+        margin: 0;
+        padding: 20px;
+    }
+
+    .form-container2 {
+       
+        border-radius: 8px; /* Bordes redondeados */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+        padding: 20px; /* Espaciado interno */
+        max-width: 400px; /* Ancho máximo del formulario */
+        margin: auto; /* Centrar el formulario */
+        background-color: rgba(255, 255, 255, 0.9);
+        
+    }
+
+    h3 {
+        text-align: center; /* Centrar el título */
+        color: #333; /* Color del texto */
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"],
+    select,
+    input[type="file"] {
+        width: 100%; /* Ancho completo */
+        padding: 10px; /* Espaciado interno */
+        margin: 10px 0; /* Margen entre campos */
+        border: 1px solid #ccc; /* Borde gris claro */
+        border-radius: 4px; /* Bordes redondeados */
+        box-sizing: border-box; /* Incluir padding y border en el ancho total */
+        transition: border-color 0.3s; /* Transición suave para el borde */
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+        border-color: #007bff; /* Color de borde al enfocar */
+        outline: none; /* Sin borde de enfoque predeterminado */
+    }
+
+    input[type="submit"] {
+        background-color: #007bff; /* Color de fondo del botón */
+        color: white; /* Color del texto del botón */
+        border: none; /* Sin borde */
+        border-radius: 4px; /* Bordes redondeados */
+        padding: 10px; /* Espaciado interno */
+        cursor: pointer; /* Cambiar cursor al pasar el ratón */
+        font-size: 16px; /* Tamaño de fuente */
+        transition: background-color 0.3s; /* Transición suave para el fondo */
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3; /* Color de fondo al pasar el ratón */
+    }
+
+    input[type="file"] {
+        border: none; /* Sin borde */
+        padding: 0; /* Sin espaciado interno */
+    }
+
 
