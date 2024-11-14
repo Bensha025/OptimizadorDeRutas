@@ -6,7 +6,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&display=swap" rel="stylesheet"/>
   <link href="/styles/driver.css" rel="stylesheet"/>
  </head>
- <body>
+
+ <div>
   <div class="hover-area" onmouseover="showSidebar()">
   </div>
   <div class="sidebar" onmouseleave="hideSidebar()">
@@ -87,37 +88,34 @@
    <h1>
     Información del Driver
    </h1>
-   <div class="table-container">
-    <table>
-     <thead>
-      <tr>
-       <th>
-        ID
-       </th>
-       <th>
-        NOMBRE
-       </th>
-       <th>
-        APELLIDOS
-       </th>
-       <th>
-        CORREO
-       </th>
-       <th>
-        CARRO
-       </th>
-       <th>
-        MODELO
-       </th>
-       <th>
-        STATUS
-       </th>
-      </tr>
-     </thead>
-     <!--¡Conectar con la base de datos!-->
-    </table>
-   </div>
-   <a class="back-button" href=""><!--Redireccionar a listado drivers-->
+
+   <div class="form-container">
+      <div class="driver-info">
+       <div class="img">
+           <img src="" alt="Imagen del Driver">
+           <p>Imagen del Driver</p>
+       </div>
+            <div class="tabla">
+                <div class="tab">
+                    <div class="col1">
+                        <div>Id:</div><br>
+                        <div>Nombre:</div><br>
+                        <div>Apellidos:</div><br>
+                        <div>Correo:</div><br>
+                        <div>Carro:</div>
+                        <div>Modelo:</div>
+                        <div>status:</div><br> 
+                    </div>
+                </div>
+            </div>
+         </div>
+      </div>
+      </div>
+      
+     
+     
+     
+   <a class="back-button" href="tablaDriver.html"><!--Redireccionar a listado drivers-->
     <i class="fas fa-arrow-left">
     </i>
     Regresar al listado
@@ -139,7 +137,57 @@
         // esconder la barra lateral
         hideSidebar();
   </script>
+   <script type="module">
+      import { consultaDriverUnico } from './Funciones/consultaDriver.js';
+   
+      // Obtiene el id del driver medianate la url.
+      function obtenerIdDeURL() {
+          const params = new URLSearchParams(window.location.search);
+              return params.get('id'); // Devuelve el valor del parámetro id
+      }
+   
+      const id = obtenerIdDeURL();
+      consultaDriverUnico(id); // Llama a la función para obtener los datos
+   </script>
  </body>
+
+</html>
+
+
+
+<!--SEGUNDO CODIGO-->
+
+<!--
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles Driver</title>
+</head>
+<body>
+    <a class="regresar" href="tablaDriver.html"> <i class="fa-solid fa-arrow-left"></i>&nbsp;Regresar al listado</a>
+            <div class="titulo"><h1>Información del Driver.</h1></div>
+            <div class="img">
+                <img src="">
+                <p>Imagen del Driver</p><br>
+            </div>
+            <div class="tabla">
+                <div class="tab">
+                    <div class="col1">
+                        <div>Id:</div><br>
+                        <div>Nombre:</div><br>
+                        <div>Apellidos:</div><br>
+                        <div>Correo:</div><br>
+                        <div>Carro:</div>
+                        <div>Modelo:</div>
+                        <div>status:</div><br> 
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
     <script type="module">
         import { consultaDriverUnico } from './Funciones/consultaDriver.js';
 
@@ -153,3 +201,5 @@
         consultaDriverUnico(id); // Llama a la función para obtener los datos
     </script>
 </html>
+
+-->

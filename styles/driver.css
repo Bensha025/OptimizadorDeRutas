@@ -70,7 +70,7 @@ body {
          padding: 10px 20px;
          border-radius: 5px;
          transition: background-color 0.3s ease;
-         position: absolute;
+         position:fixed;
          bottom: 20px;
          left: 50%;
          transform: translateX(-50%);
@@ -89,7 +89,6 @@ body {
          font-size: 36px;
          margin-bottom: 20px;
          font-weight: 700;
-         font-family: 'Pacifico', cursive;
          padding: 20px;
          border-radius: 8px;
          text-align: center;
@@ -194,3 +193,55 @@ body {
         width: fit-content;
     }
     
+    /*Detalles Driver*/
+    .form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    }
+
+    .driver-info {
+        background-color: rgba(255, 255, 255, 0.9); /* Fondo semi-transparente */
+        padding: 20px;
+        width: 320px; /* Ancho del formulario */
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        text-align: left;
+        
+    }
+    
+    .img {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .img img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover; /* Ajusta la imagen dentro del círculo */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .img p {
+        margin-top: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+        .tabla {
+            margin-top: 60px;
+        }
+        .col1 div {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .col1 div span {
+            font-weight: bold;
+        }
+
+/*Deslizar pantalla*/
+

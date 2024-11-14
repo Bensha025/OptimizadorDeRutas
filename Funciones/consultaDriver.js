@@ -110,8 +110,20 @@ async function eliminarRegistro(id) {
     }
 }
 
-export function verDetalles(id){
-    window.location.href = `detallesDriver.html?id=${id}`; // Redirecciona al archivo detalles Driver.
+export function verDetalles(id) {
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    document.body.appendChild(slide); // Añadir el div al body
+
+    // Activar la clase que inicia la animación
+    setTimeout(() => {
+        slide.classList.add('active');
+    }, 0);
+
+    // Esperar a que la animación termine antes de redirigir
+    setTimeout(() => {
+        window.location.href = `detallesDriver.html?id=${id}`; // Redireccionar
+    }, 500); // Tiempo de espera igual al de la transición
 }
 
 export async function consultaDriverUnico(id) {
@@ -194,7 +206,7 @@ style.innerHTML = `
     }
 
     .tablaDrivers th {
-        background-color: #4CAF50; 
+        background-color: #89CFF0; 
         color: white;
     }
 
@@ -253,6 +265,25 @@ style.innerHTML = `
         width: 90%;
         max-width: 1200px;
     }
+    
+    /*Deslizamiento de pagina*/
+    body {
+    overflow: auto; /* Evitar el desplazamiento durante la transición */
+}
+
+.slide {
+    position: fixed;
+    top: 0;
+    left: 100%; /* Comienza fuera de la vista a la derecha */
+    width: 100%;
+    height: 100%;
+    background: white; /* Fondo blanco para la transición */
+    transition: left 0.5s ease; /* Transición suave */
+}
+
+.slide.active {
+    left: 0; /* Mover a la vista */
+}
 `;
 
 // Añadir la etiqueta <style> al <head> del documento
