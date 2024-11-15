@@ -61,6 +61,16 @@
             subdomains: 'abcd',
             maxZoom: 19
         });
+        let estiloAcuarela = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', {
+            attribution: '&copy; <a href="https://stamen.com">Stamen Design</a>',
+            maxZoom: 18
+            });
+        let estiloToner = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://stamen.com">Stamen Design</a>',
+            maxZoom: 18
+        });
+
+
 
         // Añade el estilo normal inicialmente
         estiloNormal.addTo(map);

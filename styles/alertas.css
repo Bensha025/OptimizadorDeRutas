@@ -1,0 +1,10 @@
+.error-message {
+    display: none; /* Oculto por defecto */
+    color: #f44336;
+    background-color: #fdecea;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-family: Arial, sans-serif;
+}

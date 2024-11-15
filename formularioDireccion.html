@@ -1,140 +1,202 @@
-<!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubicación</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>πTech | Ubicacion</title>
+    <link rel="icon" href="img/Logo - icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="styles/alertas.css">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Ingrese su información de residencia</h1> <br> <br>
-        <form id="ubicacionForm">
-            <label for="nombre">Nombre</label>
-            <label for="apellido">Apellido</label><br>
-            <input type="text" id="nombre" placeholder="Ingrese su nombre">
-            <input type="text" id="apellido" placeholder="Ingrese su apellido"> <br>
-            <label for="telefono">Telefono</label>
-            <label for="correo">correo</label><br>
-            <input type="tel" id="telefono" placeholder="Ingrese su telefono" onblur="validarNumero();">
-            <input type="text" id="correo" placeholder="Ingrese su correo" onblur="validarNumero();"> <br>
-            <label for="cp">Código postal</label>
-            <label for="estado">Estado</label><br>
-            <input type="text" id="cp" placeholder="Ingrese su código postal" onblur="validarCp();">
-            <input type="text" id="estado" placeholder="Ingrese su estado"> <br>
-            <label for="colonia">Colonia</label>
-            <label for="municipio">Municipio</label><br>
-            <input type="text" id="colonia" placeholder="Ingrese su colonia"> 
-            <input type="text" id="municipio" placeholder="Ingrese su municipio"><br>
-            <label for="calle">Calle</label>
-            <label for="numero">Número</label> <br>
-            <input type="text" id="calle" placeholder="Ingrese su calle"> 
-            <input type="text" id="numero" placeholder="Ingrese el numero de domicilio">
-            <section id="residencia">
-                <p>¿Es tu trabajo o tu casa?</p>
-                <input type="radio" id="laboral" name="residencia" value="laboral">
-                <label for="laboral">Laboral</label>
-                <input type="radio" id="residencial" name="residencia" value="residencial">
-                <label for="residencial">Residencial</label>
-            </section> <br>
-            <!--                                PARA EL FRONT IMPORTANTE
-                PONER resize: none; PARA QUE EL USUARIO NO PUEDA MODIFICAR LAS DIMENSIONES 
-            -->
-            <textarea id="indicaciones" placeholder="Indicaciones adicionales de esta dirección"></textarea> <br><br>
-            <button type="button" onclick="enviarForm()">Enviar</button>
-        </form>
-        <p id="output"></p>
+<body class="bg-gray-900 text-white">
+
+    
+<header class="relative bg-gradient-to-r from-gray-900 to-red-700 h-96 flex items-center justify-center">
+    <div class="absolute top-0 left-0 p-4">
+        <img alt="Company Logo" class="h-12" height="50" src="/img/Logo - icon.png" width="50"/>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="module">
-        import { obtenerCoordenadas } from './Funciones/validaDireccion.js'
-        import { guardarDirec } from './Funciones/validaDireccion.js'
+    <div class="text-center">
+    </div>
+    <div class="absolute top-0 right-0 p-4">
+        <i class="fas fa-bars text-2xl"></i>
+    </div>
+</header>
+<main class="bg-gray-100 text-gray-900 py-12">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative -mt-32">
+        <div class="md:flex">
+            <div class="w-full md:w-2/3 p-8">
+                <h2 class="text-2xl font-bold mb-4">Ingrese su información de residencia</h2>
+                <form id="ubicacionForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="nombre" placeholder="Ingrese su nombre" type="text"/>
+                        </div>
+                        <div>
+                            <label for="apellido">Apellido</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="apellido" placeholder="Ingrese su apellido" type="text"/>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="telefono">Telefono</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="telefono" placeholder="Ingrese su telefono" type="tel" onblur="validarNumero();"/>
+                            <div id="telefono-error" class="error-message">Teléfono no válido. Debe contener exactamente 10 dígitos.</div>
+                        </div>
+                        <div>
+                            <label for="cp">Código postal</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="cp" placeholder="Ingrese su código postal" type="text" onblur="validarCp();"/>
+                            <div id="cp-error" class="error-message">Código Postal no válido. Debe contener exactamente 5 dígitos.</div>
+                        </div>
+                        <div>
+                            <label for="estado">Estado</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="estado" placeholder="Ingrese su estado" type="text"/>
+                        </div>
+                        <div>
+                            <label for="colonia">Colonia</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="colonia" placeholder="Ingrese su colonia" type="text"/>
+                        </div>
+                        <div>
+                            <label for="municipio">Municipio</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="municipio" placeholder="Ingrese su municipio" type="text"/>
+                        </div>
+                        <div>
+                            <label for="calle">Calle</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="calle" placeholder="Ingrese su calle" type="text"/>
+                        </div>
+                        <div>
+                            <label for="numero">Número</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="numero" placeholder="Ingrese el numero de domicilio" type="text"/>
+                        </div>
+                        <div class="col-span-2">
+                            <section id="residencia">
+                                <p>¿Es tu trabajo o tu casa?</p>
+                                <input id="laboral" name="residencia" type="radio" value="laboral"/>
+                                <label for="laboral">Laboral</label>
+                                <input id="residencial" name="residencia" type="radio" value="residencial"/>
+                                <label for="residencial">Residencial</label>
+                            </section>
+                        </div>
+                        <div class="col-span-2">
+                            <textarea class="border border-gray-300 p-2 rounded w-full h-32 resize-none" id="indicaciones" placeholder="Indicaciones adicionales de esta dirección"></textarea>
+                        </div>
+                    </div>
+                    <button class="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105" type="button" onclick="enviarForm()">Enviar</button>
+                </form>
+                <p id="output"></p>
+            </div>
+            <div class="w-full md:w-1/3 bg-gray-800 text-white p-8">
+                <h2 class="text-2xl font-bold mb-4">Información De Contacto</h2>
+                <p class="mb-4"><i class="fas fa-phone-alt mr-2"></i> +52 (33) </p>
+                <p class="mb-4"><i class="fas fa-envelope mr-2"></i> piTeck0020@gail.com</p>
+                <div class="flex space-x-4">
+                    <a class="text-white" href="https://www.facebook.com/profile.php?id=100004311793984&locale=es_LA"><i class="fab fa-facebook-f"></i></a>
+                    <a class="text-white" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="text-white" href="https://www.instagram.com/jonathan._.0020/"><i class="fab fa-instagram"></i></a>
+                    <a class="text-white" href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 
-        // Validamos el número de telefono.
-        function validarNumero(){
-            const telefono = document.getElementById("telefono").value;
-            if(telefono.length != 10){
-                alert("Telefono no valido");
-                document.getElementById("telefono").value = ""; // Se limpia el formulario evitando que se envie.
-            }
-        }
-
-        window.validarNumero = validarNumero;
-
-        // Validamos el código postal.
-        function validarCp(){
-            const cp = document.getElementById("cp").value;
-            if(cp.length != 5){
-                alert("Código postal no valido");
-                document.getElementById("cp").value = ""; // Se limpia el formulario evitando que se envie.
-            }
-        }
-
-        window.validarCp = validarCp;
-
-        
-        async function enviarForm() {
-            const nombre = document.getElementById("nombre").value;
-            const apellido = document.getElementById("apellido").value;
-            const telefono = document.getElementById("telefono").value;
-            const correo = document.getElementById("correo").value;
-            const cp = document.getElementById("cp").value;
-            const estado = document.getElementById("estado").value;
-            const colonia = document.getElementById("colonia").value;
-            const municipio = document.getElementById("municipio").value;
-            const calle = document.getElementById("calle").value;
-            const numero = document.getElementById("numero").value;
-            const indicaciones = document.getElementById("indicaciones").value;
-
-
-            let residencia;
-            const radios = document.getElementsByName("residencia");
-            for (const radio of radios) {
-                if (radio.checked) {
-                    residencia = radio.value;
-                    break;
-                }
-            }
-
-            if(nombre && apellido && telefono && correo && cp && estado && colonia  
-                && municipio && calle && numero && residencia){
-                const ubicacion = numero + " " + calle + ", " + municipio + ", " + estado + ", " + cp;
-                console.log(ubicacion);
-                const consulta = await obtenerCoordenadas(ubicacion);
-                console.log(consulta);
-
-                const generaGuia = Math.floor(Math.random() *  9000000) + 1000000; // Genera una guia de 7 dígitos
-                    
-
-                if(consulta == 1){
-                   const direccionData ={
-                    nombre: nombre,
-                    apellido: apellido,
-                    telefono: telefono,
-                    correo: correo,
-                    cp: cp,
-                    estado: estado,
-                    colonia: colonia,
-                    municipio: municipio,
-                    calle: calle, 
-                    numero: numero,
-                    residencia: residencia,
-                    ubicacion: ubicacion,
-                    indicaciones: indicaciones,
-                    agregado: false,
-                    guia: generaGuia
-                   }
-
-                    guardarDirec(direccionData);
-                }
-            }else{
-                alert("Faltan campos por llenar")
-            }
-
-            console.log(nombre,apellido,telefono,cp,estado,colonia,calle,numero,residencia,indicaciones);
-
-        }
-
-        window.enviarForm = enviarForm;
-    </script>
 </body>
 </html>
+<script type="module">
+    import { obtenerCoordenadas } from './Funciones/validaDireccion.js'
+    import { guardarDirec } from './Funciones/validaDireccion.js'
+
+    // Validamos el número de telefono.
+    function validarNumero() {
+        const telefono = document.getElementById("telefono").value;
+        const errorMessage = document.getElementById("telefono-error");
+
+        if (telefono.length != 10) {
+            errorMessage.style.display = "block"; // Muestra el mensaje de error para teléfono
+            document.getElementById("telefono").value = ""; // Limpia el campo
+        } else {
+            errorMessage.style.display = "none"; // Oculta el mensaje si es válido
+        }
+    }
+
+    window.validarNumero = validarNumero;
+
+    // Validamos el código postal.
+    function validarCp() {
+        const cp = document.getElementById("cp").value;
+        const errorMessage = document.getElementById("cp-error");
+
+        if (cp.length != 5) {
+            errorMessage.style.display = "block"; // Muestra el mensaje de error para CP
+            document.getElementById("cp").value = ""; // Limpia el campo
+        } else {
+            errorMessage.style.display = "none"; // Oculta el mensaje si es válido
+        }
+    }
+
+    window.validarCp = validarCp;
+
+        
+    async function enviarForm() {
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const telefono = document.getElementById("telefono").value;
+        const cp = document.getElementById("cp").value;
+        const estado = document.getElementById("estado").value;
+        const colonia = document.getElementById("colonia").value;
+        const municipio = document.getElementById("municipio").value;
+        const calle = document.getElementById("calle").value;
+        const numero = document.getElementById("numero").value;
+        const indicaciones = document.getElementById("indicaciones").value;
+
+
+        let residencia;
+        const radios = document.getElementsByName("residencia");
+        for (const radio of radios) {
+            if (radio.checked) {
+                residencia = radio.value;
+                break;
+            }
+        }
+
+        if(nombre && apellido && telefono && cp && estado && colonia && municipio 
+            && calle && numero && residencia){
+            const ubicacion = numero + " " + calle + ", " + municipio + ", " + estado + ", " + cp;
+            console.log(ubicacion);
+            const consulta = await obtenerCoordenadas(ubicacion);
+            console.log(consulta);
+
+            if(consulta == 1){
+                const direccionData ={
+                nombre: nombre,
+                apellido: apellido,
+                telefono: telefono,
+                cp: cp,
+                estado: estado,
+                colonia: colonia,
+                municipio: municipio,
+                calle: calle, 
+                numero: numero,
+                residencia: residencia,
+                ubicacion: ubicacion,
+                indicaciones: indicaciones,
+                agregado: false
+                }
+
+                guardarDirec(direccionData);
+            }
+        }else{
+            alert("Faltan campos por llenar")
+        }
+
+        console.log(nombre,apellido,telefono,cp,estado,colonia,calle,numero,residencia,indicaciones);
+    }
+        
+
+    window.enviarForm = enviarForm;
+</script>

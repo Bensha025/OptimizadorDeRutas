@@ -1,24 +1,36 @@
+<!--CODIGO INCESEARIO - EN ESPERA DE QUE ANGEL PASE EL SUYO-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>πTech | Login</title>
+    <link rel="icon" href="img/Logo - icon.png">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/alphardex/aqua.css@master/dist/aqua.min.css'>
+    <link rel="stylesheet" href="/styles/transicion.css">
 </head>
 <body>
     <div class="form">
-        <form  >
-            <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario"> <br>
-            <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
-            <input type="submit" value="Enviar" id="enviar">
+        <form class="login-form" action="javascript:void(0);">
+            <h1>Inicia Sesion</h1>
+            <div class="form-input-material">
+            <input type="text" name="correo" id="correo" placeholder=" " autocomplete="off" class="form-control-material" required />
+            <label for="correo">Correo</label>
+            </div>
+            <div class="form-input-material">
+            <input type="password" name="pass" id="pass" placeholder=" " autocomplete="off" class="form-control-material" required />
+            <label for="pass">Contraseña</label>
+            </div>
+            <button type="submit" value="Enviar" id="enviar" class="btn btn-primary btn-ghost">Enviar</button>
         </form>
     </div>
 </body>
     <script src="lib/jquery-3.3.1.min.js"></script>
-    <script type="module" src="./Funciones/firebaseConect.js"></script>
+    <script type="module" src="/Funciones/firebaseConect.js"></script>
     <script type="module">
         // Importamos la funcion de validar el usuario (solo valida admin).
-        import { validarUser } from './Funciones/validarUsuario.js';
+        import { validarUser } from '/Funciones/validarUsuario.js';
 
         function validar(){ // Obtenenemos correo y contraseña.
             const correo = document.getElementById("correo").value;

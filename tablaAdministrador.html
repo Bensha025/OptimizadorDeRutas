@@ -96,19 +96,21 @@
     
  <div class="content">
     <h1>
-     Lista de drivers
+     Lista de Administradores
     </h1>
     <div class="table-container">
         <div class="tabla"> <!--Sin esta linea no hay tabla-->
         </div>
-        
+        <a class="back-button" href="login_a.html"><!--Redireccionar a listado drivers-->
+         <i class="fas fa-arrow-left">
+         </i>
+         Regresar a Inicio
+        </a>
     </div>
-
-    
     <script type="module">
-        import { obtenerDriver } from './Funciones/consultaDriver.js';
+        import { obtenerAdministrador } from './Funciones/consultaAdministrador.js';
 
-        obtenerDriver(); // Llama a la función para obtener los datos
+        obtenerAdministrador(); // Llama a la función para obtener los datos
     </script>
     <script>
         function showSidebar() {
@@ -123,7 +125,6 @@
      
              // esconder la barra lateral
              hideSidebar();
-       </script>
+    </script>
 </body>
-
 </html>

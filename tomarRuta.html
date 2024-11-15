@@ -19,18 +19,19 @@
     <script>
         // Simulamos el inicio de sesión asignando valores a sessionStorage
         // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
-        if (!sessionStorage.getItem('nombreUser')) {
-            window.location.href = 'index.html';
-        } else {
-            const idUsuario = sessionStorage.getItem('idUser');
-            const nombreUsuario = sessionStorage.getItem('nombreUser');
-            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
-            console.log(`Nombre: ${nombreUsuario}`);
-            console.log(`Apellido: ${apellidoUsuario}`);
-            
-            // Actualizamos el contenido del elemento de bienvenida
-            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
-        }
+        
+//        if (!sessionStorage.getItem('nombreUser')) {
+//            window.location.href = 'index.html';
+//        } else {
+//            const idUsuario = sessionStorage.getItem('idUser');
+//            const nombreUsuario = sessionStorage.getItem('nombreUser');
+//            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+//            console.log(`Nombre: ${nombreUsuario}`);
+//            console.log(`Apellido: ${apellidoUsuario}`);
+//            
+//            // Actualizamos el contenido del elemento de bienvenida
+//            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+//        }
     </script>
     <script type="module">
 

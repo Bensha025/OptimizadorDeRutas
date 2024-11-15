@@ -1,5 +1,5 @@
 import { db } from './firebaseConect.js'; // Importamos la conexión a la base de datos.
-import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { collection, query, where, getDocs} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 export async function obtenerLotes() {
     const consultarLotes = collection(db, "lotes");
@@ -23,18 +23,21 @@ export async function obtenerLotes() {
             // Definir el texto del estatus según su valor
             switch (data.estatus) {
                 case 0:
-                    estatusTexto = "Listo para asignación.";
+                    estatusTexto = "No listo.";
                     break;
                 case 1:
-                    estatusTexto = "Asignado";
+                    estatusTexto = "Listo para asignación.";
                     break;
                 case 2:
-                    estatusTexto = "En camino";
+                    estatusTexto = "Asignado";
                     break;
                 case 3:
-                    estatusTexto = "Entregado";
+                    estatusTexto = "En camino";
                     break;
                 case 4:
+                    estatusTexto = "Entregado";
+                    break;
+                case 5:
                     estatusTexto = "Fallo en la entrega \n(Se volverá a realizar el intento de entrega)";
                     break;
                 default:
@@ -82,9 +85,6 @@ export async function buscarLote(idLote) {
 
             // Definir el texto del estatus según su valor
             switch (data.estatus) {
-                case 0:
-                    estatusTexto = "No listo.";
-                    break;
                 case 1:
                     estatusTexto = "Listo para asignación.";
                     break;

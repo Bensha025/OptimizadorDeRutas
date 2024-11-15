@@ -1,6 +1,6 @@
 <html>
  <head>
-   <title>πTech | Drivers Detalles</title>
+   <title>πTech | Admin Detalles</title>
    <link rel="icon" href="img/Logo - icon.png">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&display=swap" rel="stylesheet"/>
@@ -36,6 +36,15 @@
          Listado de drivers
       </a>
     </li>
+
+    <li>
+        <a href="tablaAdministrador.html" class="enlace-driver">
+           <i>
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-car"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" /></svg>
+           </i>
+           Listado de Administradores
+        </a>
+      </li>
 
     <li>
       <a href="registrarDriver.html" class="enlace-driver">
@@ -86,7 +95,7 @@
   
   <div class="content">
    <h1>
-    Información del Driver
+    Información del Administrador
    </h1>
 
    <div class="form-container">
@@ -137,18 +146,17 @@
         // esconder la barra lateral
         hideSidebar();
   </script>
-   <script type="module">
-      import { consultaDriverUnico } from './Funciones/consultaDriver.js';
-   
-      // Obtiene el id del driver medianate la url.
-      function obtenerIdDeURL() {
-          const params = new URLSearchParams(window.location.search);
-              return params.get('id'); // Devuelve el valor del parámetro id
-      }
-   
-      const id = obtenerIdDeURL();
-      consultaDriverUnico(id); // Llama a la función para obtener los datos
-   </script>
- </body>
+</body>
+    <script type="module">
+        import { consultaAdministradorUnico } from './Funciones/consultaAdministrador.js';
 
+        // Obtiene el id del driver medianate la url.
+        function obtenerIdDeURL() {
+            const params = new URLSearchParams(window.location.search);
+                return params.get('id'); // Devuelve el valor del parámetro id
+        }
+
+        const id = obtenerIdDeURL();
+        consultaAdministradorUnico(id); // Llama a la función para obtener los datos
+    </script>
 </html>
