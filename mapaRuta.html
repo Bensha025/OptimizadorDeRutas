@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #mi_mapa { width: 100%; height: 100vh; }
+
+        /* Estilos para el botón flotante */
+        #boton-cambiar-estilo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        #boton-cambiar-estilo:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="mi_mapa"></div>
+    <button id="boton-cambiar-estilo">Cambiar a estilo oscuro</button>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script type="module">
+        import { buscaCoordenadas } from './Funciones/buscarRuta.js';
+
+        const params = new URLSearchParams(window.location.search);
+        const numeroLote = parseInt(params.get('num'));
+
+        let coordenadas;
+
+        async function obterInfo(){
+            coordenadas = await buscaCoordenadas(parseInt(numeroLote));
+        }
+
+        await obterInfo();
+
+
+        // Inicializa el mapa con estilo "Voyager" (estilo claro)
+        let map = L.map('mi_mapa').setView([20.6665, -103.3487], 10);
+        
+        let estiloNormal = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        });
+        
+        let estiloOscuro = L.tileLayer('https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        });
+        let estiloAcuarela = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', {
+            attribution: '&copy; <a href="https://stamen.com">Stamen Design</a>',
+            maxZoom: 18
+            });
+        let estiloToner = L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://stamen.com">Stamen Design</a>',
+            maxZoom: 18
+        });
+
+
+
+        // Añade el estilo normal inicialmente
+        estiloNormal.addTo(map);
+
+        // Estado inicial
+        let esEstiloOscuro = false;
+
+        // Cambia el estilo al presionar el botón
+        document.getElementById('boton-cambiar-estilo').addEventListener('click', () => {
+            if (esEstiloOscuro) {
+                map.removeLayer(estiloOscuro);
+                estiloNormal.addTo(map);
+                document.getElementById('boton-cambiar-estilo').innerText = "Cambiar a estilo oscuro";
+            } else {
+                map.removeLayer(estiloNormal);
+                estiloOscuro.addTo(map);
+                document.getElementById('boton-cambiar-estilo').innerText = "Cambiar a estilo normal";
+            }
+            esEstiloOscuro = !esEstiloOscuro;
+        });
+
+        const apiKey = '5b3ce3597851110001cf6248dbd8021674c347ecacee268e7e4915ac';
+        
+        function trazarRuta() {
+            const coordenadasArray = Object.values(coordenadas); // Convertir coordenadas en un array para recorrer por índice
+
+            // Agregar marcadores en el mapa para cada coordenada
+            coordenadasArray.forEach((coordenada, index) => {
+                L.marker([coordenada.lat, coordenada.lon]).addTo(map)
+                    .bindPopup('Dirección número: ' + (index + 1)).openPopup();
+            });
+
+            // Función para obtener la ruta entre dos puntos consecutivos
+            function obtenerRuta(inicio, destino) {
+                return fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${inicio.lon},${inicio.lat}&end=${destino.lon},${destino.lat}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        return data.features[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener la ruta:', error);
+                        return [];
+                    });
+            }
+
+            // Función para calcular la ruta completa recorriendo todas las direcciones
+            async function calcularRutaCompleta() {
+                let rutasCompletas = [];
+
+                // Llamar a obtenerRuta para cada par de destinos consecutivos y unir las rutas
+                for (let i = 0; i < coordenadasArray.length - 1; i++) {
+                    const coordenadasRuta = await obtenerRuta(coordenadasArray[i], coordenadasArray[i + 1]);
+                    rutasCompletas = rutasCompletas.concat(coordenadasRuta);
+                }
+
+                // Traza la ruta completa en el mapa
+                const ruta = L.polyline(rutasCompletas, { color: 'blue', weight: 5 }).addTo(map);
+                map.fitBounds(ruta.getBounds());
+            }
+
+            // Llamamos a la función que calcula la ruta entre todos los destinos
+            calcularRutaCompleta();
+        }
+
+        // Llamar a la función trazarRuta
+        trazarRuta();
+
+    </script>
+</body>
+</html>

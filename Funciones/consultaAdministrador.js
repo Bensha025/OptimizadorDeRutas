@@ -2,9 +2,9 @@ import { db } from './firebaseConect.js'; // Importamos la conexión a la base d
 import { collection, query, where, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 // Función para obtener los datos de Firestore.
-export async function obtenerDriver() {
-    const driverCollection = collection(db, "driver");
-    const consulta = query(driverCollection, where("status", "==", true), where("eliminado", "==", false),where("validado","==", true));
+export async function obtenerAdministrador() {
+    const adminCollection = collection(db, "administrador");
+    const consulta = query(adminCollection, where("status", "==", true), where("eliminado", "==", false));
 
     try {
         const snapshot = await getDocs(consulta);
@@ -90,18 +90,18 @@ function eventoEditar() {
     botonEditar.forEach(boton => {
         boton.addEventListener('click', function() {
             const id = this.getAttribute('data-id'); // Obtén el ID del documento.
-            editarDriver(id); // Llama a la función para editar.
+            editarAdministrador(id); // Llama a la función para editar.
         });
     });
 }
 
 // Función para actualizar el campo eliminado a true
 async function eliminarRegistro(id) {
-    const confirmar = confirm(`¿Desea eliminar al driver con id ${id}?`);
+    const confirmar = confirm(`¿Desea eliminar al administrador con id ${id}?`);
     if(confirmar === true){
         try{
-            const driverDoc = doc(db, "driver", id); // Referencia al documento que se actualizara
-            await updateDoc(driverDoc, { eliminado: true }); // Cambia eliminado a true
+            const administradorDoc = doc(db, "administrador", id); // Referencia al documento que se actualizara
+            await updateDoc(administradorDoc, { eliminado: true }); // Cambia eliminado a true
             console.log(`Registro con ID ${id} marcado como eliminado.`);
             location.reload(); // Recarga la página actual
         } catch (error) {
@@ -110,27 +110,15 @@ async function eliminarRegistro(id) {
     }
 }
 
-export function verDetalles(id) {
-    const slide = document.createElement('div');
-    slide.className = 'slide';
-    document.body.appendChild(slide); // Añadir el div al body
-
-    // Activar la clase que inicia la animación
-    setTimeout(() => {
-        slide.classList.add('active');
-    }, 0);
-
-    // Esperar a que la animación termine antes de redirigir
-    setTimeout(() => {
-        window.location.href = `detallesDriver.html?id=${id}`; // Redireccionar
-    }, 500); // Tiempo de espera igual al de la transición
+export function verDetalles(id){
+    window.location.href = `detallesAdministrador.html?id=${id}`; // Redirecciona al archivo detalles Administrador.
 }
 
-export async function consultaDriverUnico(id) {
-    const driverDocRef = doc(db, "driver", id); // Referencia al documento que se consultara.
+export async function consultaAdministradorUnico(id) {
+    const AdministradorDocRef = doc(db, "administrador", id); // Referencia al documento que se consultara.
 
     try {
-        const consulta = await getDoc(driverDocRef); // Busca que el documento (driver) exista.
+        const consulta = await getDoc(AdministradorDocRef); // Busca que el documento (administrador) exista.
         if (!consulta.exists()) {
             console.log("No se encontró el documento.");
             return;
@@ -143,14 +131,12 @@ export async function consultaDriverUnico(id) {
         `;
         const resultadoDiv = document.querySelector('.col1'); // Selecciona el div donde mostrar los resultados.
 
-        // Crea el contenido de la tabla con los detalles del driver.
+        // Crea el contenido de la tabla con los detalles del administrador.
         resultadoDiv.innerHTML = `
             <div>Id: ${id}</div><br>
             <div>Nombre: ${data.nombre}</div><br>
             <div>Apellidos: ${data.apellido}</div><br>
             <div>Correo: ${data.correo}</div><br>
-            <div>Carro: ${data.carro}</div><br>
-            <div>Modelo: ${data.modelo}</div><br>
             <div>Status: ${data.status ? 'Activo' : 'Inactivo'}</div><br>
         `;
     } catch (error) {
@@ -158,14 +144,14 @@ export async function consultaDriverUnico(id) {
     }
 }
 
-export function editarDriver(id){
-    window.location.href = `editarDriver.html?id=${id}`; // Redirecciona al archivo editar Driver.
+export function editarAdministrador(id){
+    window.location.href = `editarAdministrador.html?id=${id}`; // Redirecciona al archivo editar Administrador.
 }
 
-export async function editarDriverUnico(id){
-    const driverDocRef = doc(db, "driver", id); // Referencia al documento que se consultara.
+export async function editarAdministradorUnico(id){
+    const administradorDocRef = doc(db, "administrador", id); // Referencia al documento que se consultara.
     try {
-        const consulta = await getDoc(driverDocRef); // Busca que el documento (driver) exista.
+        const consulta = await getDoc(administradorDocRef); // Busca que el documento (Administrador) exista.
         if (!consulta.exists()) {
             console.log("No se encontró el documento.");
             return;
@@ -177,9 +163,6 @@ export async function editarDriverUnico(id){
         document.getElementById('usuario').value = data.nombre;
         document.getElementById('apellido').value = data.apellido;
         document.getElementById('correo').value = data.correo;
-        document.getElementById('telefono').value = data.telefono;
-        document.getElementById('carro').value = data.carro;
-        document.getElementById('modelo').value = data.modelo;
 
         return;
     } catch (error) {
@@ -203,8 +186,6 @@ style.innerHTML = `
         text-align: left;
         border-bottom: 1px solid #ddd;
         /*Agregar color de texto*/
-        color: black;
-
     }
 
     .tablaDrivers th {
@@ -290,3 +271,5 @@ style.innerHTML = `
 
 // Añadir la etiqueta <style> al <head> del documento
 document.head.appendChild(style);
+
+

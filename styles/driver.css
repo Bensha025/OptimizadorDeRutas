@@ -3,6 +3,7 @@ body {
             font-family: Georgia, 'Times New Roman', Times, serif;
          background-image: url(/img/ciudad.jpg);
          background-size: cover;
+         cursor: url("./img/cursor.png"),auto;
      }
      .sidebar {
          width: 250px;

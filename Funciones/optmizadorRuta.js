@@ -139,4 +139,5 @@ async function optimizarRuta(direcciones) {
         console.log(`Guardando lote ID ${lote.id} con ${lote.paquetes.length} coordenadas`);
         await guardarLoteEnFirebase(lote.id, lote.paquetes); // Guardar todas las coordenadas del lote en un solo documento
     }
+    alert("Se han optimizado las rutas.");
 }

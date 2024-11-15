@@ -85,9 +85,6 @@ export async function buscarLote(idLote) {
 
             // Definir el texto del estatus según su valor
             switch (data.estatus) {
-                case 0:
-                    estatusTexto = "No listo.";
-                    break;
                 case 1:
                     estatusTexto = "Listo para asignación.";
                     break;

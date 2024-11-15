@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegir ruta</title>
+</head>
+<body>
+    <div class="bienvenida">
+        <h2 id="bienvenida" class="nombre">Bienvenido {nombreUsuario}</h2>
+    </div>
+    <h2>¿Listo para elegir tu ruta?</h2>
+    <div class="rutasDisponibles"></div>
+    <div class="ruta">
+        <label for="guia">Ingrese el número de lote para comenzar a trabajar</label><br>
+        <input type="text" name="lote" id="lote" placeholder="Ejemplo:1234"> <br>
+        <button type="button" onclick="tomarRuta()">Consultar</button> <br><br>
+    </div>
+    <script>
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        
+//        if (!sessionStorage.getItem('nombreUser')) {
+//            window.location.href = 'index.html';
+//        } else {
+//            const idUsuario = sessionStorage.getItem('idUser');
+//            const nombreUsuario = sessionStorage.getItem('nombreUser');
+//            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+//            console.log(`Nombre: ${nombreUsuario}`);
+//            console.log(`Apellido: ${apellidoUsuario}`);
+//            
+//            // Actualizamos el contenido del elemento de bienvenida
+//            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+//        }
+    </script>
+    <script type="module">
+
+        async function tomarRuta(){
+            const numeroLote = document.getElementById("lote").value; // Obtienes el valor como cadena
+
+            if (numeroLote.length === 4 && !isNaN(numeroLote)) { // Verificamos que la longitud sea 4 y que sea un número
+                const confirmar = confirm("¿Esta seguro de tomar esta ruta? Considere que no se podra cambiar.");
+                if(confirmar){
+                    const params = new URLSearchParams();
+                    params.append('num', numeroLote);
+                    window.location.href = `mapaRuta.html?${params.toString()}`;
+                }else{
+                    alert("Por favor, seleccione otra ruta.");
+                    document.getElementById("lote").value = "";
+                }
+            } else {
+                alert("Error al ingresar el número de lote. \nEl número debe contener 4 dígitos");
+                document.getElementById("lote").value = "";
+            }
+        }
+
+        window.tomarRuta = tomarRuta;
+    </script>
+</body>
+</html>
