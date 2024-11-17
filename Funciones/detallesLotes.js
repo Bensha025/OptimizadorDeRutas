@@ -12,14 +12,17 @@ export async function obtenerLotes() {
             return;
         }
 
-        const resultadoDiv = document.querySelector('.lotes'); // Selecciona el div para mostrar resultados.
+        const resultadoDiv = document.querySelector('.lotes');
+        resultadoDiv.innerHTML = '<ul class="list"></ul>'; // Crear un solo <ul> al inicio
+        
+        const lista = resultadoDiv.querySelector('.list'); // Seleccionar el <ul> que acabamos de crear
         
         snapshot.forEach(doc => {
             const data = doc.data();
             const idLote = data.id_lote; 
             const coordenadas = data.coordenadas.length;
             let estatusTexto;
-
+        
             // Definir el texto del estatus según su valor
             switch (data.estatus) {
                 case 0:
@@ -38,23 +41,31 @@ export async function obtenerLotes() {
                     estatusTexto = "Entregado";
                     break;
                 case 5:
-                    estatusTexto = "Fallo en la entrega \n(Se volverá a realizar el intento de entrega)";
+                    estatusTexto = "Fallo en la entrega (Se volverá a realizar el intento de entrega)";
                     break;
                 default:
-                    estatusTexto = "ERROR(Estatus desconocido)";
+                    estatusTexto = "ERROR (Estatus desconocido)";
             }
-
-            // Crear un nuevo div para cada documento
-            const loteDiv = document.createElement('div');
-            loteDiv.innerHTML = `
+        
+            // Crear un nuevo <li> para cada documento
+            const loteItem = document.createElement('li');
+            loteItem.classList.add('item'); // Agregar clase 'item' al <li>
+            loteItem.innerHTML = `
                 <div class="id">ID del lote: ${idLote}</div>
+                <div class="info oculto">
                 <div class="paquetes">Número de paquetes: ${coordenadas}</div>
                 <div class="estatus">Estatus: ${estatusTexto}</div>
-                <br>
+                </div>
             `;
-
-            // Agrega el nuevo div al contenedor de resultados.
-            resultadoDiv.appendChild(loteDiv);
+        
+            // Agrega un evento de clic a cada elemento li
+            document.querySelectorAll('.lotes li').forEach(item => {
+                item.addEventListener('click', () => {
+                item.classList.remove('oculto');
+                });
+            });
+            // Agregar el nuevo <li> al <ul>
+            lista.appendChild(loteItem);
         });
 
     } catch (error) {

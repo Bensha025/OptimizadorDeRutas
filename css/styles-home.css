@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+body{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /*background: url(montaña.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;*/
+}
+
+header {
+    display: flex;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 100px;
+    background-color: transparent;
+    backdrop-filter: blur(50px);
+    border-radius: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+}
+
+header::after{
+    transition: transform .5s;
+    position: fixed;
+    background-color: blue;
+}
+
+.logo{
+    font-size:  2em;
+    user-select: none;
+}
+
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.navigation a::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: black;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scale(0);
+    transition: transform .5s;
+}
+
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scale(1);
+}
+
+.go-top-container{
+    position: fixed;
+    bottom: 4rem;
+    right: 4rem;
+    width: 6.6rem;
+    height: 6.6rem;
+    z-index: -1;
+}
+
+.go-top-button{
+    width: 0rem;
+    position: relative;
+    height: 0rem;
+    background-color: red;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .3s;
+    top: 100%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.go-top-button i{
+    position: absolute;
+    font-size: 1.7rem;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    transition: .2s;
+}
+
+.show{
+    z-index: 10;
+}
+
+.show .go-top-button{
+    animation: popup .3s ease-in-out;
+    width: 4.4rem;
+    height: 4.4rem;
+    z-index: 11;
+}
+
+.show i{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes popup{
+    0%{
+        width: 0rem;
+        height: 0rem;
+    }
+    50%{
+        width: 8rem;
+        height: 8rem;
+    }
+    100%{
+        width: 4.4rem;
+        height: 4.4rem;
+    }
+}
+
+
+.content-header{
+    height: 100vh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../img/fondo.jpg") no-repeat center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.tittle{
+    margin-bottom: 40px;
+    font-size: 60px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+}
+p {
+    margin-bottom: 40px;
+    font-size: 20px;
+    color: white;
+    padding: 0 100px;
+}
+
+.btn{
+    display: inline-block;
+    margin-top: 15px;
+    padding: 15px 50px;
+    border: 2px solid rgb(76, 169, 245);
+    color: white;
+    text-decoration: none;
+    background: rgb(76, 169, 245);
+    border-radius: 10%;
+}
+
+.btn-home{
+    display: flex;
+}
+
+.btn:hover{
+    background-color: red;
+    box-shadow: 0 0 10px red;
+    cursor: pointer;
+}
+
+.btn-home a{
+    margin-top: 0 10px;
+}
+
+.content-header{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.content-sau {
+    padding: 120px;
+    background: #3aa8ad;
+}
+
+.box-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.box-container .box{
+    height: 11rem;
+    width: 17rem;
+    background: rgb(109, 187, 240);
+    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0 .3 5rem rgba(0,0,0, .5);
+    margin: 2rem;
+}
+
+.box-container .icono{
+    height: 3rem;
+    width: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    border-radius: 50%;
+    color: white;
+    background-color: #608BC1;
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+.box-container .box h3{
+    font-size: 20px;
+    color: white;
+}
+
+.box-container .box p{
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+.content-contact{
+    padding: 120px;
+    background: url("../img/fondo.jpg") no-repeat center;
+    background-attachment: fixed;
+    background-size: cover;
+    text-align: center;
+    
+}
+
+.content-map{
+    padding: 120px;
+    margin-top: -40px;
+    background: #3aa8ad;
+    padding-bottom: 0;
+}

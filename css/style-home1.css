@@ -1,0 +1,280 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+
+body{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #F0F4F3;
+    /*background: url(montaña.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;*/
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 100px;
+    border-radius: 10px;
+    background-color: transparent;
+    backdrop-filter: blur(50px);
+    border-radius: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 99;
+}
+
+header::after{
+    transition: transform .5s;
+    position: fixed;
+    background-color: blue;
+}
+
+
+.logo{
+    font-size:  2em;
+    color: #fff;
+    user-select: none;
+}
+
+.navigation a{
+    position: relative;
+    font-size: 1.1em;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.navigation a::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: black;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scale(0);
+    transition: transform .5s;
+}
+
+.navigation a:hover::after{
+    transform-origin: left;
+    transform: scale(1);
+}
+
+/*Estilos de la parte del centro de la pagina*/
+
+.main{
+    top: 15%; /*Este comando es para acomodar el lugar la clase a traves de la pantalla*/
+    margin-bottom: 10px;
+    width: 1200px;
+    height: 500px;
+    display: flex;
+    position: absolute;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgb(0, 0,0,0.3);
+}
+
+section{
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+section .logo{
+    height: 900px;
+    margin-bottom: 50px;
+    display: flex;
+    text-align: center;
+
+}
+
+section .content{
+    padding-left: 50px;
+    width: 55%;
+    height: 100%;
+    display: flex;
+    color: black;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.content p{
+    padding-top: 1px;
+    font-size: 1.9rem;
+    justify-content: center;
+}
+
+.content h2{
+    justify-content: center;
+    color: black;
+    font-size: 2.7rem;
+}
+
+.content .btn-login{
+    width: fit-content;
+    padding: 6px 3px;
+    border-radius: 5px;
+    border: 1px solid black;
+    text-decoration: none;
+    margin-top: 20px;
+    color: black;
+    background-color: transparent;
+    box-shadow: 0 0 10px white;
+    font-size: 1.9rem;
+    transform: 0.2s linear;
+}
+
+.content .btn-login:hover{
+    background-color: red;
+    box-shadow: 0 0 10px red;
+    cursor: pointer; 
+}
+
+
+
+section .image{
+    width: 30%;
+}
+
+section .image img{
+    border-radius: 30px;
+    width: 75%;
+}
+
+@media(max-width:996px){
+    section{
+        display: flex;
+        flex-direction: column;
+    }
+    section .content{
+        width: 100%;
+        text-align: start;
+    }
+
+    .content .img-text{
+        font-size: 5rem;
+        margin-top: -20px;
+    }
+}
+
+@media(max-width:768px){
+    section .content{
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .content h1{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .content .img-text{
+        margin-left: 0px;
+        margin-top: -15px;
+    }
+}
+/*Texto de la pagina*/
+
+.container{
+    max-width: 75rem;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    padding-top: 49%;
+}
+
+.container p{
+    text-align: justify;
+    position: relative;
+    left: 0.1rem;
+    font-size: 25px;
+    padding-top: 1rem;
+}
+
+.go-top-container{
+    position: fixed;
+    bottom: 4rem;
+    right: 4rem;
+    width: 6.6rem;
+    height: 6.6rem;
+    z-index: -1;
+}
+
+.go-top-button{
+    width: 0rem;
+    position: relative;
+    height: 0rem;
+    background-color: #2071b2;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .3s;
+    top: 100%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.go-top-button i{
+    position: absolute;
+    font-size: 1.7rem;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    transition: .2s;
+}
+
+.show{
+    z-index: 10;
+}
+
+.show .go-top-button{
+    animation: popup .3s ease-in-out;
+    width: 4.4rem;
+    height: 4.4rem;
+    z-index: 11;
+}
+
+.show i{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes popup{
+    0%{
+        width: 0rem;
+        height: 0rem;
+    }
+    50%{
+        width: 8rem;
+        height: 8rem;
+    }
+    100%{
+        width: 4.4rem;
+        height: 4.4rem;
+    }
+}
+

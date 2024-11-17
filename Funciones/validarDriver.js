@@ -18,12 +18,13 @@ export async function validaDriver(correo, pass) {
                 const userData = doc.data();
                 if(userData.pass == pass){
                     // Almacenar los datos en sessionStorage (temporal)
+                    alert("gg");
                     sessionStorage.setItem("idUser", doc.id);
                     sessionStorage.setItem("nombreUser", userData.nombre);
                     sessionStorage.setItem("apellidosUser", userData.apellido);
 
                     // Redirigir al usuario a la página protegida
-                    window.location.href = "tomarRuta.html";
+                    window.location.href = "driver_seleccion.html";
                     userFound = true;
                 }
             });

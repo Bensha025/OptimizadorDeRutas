@@ -7,11 +7,25 @@
     <link rel="stylesheet" href="/styles/ruta.css">
 </head>
 <body>
-    <button type="button" onclick="optimizar()">Optimizar ruta</button>
-    <button type="button" onclick="verRutas()">Ver detalles del lote</button><br><br>
-    <input type="text" id="buscarLote" placeholder="Ingresa el id del lote a buscar"><br>
-    <button type="button" onclick="buscarRutas()">Buscar lote</button> <br><br><br>
+    <br><br><br><br><br><br><br><br>
+    <div class="container">
+        <div>
+            <button type="button" onclick="optimizar()">Optimizar ruta</button>
+            <button type="button" onclick="verRutas()">Ver detalles del lote</button><br><br>
+        </div>
+        <div>
+            <input type="text" id="buscarLote" placeholder="Ingresa el id del lote a buscar"><br>
+            <button class="search-button" type="button" onclick="buscarRutas()">Buscar lote</button>
+        </div>
+    </div>
+    <div class="background"></div>
+    <div class="overlay"></div>
     <div class="lotes"></div>
+    <br><br><br>
+    <div class="container">
+        <button type="button" onclick="window.location.href='driver_seleccion.html'">Regresar</button>
+    </div>
+    
     
     <script type="module">
         import { obtenerRuta } from './Funciones/optmizadorRuta.js'
@@ -37,5 +51,6 @@
 
         window.buscarRutas = buscarRutas;
     </script>
+    
 </body>
 </html>
