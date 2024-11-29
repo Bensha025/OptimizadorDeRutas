@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    line-height: 1.5; /* Interlineado de 24px */
+    box-sizing: border-box;
+    
+    font-family: "Montserrat", sans-serif;
+
+}
+
+body{
+    width: 100%;
+    min-height: 200vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: #F0F4F3;*/
+    background: url("../img/fondoblanco.jpg") repeat;
+    background-size: cover;
+    background-attachment: fixed; /* Esta funcion hace que el fondo se quede statico y no le afecte el scroll */
+    background-position: center;
+}
+
+header {
+    display: flex;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 100px;
+    background-color: transparent;
+    border-radius: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+}
+
+/*Parte del formulario, prodria decirse como el cuadro que esta en el formulario*/
+.bienvenida{
+    top: 30%;
+    padding: 20px; /* Espaciado interno */
+    text-align: justify;
+    width: 800px;
+    height: 1020px;
+    display: flex;
+    position: relative;
+    background-color: #fafafa10;
+    backdrop-filter: blur(0.4rem);
+    -webkit-backdrop-filter: blur(0.4rem);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgb(0, 0,0,0.3);
+}
+
+h2{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+}
+
+.botton-back {
+    position: relative; /* El div se mueve relativo a su posición inicial */
+    right: 60px; 
+    width: 170px;
+    height: 45px;
+    top: 0;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: red;
+    color: white;
+}

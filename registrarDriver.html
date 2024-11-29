@@ -3,27 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de driver</title>
+    <link rel="stylesheet" href="css/registrodriver.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="icon" href="img/Logo - icon.png">
+    <title>πTech | Login </title>
 </head>
 <body>
-    <div class="form">
-        <form  >
-            <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario"> <br>
-            <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario"> <br>
-            <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario" onblur="validaCorreo();"> <br>
-            <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su numero de teléfono" onblur="validarNumero();"><br>
-            <input type="text" name="carro" id="carro" placeholder="Ingrese la marca del carro"> <br>
-            <select name="modelo" id="modelo">
-                <option value="0">Selecciona el modelo de tu vehículo</option>
-            </select><br>
-            <input type="file" name="archivo" id="archivo"> <br>
-            <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
-            <input type="submit" value="Enviar" id="enviar">
+
+    <header id="nav" style="top: 0px;">
+        <div class="sec-1">
+            <a href="home.html">
+                <img src="img/logo thelma.png" width="200px" alt="">
+            </a>
+        </div>
+        <nav class="navigation">
+            <a href="home.html">Inicio</a>
+            <a href="home.html">Acerca de nosotros</a>
+            <a href="home.html">Contactanos</a>
+            <a href="registrarDriver.html" class="btnLogin-popup">Login</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="container-form">
+            <form class="sign-in">
+                <h2>Iniciar Sesion</h2>
+                <div class="social-networks">
+                    <ion-icon name="logo-google"></ion-icon>
+                    <ion-icon name="logo-facebook"></ion-icon>
+                </div>
+                <span>Use su correo y contraseña</span>
+                <div class="container-input">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="text" name="correoi" id="correoi" placeholder="Email">
+                </div>
+                <div class="container-input">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" name="passi" id="passi" placeholder="Password">
+                </div>
+                <div class="contenedor-botones" id="contenedor-botones">
+                    <button type="submit" value="probar" id="probar" class="botton">INICIAR SESION</button>
+                </div>
+            </form>
+        </div>
+
+    <div class="container-form">
+        <form class="sign-up">
+            <h2>Registrarse</h2>
+            <span>Ingrese los siguientes datos para registrarse</span>
+            <div class="container-input">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario" onblur="validaNombre();">
+            </div>
+            <div class="container-input">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario" onblur="validaApellido();">
+            </div>
+            <div class="container-input">
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario" onblur="validaCorreo();">
+            </div>
+            <div class="container-input">
+                <ion-icon name="call-outline"></ion-icon>
+                <input type="tel" name="telefono" id="telefono" placeholder="Ingrese su numero de teléfono" onblur="validarNumero();">
+            </div>
+            <div class="container-input">
+                <ion-icon name="car-outline"></ion-icon>
+                <select name="carro" id="carro">
+                    <option value="0">Selecciona el modelo de tu auto</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="otro">otro</option>
+                </select><br>
+            </div>
+            <div class="container-input">
+                <ion-icon name="car-outline"></ion-icon>
+                <select name="modelo" id="modelo">
+                    <option value="0">Selecciona el año de tu vehículo</option>
+                </select><br>
+            </div>
+            <div class="container-input">
+                <p>Suba su foto</p>
+                <input type="file" name="archivo" id="archivo">
+            </div>
+            <div class="container-input">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña" onblur="validaPass();">
+            </div>
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" required> Yo acepto los 
+                    <a href="tym.html">términos y condiciones</a>
+                </label>
+            </div>
+            <button type="submit" value="Enviar" id="enviar" class="botton">REGISTRARSE</button>
         </form>
     </div>
+
+    <div class="container-welcome">
+        <div class="welcome-sign-up welcome">
+            <h3>Bienvenido</h3>
+            <p>Ingrese sus datos personales para usar todas las funciones del sitio</p>
+            <button type="submit" class="botton" id="btn-sign-up">Registrarse</button>
+        </div>
+        <div class="welcome-sign-in welcome">
+            <h3>Hola!</h3>
+            <p>Registrese con sus datos personales para usar todas las funciones del sitio</p>
+            <button type="submit" class="botton" id="btn-sign-in">Iniciar Sesion</button>
+        </div>
+    </div>
 </body>
-    <script src="lib/jquery-3.3.1.min.js"></script>
-    <script type="module" src="Funciones/firebaseConect.js"></script>
+
+    <script src="Funciones/script-index.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <!--Apartado del Login-->
+
+    <script type="module" src="./Funciones/firebaseConect.js"></script>
+    <script type="module">
+        // Importamos la funcion de validar el usuario (solo valida admin).
+    import { validaDriver } from './Funciones/validarDriver.js';
+
+        function validar(){ // Obtenenemos correo y contraseña.
+            const correoi = document.getElementById("correoi").value;
+            const passi = document.getElementById("passi").value;
+            if (correoi != "" && passi != ""){ // Validamos que no este vacio.
+                validaDriver(correoi,passi); // Pasamos los datos a una funcion externa para validar la info.
+            } else {
+                swal('Error','Por favor, completa todos los campos.','error');
+            }
+        }
+
+        // Crea un evento (Cada que se pulse enviar, se ejecuta la funcion de validar).
+        document.getElementById("probar").addEventListener("click", function(event){
+        event.preventDefault(); 
+            validar(); 
+        });
+    </script>
+
+    <!--Apartado del registro-->
+
     <script>
         // Genera el modelo del carro desde el 2015 hasta el año actual.
         const select = document.getElementById('modelo');
@@ -37,18 +163,41 @@
             select.appendChild(opcion);
         }
     </script>
-    <script type="module">
+    <script type="module">        
         // Importamos funciones externas.
         import { driverUser } from './Funciones/altasUsuarios.js';
         import { validarCorreoDriver } from './Funciones/altasUsuarios.js'
         import { db, storage} from './Funciones/firebaseConect.js';
         import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
+        function validaNombre(){
+            const usuario = document.getElementById("usuario").value.trim();
+            const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
+
+            if (!regex.test(usuario)) {
+                swal('Error','El nombre es invalido','error');
+                document.getElementById("usuario").value = '';
+            }
+        }
+        window.validaNombre = validaNombre;
+        
+        function validaApellido(){
+            const apellido = document.getElementById("apellido").value.trim();
+            const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
+
+            if (!regex.test(apellido)) {
+                swal('Error','El nombre es invalido','error');
+                document.getElementById("apellido").value = '';
+            } 
+        }
+        window.validaApellido = validaApellido;
+
+
         // Validamos el número de telefono.
         function validarNumero(){
             const telefono = document.getElementById("telefono").value;
             if(telefono.length != 10){
-                alert("Telefono no valido");
+                swal('Error','Telefono no valido','error');
                 document.getElementById("telefono").value = ""; // Se limpia el formulario evitando que se envie.
             }
         }
@@ -61,16 +210,17 @@
             if (correo.includes("@")) {
                 const resultado = await validarCorreoDriver(correo);
                 if(resultado == 1){
-                    alert("Correo registrado");
+                    swal('Error','Correo registrado','error');
                     document.getElementById("correo").value = "";
                 }
             }else{
                 document.getElementById("correo").value = "";
-                alert("Ingresa un correo valido.")
+                swal('Error','Ingresa un correo valido.','error');
             }
         }
 
         window.validaCorreo = validaCorreo;
+
         
         // Almacena la imagen.
         async function uploadFile(file){
@@ -81,6 +231,20 @@
             
             return url;
         }
+
+
+        //Validacion de contraseñas
+        function validaPass(){
+            const pass = document.getElementById("pass").value.trim();
+            const regex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+            if (!regex.test(pass)){
+                document.getElementById("pass").value = '';
+                swal('Atencion','La contraseña tiene que tener 5-6 caracteres como maximo y minimo una MAYUSCULA, una MINUSCULA y un numero','info');
+            }
+        }
+        window.validaPass = validaPass;
+
 
         // Valida el formulario para enviarlo a la base de datos.
         async function validar(){
@@ -117,10 +281,10 @@
                     driverUser(driverData);
                 } catch (error){
                     console.error("Error al subir el archivo:", error);
-                    alert("Error al subir el archivo. Inténtalo de nuevo.");
+                    swal('Error al subir el archivo','Inténtalo de nuevo','error');
                 }
             } else{
-                alert("Por favor, completa todos los campos.");
+                swal('Error','Por favor, completa todos los campos.','error');
             }
         }
 

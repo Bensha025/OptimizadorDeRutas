@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/Logo - icon.png">
+    <title>πTech | Seleccion del Driver </title>
+    <link rel="stylesheet" href="/styles/driver_seleccion.css">
+</head>
+<body>
+    <h2 id="bienvenida" class="nombre">Bienvenido {nombreUsuario}</h2>
+
+    <script>
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        
+        if (!sessionStorage.getItem('nombreUser')) {
+            window.location.href = 'notFound.html';
+        } else {
+            const idUsuario = sessionStorage.getItem('idUser');
+            const nombreUsuario = sessionStorage.getItem('nombreUser');
+            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+            console.log(`Nombre: ${nombreUsuario}`);
+            console.log(`Apellido: ${apellidoUsuario}`);
+            
+            // Actualizamos el contenido del elemento de bienvenida
+            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+        }
+    </script>
+
+    <div class="gallery">
+        <article class="card">
+            <a href="consultarRuta.html">
+                <figure>
+                    <img href="consultarRuta.html" src="/img/Optimizar_ruta.jpg" alt="Obtener Ruta">
+                    <figcaption>
+                    <h3>Obtener Ruta</h3>
+                    </figcaption>
+                </figure>
+            </a>
+        </article>
+        <article class="card">
+            <a href="tomarRuta.html">
+                <figure>
+                    <img href="tomarRuta.html" src="/img/Elegir_ruta.jpeg" alt="Tomar Ruta">
+                    <figcaption>
+                    <h3>Tomar Ruta</h3>
+                    </figcaption>
+                </figure>
+            </a>
+        </article>
+      </div>
+      <button type="button" onclick="cerrarSesión()">Cerrar sesión</button>
+      <script>
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        if (!sessionStorage.getItem('nombreUser')) {
+            window.location.href = 'index.html';
+        } else {
+            const idUsuario = sessionStorage.getItem('idUser');
+            const nombreUsuario = sessionStorage.getItem('nombreUser');
+            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+            console.log(`Nombre: ${nombreUsuario}`);
+            console.log(`Apellido: ${apellidoUsuario}`);
+            
+            // Actualizamos el contenido del elemento de bienvenida
+            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+        }
+        </script>
+        <script>
+            function cerrarSesión(){
+               sessionStorage.clear();
+         
+               // Redirige al usuario a la página de inicio de sesión
+               window.location.href = 'home.html';
+            }
+            </script>
+</body>
+</html>

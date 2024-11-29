@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/Logo - icon.png">
+    <title>πTech | Reporte </title>
+    <link rel="stylesheet" href="/css/reporte.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<header>
+    <div class="container-botton-back">
+        <button class="botton-back" type="button" onclick="window.location.href='mapaRuta.html'">Regresar</button>
+    </div>
+</header>
+<body>
+    <div class="bienvenida">
+        <div class="container-form">
+            <form id="formReporte">
+                <h2>Levantar Reporte</h2>
+                <section id="percance">
+                    <p id="nombre"> ¿Te ha ocurrido un percance?</p><br>
+                    <div class="opciones">
+                        <input id="accidente" name="percance" type="radio" value="accidente" />
+                        <label for="accidente">Accidente</label><br>
+                        <input id="atasco" name="percance" type="radio" value="atasco" />
+                        <label for="atasco">Exceso de tráfico</label><br>
+                        <input id="falla" name="percance" type="radio" value="falla" />
+                        <label for="falla">Falla mecánica</label><br>
+                        <input id="otro" name="percance" type="radio" value="otro" />
+                        <label for="otro">Otro</label>
+                    </div>
+                </section>
+                <br>
+                <div class="caja">
+                    <p>Cuéntanos un poco más sobre el percance</p>
+                    <textarea style="width: 350px; height: 150px; resize: none;" class="comentario" id="comentario" placeholder="Escribe sobre el percance que presentaste"></textarea>
+                    <p id="contador">0/500 palabras</p>
+                    <br>
+                </div>
+                <div class="contenedor-botones" id="contenedor-botones">
+                    <button class="botton" type="submit" id="enviar">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        let idUsuario;
+       if (!sessionStorage.getItem('nombreUser')) {
+           window.location.href = 'loginDriver.html';
+       } else {
+            idUsuario = sessionStorage.getItem('idUser');
+            const nombreUsuario = sessionStorage.getItem('nombreUser');
+            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+            let elemento = document.getElementById("nombre");
+           
+            // Actualizamos el contenido del elemento de bienvenida
+            elemento.innerHTML = `${nombreUsuario} ${elemento.innerHTML} `;
+       }
+    </script>
+    <script type="module">
+        import { reportError } from "./Funciones/levantarReporte.js"
+        import { obtenerIdLote } from "./Funciones/levantarReporte.js"
+        import { estatusLote } from "./Funciones/levantarReporte.js"
+        import { obtenerIdPaquetes } from "./Funciones/levantarReporte.js"
+
+        const params = new URLSearchParams(window.location.search);
+        const numeroLote = parseInt(params.get('num'));
+
+        const textarea = document.getElementById('comentario');
+        const contadorPalabras = document.getElementById('contador');
+        const palabrasMaximas = 500;
+
+        // Contar palabras en tiempo real
+        textarea.addEventListener('input', () => {
+            const palabras = textarea.value.trim().split(/\s+/).filter(palabra => palabra.length > 0);
+            const totalPalabras = palabras.length;
+
+            contadorPalabras.textContent = `${totalPalabras}/${palabrasMaximas} palabras`;
+
+            // Limitar texto
+            if (totalPalabras > palabrasMaximas) {
+                const limitePalabras = palabras.slice(0, palabrasMaximas).join(' ');
+                textarea.value = limitePalabras;
+                contadorPalabras.textContent = `${palabrasMaximas}/${palabrasMaximas} palabras`;
+            }
+        });
+
+        // Validar formulario al enviar
+        document.getElementById('formReporte').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevenir envío por defecto
+
+            // Obtener valores
+            const opcionSeleccionada = document.querySelector('input[name="percance"]:checked');
+            const comentario = textarea.value.trim();
+
+            // Validar campos
+            if (!opcionSeleccionada || comentario === "") {
+                swal('ERROR','Complete todos los campos necesarios','error')
+                return;
+            }
+
+            let idLote = await obtenerIdLote(numeroLote);
+            console.log(idLote)
+
+            const dataReporte = {
+                idDriver: idUsuario,
+                percance: opcionSeleccionada.value,
+                comentario: comentario,
+                idLote: idLote
+            }
+
+            let respuesta = await reportError(dataReporte)
+
+            if(respuesta == 1){
+                await estatusLote(idLote, 5);
+                await obtenerIdPaquetes(idLote, 6)
+                swal({
+                    title: "¡Se ha enviado la solicitud!",
+                    text: "Los paquetes restantes se asignaran a una proxima ruta",
+                    icon: "info"
+                }).then(() => {
+                    location.reload();
+                });
+            }else{
+                swal('ERROR',' El reporte no ha podido ser enviado','error')
+            }
+
+        });
+
+    </script>
+</body>
+</html>

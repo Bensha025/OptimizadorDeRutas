@@ -1,0 +1,382 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>πTech | Ubicacion</title>
+    <link rel="icon" href="img/Logo - icon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <link rel="stylesheet" href="styles/alertas.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #mi_mapa { width: 100%; height: 200%; }
+        .boton-estilo {
+        background-color: red;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    
+    <header id="nav" style="top: 0px;" class="relative bg-gradient-to-r from-gray-900 to-red-700 h-96 flex">
+        <div class="sec-1">
+            <a href="home.html">
+                <img src="img/logo thelma.png" width="200px" alt="" class="img">
+            </a>
+        </div>
+        <div class="absolute top-0 right-0 p-4">
+            <i class="fas fa-bars text-2xl"></i>
+        </div>
+    </header>
+<main class="bg-gray-100 text-gray-900 py-12">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden relative -mt-32">
+        <div class="md:flex">
+            <div class="w-full md:w-2/3 p-8">
+                <a class="back-button" href="tablaDriver.html">
+                    <i class="fas fa-arrow-left">
+                    </i>
+                    Regresar
+                   </a>
+                <h2 class="text-2xl font-bold mb-4">Ingrese su información de residencia</h2>
+                <form id="ubicacionForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="nombre">Nombre</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="nombre" placeholder="Ingrese su nombre" type="text"/>
+                        </div>
+                        <div>
+                            <label for="apellido">Apellido</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="apellido" placeholder="Ingrese su apellido" type="text"/>
+                        </div>
+                        <!--Apartado para correo-->
+                        <div>
+                            <label for="telefono">Telefono</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="telefono" placeholder="Ingrese su telefono" type="tel" onblur="validarNumero();"/>
+                            <div id="telefono-error" class="error-message">Teléfono no válido. Debe contener exactamente 10 dígitos.</div>
+                        </div>
+                        <div>
+                            <label for="correo">Correo/Email</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="correo" placeholder="Ingrese su correo" type="text" onblur="validaCorreo();"/>
+                        </div>
+                        <div>
+                            <label for="cp">Código postal</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="cp" placeholder="Ingrese su código postal" type="text" onblur="validarCp();"/>
+                            <div id="cp-error" class="error-message">Código Postal no válido. Debe contener exactamente 5 dígitos.</div>
+                        </div>
+                        <div>
+                            <label for="estado">Estado</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="estado" placeholder="Ingrese su estado" type="text"/>
+                        </div>
+                        <div>
+                            <label for="colonia">Colonia</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="colonia" placeholder="Ingrese su colonia" type="text"/>
+                        </div>
+                        <div>
+                            <label for="municipio">Municipio</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="municipio" placeholder="Ingrese su municipio" type="text"/>
+                        </div>
+                        <div>
+                            <label for="calle">Calle</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="calle" placeholder="Ingrese su calle" type="text"/>
+                        </div>
+                        <div>
+                            <label for="numero">Número</label>
+                            <input class="border border-gray-300 p-2 rounded w-full" id="numero" placeholder="Ingrese el numero de domicilio" type="text"/>
+                        </div>
+                        <div class="col-span-2">
+                            <section id="residencia">
+                                <p>¿Es tu trabajo o tu casa?</p>
+                                <input id="laboral" name="residencia" type="radio" value="laboral"/>
+                                <label for="laboral">Laboral</label>
+                                <input id="residencial" name="residencia" type="radio" value="residencial"/>
+                                <label for="residencial">Residencial</label>
+                            </section>
+                        </div>
+                        <div class="col-span-2">
+                            <textarea class="border border-gray-300 p-2 rounded w-full h-32 resize-none" id="indicaciones" placeholder="Indicaciones adicionales de esta dirección"></textarea>
+                            <br><br>
+                            <div id="mi_mapa"></div>
+                            <div id="confirmar"></div>
+                        </div>
+                    </div>
+                    <br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br>
+                    <button class="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition duration-300 ease-in-out transform hover:scale-105" type="button" id="enviar" onclick="enviarForm()">Enviar</button>
+                    <br><br><br><br>
+                </form>
+                <p id="output"></p>
+            </div>
+            
+            <div class="w-full md:w-1/3 bg-gray-800 text-white p-8">
+                <h2 class="text-2xl font-bold mb-4">Información De Contacto</h2>
+                <p class="mb-4"><i class="fas fa-phone-alt mr-2"></i> +52 (33) </p>
+                <p class="mb-4"><i class="fas fa-envelope mr-2"></i> piTeck0020@gail.com</p>
+                <div class="flex space-x-4">
+                    <a class="text-white" href="https://www.facebook.com/profile.php?id=100004311793984&locale=es_LA"><i class="fab fa-facebook-f"></i></a>
+                    <a class="text-white" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="text-white" href="https://www.instagram.com/jonathan._.0020/"><i class="fab fa-instagram"></i></a>
+                    <a class="text-white" href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+<script type="module">
+    import { obtenerCoordenadas } from './Funciones/validaDireccion.js'
+    import { guardarDirec } from './Funciones/validaDireccion.js'
+
+    let map = L.map('mi_mapa').setView([20.65652, -103.325269], 15);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    let marker;         
+    let marcador = false; 
+    let moverMarcador;
+    const divConfirmar = document.getElementById('confirmar');
+    const boton = document.createElement('button');
+    const enviar = document.getElementById('enviar');
+    boton.innerText = 'Confirmar ubicación'; // Texto del botón
+    boton.id = 'confirmar';
+    boton.classList.add('boton-estilo');
+
+    function onMapClick(e,ubicacion) {
+        const coord = [e.latlng.lat, e.latlng.lng];
+
+        if (marcador){
+            marker.remove();
+            marcador = false;
+        }
+        if (!marcador) {
+            marker = L.marker(coord).addTo(map).bindPopup('Tu dirección: ' + ubicacion);
+            marcador = true; 
+        }
+
+        return coord;
+    }
+
+    async function mostrarUbicacion(coordenadas, ubicacion) {
+        let marker; // Variable local para manejar el marcador actual
+        let marcadorActivo = false; // Bandera para indicar si hay un marcador en el mapa
+
+        // Agregar el marcador inicial
+        marker = L.marker(coordenadas).addTo(map).bindPopup('Tu dirección: ' + ubicacion);
+        map.setView(coordenadas, map.getZoom());
+
+        // Pausa de 1 segundo antes de continuar
+        await pausa(1000);
+
+        const moverMarcador = swal({
+            title: '¿Desea mover manualmente su dirección?',
+            text: 'Puede ajustar su ubicación en el mapa.',
+            buttons: ['Cancelar', 'Mover'],
+            dangerMode: true
+        }).then((willMove) => {
+            if (willMove) {
+                // Acción cuando se confirma mover el marcador
+                console.log('El usuario decidió mover la dirección.');
+                // Aquí puedes agregar la lógica para activar la funcionalidad de mover el marcador
+            } else {
+                swal('Acción cancelada', 'No se realizó ningún cambio.', 'info');
+            }
+        });
+        if (moverMarcador) {
+            // Eliminar el marcador inicial y permitir clics en el mapa
+            enviar.remove();
+            marker.remove();
+            marcadorActivo = false;
+            let nuevasCoordenadas;
+
+            return new Promise((resolve, reject) => {
+                const confirmarDireccion = () => {
+                    const confirmar = confirm("Deseas confirmar la nueva direccion?");
+                    if (confirmar) {
+                        // Si confirma, eliminar el botón y desactivar el clic en el mapa
+                        boton.remove();
+                        map.off('click'); // Deshabilitar los clics en el mapa después de confirmar
+                        resolve(nuevasCoordenadas); // Retornar las coordenadas finales del marcador
+                    } else {
+                        // Si no confirma, eliminar el marcador actual
+                        marker.remove();
+                        marcadorActivo = false;
+                        swal({
+                            title: "¡No se ha enviado la solicitud!",
+                            text: "Vuelve a intentarlo",
+                            icon: "warning"
+                        }).then(() => {
+                            // Recargar la página después de cerrar la alerta
+                            location.reload();
+                        });
+                    }
+                };
+                
+
+                map.on('click', (e) => {
+                    nuevasCoordenadas = { lat: e.latlng.lat, lon: e.latlng.lng };
+
+                    // Si ya existe un marcador, eliminarlo antes de agregar uno nuevo
+                    if (marcadorActivo) {
+                        marker.remove();
+                    }
+
+                    // Crear un nuevo marcador en la ubicación seleccionada
+                    marker = L.marker(nuevasCoordenadas).addTo(map).bindPopup('Tu dirección seleccionada.');
+                    marcadorActivo = true; // Actualizamos la bandera
+
+                    // Asegura que el botón solo se agregue una vez
+                    if (!divConfirmar.contains(boton)) {
+                        divConfirmar.appendChild(boton);
+                    }
+
+                    // Limpiar eventos previos del botón antes de agregar uno nuevo
+                    boton.removeEventListener('click', confirmarDireccion); // Eliminar cualquier evento anterior
+                    boton.addEventListener('click', confirmarDireccion);   // Agregar el evento actual
+                });
+            });
+        } else {
+            // Si no desea mover, retornar las coordenadas originales
+            return coordenadas;
+        }
+    }
+
+
+    function pausa(milisegundos) {
+        return new Promise(resolve => setTimeout(resolve, milisegundos));
+    }
+
+    // Valida el correo.
+    async function validaCorreo(){
+            const correo = document.getElementById("correo").value;
+        if (correo.includes("@")) {
+            const resultado = await validarCorreoAdmin(correo);
+            if(resultado == 1){
+                    swal('Excelente','Correo registrado','success');
+                    document.getElementById("correo").value = "";
+             }
+        }else{
+                document.getElementById("correo").value = "";
+                swal('Espera','Ingresa un correo valido','warnnig');
+        }
+    }
+    window.validaCorreo = validaCorreo;
+
+    // Validamos el número de telefono.
+    function validarNumero() {
+        const telefono = document.getElementById("telefono").value;
+        const errorMessage = document.getElementById("telefono-error");
+
+        if (telefono.length != 10) {
+            errorMessage.style.display = "block"; // Muestra el mensaje de error para teléfono
+            document.getElementById("telefono").value = ""; // Limpia el campo
+        } else {
+            errorMessage.style.display = "none"; // Oculta el mensaje si es válido
+        }
+    }
+
+    window.validarNumero = validarNumero;
+
+    // Validamos el código postal.
+    function validarCp() {
+        const cp = document.getElementById("cp").value;
+        const errorMessage = document.getElementById("cp-error");
+
+        if (cp.length != 5) {
+            errorMessage.style.display = "block"; // Muestra el mensaje de error para CP
+            document.getElementById("cp").value = ""; // Limpia el campo
+        } else {
+            errorMessage.style.display = "none"; // Oculta el mensaje si es válido
+        }
+    }
+
+    window.validarCp = validarCp;
+
+        
+    async function enviarForm() {
+        const nombre = document.getElementById("nombre").value;
+        const apellido = document.getElementById("apellido").value;
+        const telefono = document.getElementById("telefono").value;
+        const cp = document.getElementById("cp").value;
+        const estado = document.getElementById("estado").value;
+        const colonia = document.getElementById("colonia").value;
+        const municipio = document.getElementById("municipio").value;
+        const calle = document.getElementById("calle").value;
+        const numero = document.getElementById("numero").value;
+        const correo = document.getElementById("correo").value;
+        const indicaciones = document.getElementById("indicaciones").value;
+
+
+        let residencia;
+        const radios = document.getElementsByName("residencia");
+        for (const radio of radios) {
+            if (radio.checked) {
+                residencia = radio.value;
+                break;
+            }
+        }
+
+        if(nombre && apellido && telefono && cp && estado && colonia && municipio 
+            && calle && numero && residencia){
+            const ubicacion = numero + " " + calle + ", " + municipio + ", " + estado + ", " + cp;
+            console.log(ubicacion);
+            const consulta = await obtenerCoordenadas(ubicacion);
+            console.log(consulta);
+
+            const validarConsulta = await mostrarUbicacion(consulta, ubicacion);
+
+            const generaGuia = Math.floor(Math.random() *  9000000) + 1000000; // Genera una guia de 7 dígitos
+
+            if(validarConsulta){
+                const direccionData ={
+                nombre: nombre,
+                apellido: apellido,
+                telefono: telefono,
+                correo: correo,
+                cp: cp,
+                estado: estado,
+                colonia: colonia,
+                municipio: municipio,
+                calle: calle, 
+                numero: numero,
+                residencia: residencia,
+                ubicacion: ubicacion,
+                indicaciones: indicaciones,
+                agregado: false,
+                guia: generaGuia,
+                coordenadas: validarConsulta,
+                estatus: 0
+                }
+
+                let valor = await guardarDirec(direccionData);
+                console.log(valor)
+                if(valor){
+                    swal('Dirección guardada con exito.','Tu numero de guia es:' + valor,'success');
+                }
+            }
+        }else{
+            swal('Espera','Faltan campos por llenar','error');
+            
+        }
+
+        console.log(nombre,apellido,telefono,cp,estado,colonia,calle,numero,residencia,indicaciones);
+    }
+        
+    window.enviarForm = enviarForm;
+</script>

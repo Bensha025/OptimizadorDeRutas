@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/Logo - icon.png">
+    <title>πTech | Buscar Guía </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <link rel="stylesheet" href="styles/guia.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #mi_mapa { width: 100%; height: 75vh; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="back-button" href="home.html">
+            <i class="fas fa-arrow-left"></i>
+            Regresar a Inicio
+        </a>
+        <h2>Buscar guía</h2>
+        <div class="bg">
+            <label for="guia">Ingrese su número de guía (Recuerda que son 7 dígitos)</label>
+            <input type="text" name="guia" id="guia" placeholder="Ejemplo: 1234567">
+            <button type="button" onclick="consultar()">Consultar</button>
+        </div>
+        <div class="estatus"></div><br>
+        <button type="button" id="historial" class="hide" onclick="historial()">Ver historial</button>
+        <button type="button" id="ocultar" class="hide" onclick="ocultarHistorial()">Ocultar historial</button>
+        <div class="historial" id="historial"></div>
+        <div class="container" id="mensaje"></div>
+        <div id="mi_mapa"></div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
+    <script type="module">
+        import { buscarGuia } from './Funciones/buscarGuia.js';
+        import { verHistorial } from './Funciones/mostrarHistorial.js';
+
+        document.getElementById("historial").style.display = "none";
+        document.getElementById("ocultar").style.display = "none";
+
+        async function consultar() {
+    const numeroGuia = document.getElementById("guia").value;
+    const estatusDiv = document.querySelector('.estatus');
+    
+    if (numeroGuia.length === 7 && !isNaN(numeroGuia)) {
+        const info = await buscarGuia(parseInt(numeroGuia));
+        
+        // Verifica si se encontró el paquete y muestra el mensaje en un container
+        if (estatusDiv) {
+            if (info && info[0] && info[0].estatusTexto) {
+                estatusDiv.innerText = info[0].estatusTexto; 
+                estatusDiv.style.display = "block"; 
+            } else {
+                estatusDiv.innerText = "No se pudo obtener el estado del paquete.";
+                estatusDiv.style.display = "block";
+            }
+        }
+        
+        if (info[0].coordenadas && info[0].estatus == 3) {
+            mostrarMapacoordenada(info[0].coordenadas, info[0].direccion);
+        } else {
+            document.getElementById("mensaje").innerText = "Podrá visualizar su paquete cuando el conductor se dirija hacia usted.";
+        }
+        
+        document.getElementById("mensaje").classList.add("show");
+        document.getElementById("historial").style.display = "block";
+    } else {
+        swal("Error al ingresar el número de guía. \nEl número debe contener 7 dígitos");
+        document.getElementById("guia").value = "";
+        document.getElementById("mensaje").classList.remove("show");
+        
+        // Oculta el estatus si el número es inválido
+        if (estatusDiv) {
+            estatusDiv.style.display = "none";
+        }
+    }
+}
+
+
+        window.consultar = consultar;
+
+        function mostrarMapacoordenada(coordenada, direccion){
+            let map = L.map('mi_mapa').setView([coordenada.lat, coordenada.lon], 15);
+            let estiloNormal = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            });
+            estiloNormal.addTo(map);
+
+            let marcador = L.marker([coordenada.lat, coordenada.lon]).addTo(map)
+                .bindPopup('Su dirección: ' + direccion).openPopup();
+        }
+
+        async function historial(){
+            const numeroGuia = document.getElementById("guia").value;
+            const info = await verHistorial(parseInt(numeroGuia));
+        }
+
+        window.historial = historial;
+
+        function ocultarHistorial(){
+            document.getElementById("ocultar").style.display = "none";
+            const historialdoDiv = document.querySelector('.historial');
+            historialdoDiv.innerHTML = '';
+            document.getElementById("historial").style.display = "block";
+        }
+
+        window.ocultarHistorial = ocultarHistorial;
+    </script>
+</body>
+</html>

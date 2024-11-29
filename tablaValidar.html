@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/styles/driver.css" rel="stylesheet"/>
-    <title>πTech | Drivers</title>
+    <title>πTech | Drivers Validar</title>
     <link rel="icon" href="img/Logo - icon.png">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
@@ -71,7 +71,7 @@
     <i>
        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
     </i>
-    <button type="button" onclick="cerrarSesión()">Cerrar sesión</button> 
+    <button type="button" onclick="cerrarSesión()">Cerrar sesión</button>
     <!--Conectar el cerrado de sesion-->
    </li>
   </ul>
@@ -88,34 +88,29 @@
     </div>
 
     <script>
-      // Simulamos el inicio de sesión asignando valores a sessionStorage
-      // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
-      if (!sessionStorage.getItem('nombreUser')) {
-          window.location.href = 'notFound.html';
-      } else {
-          const idUsuario = sessionStorage.getItem('idUser');
-          const nombreUsuario = sessionStorage.getItem('nombreUser');
-          const apellidoUsuario = sessionStorage.getItem('apellidosUser');
-          console.log(`Nombre: ${nombreUsuario}`);
-          console.log(`Apellido: ${apellidoUsuario}`);
-          
-          // Actualizamos el contenido del elemento de bienvenida
-          document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
-      }
-  </script>
-  <script>
-   function cerrarSesión(){
-       sessionStorage.clear();
-
-       // Redirige al usuario a la página de inicio de sesión
-       window.location.href = 'login_a.html';
-   }
-   </script>
-    <script type="module">
-        import { obtenerDriver } from './Funciones/consultaDriver.js';
-
-        obtenerDriver(); // Llama a la función para obtener los datos
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        if (!sessionStorage.getItem('nombreUser')) {
+            window.location.href = 'notFound.html';
+        } else {
+            const idUsuario = sessionStorage.getItem('idUser');
+            const nombreUsuario = sessionStorage.getItem('nombreUser');
+            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+            console.log(`Nombre: ${nombreUsuario}`);
+            console.log(`Apellido: ${apellidoUsuario}`);
+            
+            // Actualizamos el contenido del elemento de bienvenida
+            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+        }
     </script>
+    <script>
+     function cerrarSesión(){
+         sessionStorage.clear();
+  
+         // Redirige al usuario a la página de inicio de sesión
+         window.location.href = 'login_a.html';
+     }
+     </script>
     <script>
         function showSidebar() {
                  document.querySelector('.sidebar').classList.remove('hidden');
@@ -130,6 +125,11 @@
              // esconder la barra lateral
              hideSidebar();
        </script>
-</body>
 
+        <script type="module">
+            import { obtenerDriver } from './Funciones/validarDriver.js';
+
+            obtenerDriver(); // Llama a la función para obtener los datos
+        </script>
+</body>
 </html>

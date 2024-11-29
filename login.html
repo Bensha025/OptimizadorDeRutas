@@ -1,37 +1,40 @@
+<!--CODIGO INCESEARIO - EN ESPERA DE QUE ANGEL PASE EL SUYO-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>πTech | Login</title>
+    <link rel="icon" href="img/Logo - icon.png">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/alphardex/aqua.css@master/dist/aqua.min.css'>
+    <link rel="stylesheet" href="/styles/transicion.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="cssq/load.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
-    <div class="wrapper">
-        <form action="">
-            <h1>INICIAR SESION</h1>
-            <div class="input-box">
-                <input type="text" name="correo" id="correo" placeholder="email">
-                <i class='bx bxs-user'></i>
+    <div class="form">
+        <form class="login-form" action="javascript:void(0);">
+            <h1>Inicia Sesion</h1>
+            <div class="form-input-material">
+                <input type="text" name="correo" id="correo" placeholder=" " autocomplete="off" class="form-control-material" required />
+                <label for="correo">Correo</label>
             </div>
-            <div class="input-box">
-                <input type="password" name="pass" id="pass" placeholder="password">
-                <i class='bx bxs-lock-alt'></i>
+                <div class="form-input-material">
+                <input type="password" name="pass" id="pass" placeholder=" " autocomplete="off" class="form-control-material" required />
+                <label for="pass">Contraseña</label>
             </div>
-            <div class="remember-forgot">
-                <label><input type="checkbox"> Recuerdame </label>
-                <a href="#">Olvidaste tu contraseña?</a>
-            </div>
-
-            <button type="submit" class="btn">Login</button>
-            
-            <div class="register-link">
-                <p>No tienes cuenta? <a href="#">Registrate</a></p>
+            <button type="submit" value="Enviar" id="enviar" class="btn btn-primary btn-ghost">Enviar</button><br>
+            <div class="form-input-material">
+                <a class="btn btn-primary btn-ghost" href="registrarAdministrador.html">Registrar</a><br>
             </div>
         </form>
     </div>
+
+    
 </body>
+
     <script src="lib/jquery-3.3.1.min.js"></script>
     <script type="module" src="/Funciones/firebaseConect.js"></script>
     <script type="module">
@@ -45,7 +48,7 @@
             if (correo != "" && pass != ""){ // Validamos que no este vacio.
                 validarUser(correo,pass); // Pasamos los datos a una funcion externa para validar la info.
             } else {
-                alert("Por favor, completa todos los campos.");
+                swal("Por favor, completa todos los campos.");
             }
         }
 

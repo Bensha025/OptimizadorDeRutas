@@ -1,0 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Basic&family=Poppins&display=swap");
+
+:root {
+  --background: #000000;
+  --background-border: #00fffc;
+}
+
+h1{
+    transition: 500ms all;
+}
+h1:hover
+{
+    cursor: pointer;
+    transform: scale(1.15);
+    box-shadow: 0 0 20px
+    rgb(125, 249, 255);
+    border-radius: 10px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+        url(/img/fondo-home.jpg);
+    background-position: center;
+    background-size: cover;
+    font-family: Poppins;
+    height: 100vh;
+    padding: 32px;
+    display: grid;
+    place-items: center;
+    background-color: var(--background);
+    color: white;
+}
+
+.gallery {
+    display: flex;
+    gap: 16px;
+    transform: scale(1.6); 
+    background: transparent; 
+}
+
+
+.card {
+  position: relative;
+  left: 0px;
+  width: 140px;
+  height: 160px;
+  background-color: var(--background);
+  border-radius: 8px;
+  transition: 1000ms all;
+  transform-origin: center left;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+  outline: 1px solid var(--background);
+  overflow: hidden;
+}
+
+.card img {
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.card:hover {
+  cursor: pointer;
+  transform: scale(1.15);
+  box-shadow: 0 0 20px
+  rgb(125, 249, 255);
+  margin: 5px;
+}
+.card:hover figcaption {
+  font-size: 0.6rem;
+  position: absolute;
+  height: 80px;
+  width: 160px;
+  display: flex;
+  align-items: end;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  color: white;
+  left: 0px;
+  bottom: 0px;
+  padding-left: 12px;
+  padding-bottom: 10px;
+}
+.card:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); 
+    transition: transform 0.1s ease-in-out; 
+  }
+.card:hover ~ .card {
+  font-weight: bold;
+  cursor: pointer;
+  transform: translateX(22px);
+}
+
+button {
+    background: linear-gradient(90deg, #00d2ff, #3a7bd5); 
+    color: white; 
+    font-size: 1.2rem; 
+    font-family: 'Poppins', sans-serif; 
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+    cursor: pointer;
+    transition: all 0.3s ease; /* Animación*/
+}
+
+button:hover {
+    transform: translateY(-4px); /* Efecto de elevación */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+    transform: translateY(2px); /* Efecto de presionado */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
+}

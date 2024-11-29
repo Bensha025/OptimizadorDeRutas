@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro administrador</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
     <div class="form">
@@ -13,7 +14,7 @@
             <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del usuario" onblur="validaCorreo();"> <br>
             <input type="file" name="archivo" id="archivo"> <br>
             <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
-            <input type="submit" value="Enviar" id="enviar">
+            <input type="submit" value="Enviar" id="enviar" >
     </div>
 </body>
     <script src="lib/jquery-3.3.1.min.js"></script>
@@ -29,12 +30,12 @@
             if (correo.includes("@")) {
                 const resultado = await validarCorreoAdmin(correo);
                 if(resultado == 1){
-                    alert("Correo registrado");
+                    swal("Correo registrado");
                     document.getElementById("correo").value = "";
                 }
             }else{
                 document.getElementById("correo").value = "";
-                alert("Ingresa un correo valido.")
+                swal("Ingresa un correo valido.")
             }     
         }
 
@@ -62,7 +63,7 @@
                     
                }catch(error){
                 console.error("Error al subir el archivo:", error);
-                alert("Error al subir el archivo. Inténtalo de nuevo.");
+                swal("Error al subir el archivo. Inténtalo de nuevo.");
                }
                 const archivoUrl = await uploadFile(archivo);
                 const userData = {
@@ -77,7 +78,7 @@
                 };
                 adminUser(userData);
             } else {
-                alert("Por favor, completa todos los campos.");
+                swal("Por favor, completa todos los campos.");
             }
         }
 

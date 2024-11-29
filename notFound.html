@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>404 Page Not Found</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.1; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1.5); }
+        }
+        .star:nth-child(odd) {
+            animation-duration: 2s;
+        }
+        .star:nth-child(even) {
+            animation-duration: 3s;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen relative overflow-hidden">
+    <div class="text-center text-gray-300 relative z-10">
+        <h1 class="text-6xl font-bold">404</h1>
+        <p class="text-xl mt-2">Page Not Found</p>
+        <a class="back-button inline-flex items-center mt-4 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 transition duration-300" href="login_a.html">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Volver
+        </a>
+    </div>
+    <div class="absolute inset-0">
+        <div class="star" style="top: 10%; left: 20%;"></div>
+        <div class="star" style="top: 30%; left: 40%;"></div>
+        <div class="star" style="top: 50%; left: 60%;"></div>
+        <div class="star" style="top: 70%; left: 80%;"></div>
+        <div class="star" style="top: 90%; left: 50%;"></div>
+        <div class="star" style="top: 20%; left: 70%;"></div>
+        <div class="star" style="top: 40%; left: 30%;"></div>
+        <div class="star" style="top: 60%; left: 10%;"></div>
+        <div class="star" style="top: 80%; left: 90%;"></div>
+        <div class="star" style="top: 15%; left: 55%;"></div>
+        <div class="star" style="top: 35%; left: 75%;"></div>
+        <div class="star" style="top: 55%; left: 25%;"></div>
+        <div class="star" style="top: 75%; left: 45%;"></div>
+        <div class="star" style="top: 95%; left: 65%;"></div>
+        <div class="star" style="top: 25%; left: 85%;"></div>
+    </div>
+</body>
+</html>

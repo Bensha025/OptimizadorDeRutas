@@ -1,0 +1,114 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #3A4A47; /* Fondo igual que el anterior */
+    color: #E1E1D0; /* Color de texto claro */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+.back-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #E1E1D0;
+    margin-bottom: 20px;
+}
+.back-button i {
+    margin-right: 8px;
+}
+h2 {
+    margin-bottom: 20px;
+    color: #E1E1D0;
+}
+.bg {
+    background-color: #4A5A57;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+.bg label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.bg input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.bg button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.bg button:hover {
+    background-color: #0056b3;
+}
+.estatus, .historial, #mi_mapa {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+.estatus {
+    display: none; /* Oculto por defecto */
+    padding: 10px;
+    background-color: #4A5A57;
+    border-radius: 4px;
+    color: white; /* Asegúrate de tener un color de texto visible */
+}
+
+#mi_mapa {
+    height: 75vh;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.show {
+    display: block;
+}
+.hide {
+    display: none;
+}
+.mensaje {
+    display: none; /* Oculto por defecto */
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 4px;
+    margin-top: 20px;
+    text-align: center;
+}
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+.button{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+

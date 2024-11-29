@@ -65,13 +65,13 @@
      </a>
    </li>
 
-   <br><br><br><br><br><br>
+   <br><br><br><br>
 
    <li>
     <i>
-       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
+       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"    stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
     </i>
-    <button type="button" onclick="cerrarSesión()">Cerrar sesión</button> 
+    <button type="button" onclick="cerrarSesión()">Cerrar sesión</button>
     <!--Conectar el cerrado de sesion-->
    </li>
   </ul>
@@ -79,12 +79,16 @@
     
  <div class="content">
     <h1>
-     Lista de drivers
+     Lista de Administradores
     </h1>
-
     <div class="table-container">
         <div class="tabla"> <!--Sin esta linea no hay tabla-->
         </div>
+        <a class="back-button" href="login_a.html"><!--Redireccionar a listado drivers-->
+         <i class="fas fa-arrow-left">
+         </i>
+         Regresar a Inicio
+        </a>
     </div>
 
     <script>
@@ -111,10 +115,11 @@
        window.location.href = 'login_a.html';
    }
    </script>
-    <script type="module">
-        import { obtenerDriver } from './Funciones/consultaDriver.js';
 
-        obtenerDriver(); // Llama a la función para obtener los datos
+    <script type="module">
+        import { obtenerAdministrador } from './Funciones/consultaAdministrador.js';
+
+        obtenerAdministrador(); // Llama a la función para obtener los datos
     </script>
     <script>
         function showSidebar() {
@@ -129,7 +134,6 @@
      
              // esconder la barra lateral
              hideSidebar();
-       </script>
+    </script>
 </body>
-
 </html>

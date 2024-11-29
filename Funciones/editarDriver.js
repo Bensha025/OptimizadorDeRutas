@@ -31,7 +31,7 @@ export async function editDriverDatos(id, dataDriver){
     const driverDocRef = doc(db, "driver", id); // Referencia al documento que se consultara.
     try {
         await updateDoc(driverDocRef, dataDriver); // Actualizar el documento
-        alert("Datos actualizados correctamente");
+        swal('Proceso completado','Datos actualizados correctamente','success');
     } catch (error) {
         console.error("Error al actualizar los datos: ", error);
     }
@@ -42,7 +42,7 @@ export async function editDriverPass(id, dataDriver){
     const driverDocRef = doc(db, "driver", id); // Referencia al documento que se consultara.
     try {
         await updateDoc(driverDocRef, dataDriver); // Actualizar el documento
-        alert("Contraseña actualizada correctamente");
+        swal('Proceso completado','Contraseña actualizada correctamente','success');
     } catch (error) {
         console.error("Error al actualizar los datos: ", error);
     }
@@ -53,7 +53,7 @@ export async function editDriverArchivo(id, dataDriver){
     const driverDocRef = doc(db, "driver", id); // Referencia al documento que se consultara.
     try {
         await updateDoc(driverDocRef, dataDriver); // Actualizar el documento
-        alert("Archivo actualizado correctamente");
+        swal('Proceso completado','Datos actualizados correctamente','success');
     } catch (error) {
         console.error("Error al actualizar los datos: ", error);
     }

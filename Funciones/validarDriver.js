@@ -1,10 +1,53 @@
-import { db } from './firebaseConect.js'; // Importamos la conexión a la base de datos.
-import { collection, query, where, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+// Funciones/userFunctions.js
+
+import { db } from './firebaseConect.js';
+import { collection, query, where, getDocs, updateDoc, getDoc, doc} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+export async function validaDriver(correo, pass) {
+    try{
+        const consulta = query(collection(db, "driver"), where("correo", "==", correo), where("validado", "==", true), where("eliminado", "==", false));
+
+        const querySnapshot = await getDocs(consulta)
+
+        if (querySnapshot.empty){
+            swal('Error al iniciar sesión','revise sus credenciales.','error');
+            return false;
+        } else{
+            let userFound = false
+            querySnapshot.forEach((doc) => {
+                const userData = doc.data();
+                if(userData.pass == pass){
+                    // Almacenar los datos en sessionStorage (temporal)
+                    sessionStorage.setItem("idUser", doc.id);
+                    sessionStorage.setItem("nombreUser", userData.nombre);
+                    sessionStorage.setItem("apellidosUser", userData.apellido);
+                    swal('Excelente','Ha iniciado sesion correctamente','success')
+                    .then(() => {
+                        // Redirigir al Driver a su guía
+                        window.location.href = "driver_seleccion.html";
+                    }); 
+                    userFound = true;
+                }
+            });
+
+            if (!userFound){
+                swal('Error al iniciar sesión','revise sus credenciales.','error');
+                return false;
+            }
+            return true;
+        }
+    }catch (error) {
+        console.error("Error al verificar las credenciales:", error);
+        swal('Lamentamos lo sucedido','Error al verificar las credenciales','error');
+        return false;
+    }
+    
+}
 
 // Función para obtener los datos de Firestore.
 export async function obtenerDriver() {
     const driverCollection = collection(db, "driver");
-    const consulta = query(driverCollection, where("status", "==", true), where("eliminado", "==", false),where("validado","==", true));
+    const consulta = query(driverCollection, where("status", "==", true), where("eliminado", "==", false), where("validado", "==", false));
 
     try {
         const snapshot = await getDocs(consulta);
@@ -41,9 +84,9 @@ export async function obtenerDriver() {
                     <td>${nombre} ${apellido}</td>
                     <td>${correo}</td>
                     <td>
-                        <button class="eliminar" data-id="${id}">Eliminar</button>
-                        <button class="detalles" data-id="${id}">Ver detalles</button>
-                        <button class="editar" data-id="${id}">Editar</button>
+                        <button value="Eliminar" class="eliminar" data-id="${id}">Eliminar</button>
+                        <button value="Ver detalles" class="detalles" data-id="${id}">Ver detalles</button>
+                        <input type="button" value="Validar" class="validar" data-id="${id}">
                     </td>
                 `;
                 tablaHTML.appendChild(driverRow);
@@ -55,10 +98,11 @@ export async function obtenerDriver() {
             // Llamamos la función de los eventos de los botones.
             eventoEliminar();
             eventoDetalles();
-            eventoEditar();
+            eventoValidar();
     
         } catch (error) {
-            console.error("Error al obtener los datos: ", error);
+            //console.error("Error al obtener los datos: ", error);
+            swal('Intentalo de nuevo','Error al obtener los datos: ','error', error);
         }
     }
 
@@ -84,13 +128,13 @@ function eventoDetalles() {
     });
 }
 
-// Función para agregar evento al boton de editar
-function eventoEditar() {
-    const botonEditar = document.querySelectorAll('.editar'); // Selecciona el boton editar.
-    botonEditar.forEach(boton => {
+// Función para agregar evento al boton de validar driver.
+function eventoValidar() {
+    const botonValidar  = document.querySelectorAll('.validar'); // Selecciona el boton editar.
+    botonValidar.forEach(boton => {
         boton.addEventListener('click', function() {
             const id = this.getAttribute('data-id'); // Obtén el ID del documento.
-            editarDriver(id); // Llama a la función para editar.
+            validarDriver(id); // Llama a la función para editar.
         });
     });
 }
@@ -110,20 +154,8 @@ async function eliminarRegistro(id) {
     }
 }
 
-export function verDetalles(id) {
-    const slide = document.createElement('div');
-    slide.className = 'slide';
-    document.body.appendChild(slide); // Añadir el div al body
-
-    // Activar la clase que inicia la animación
-    setTimeout(() => {
-        slide.classList.add('active');
-    }, 0);
-
-    // Esperar a que la animación termine antes de redirigir
-    setTimeout(() => {
-        window.location.href = `detallesDriver.html?id=${id}`; // Redireccionar
-    }, 500); // Tiempo de espera igual al de la transición
+export function verDetalles(id){
+    window.location.href = `detallesValidarDriver.html?id=${id}`; // Redirecciona al archivo detalles Driver.
 }
 
 export async function consultaDriverUnico(id) {
@@ -158,36 +190,21 @@ export async function consultaDriverUnico(id) {
     }
 }
 
-export function editarDriver(id){
-    window.location.href = `editarDriver.html?id=${id}`; // Redirecciona al archivo editar Driver.
-}
-
-export async function editarDriverUnico(id){
-    const driverDocRef = doc(db, "driver", id); // Referencia al documento que se consultara.
-    try {
-        const consulta = await getDoc(driverDocRef); // Busca que el documento (driver) exista.
-        if (!consulta.exists()) {
-            console.log("No se encontró el documento.");
-            return;
+// Función para actualizar el campo validado a true
+async function validarDriver(id) {
+    const confirmar = confirm(`¿Desea dar por valido Driver con id: ${id}?`);
+    if(confirmar === true){
+        try{
+            const driverDoc = doc(db, "driver", id); // Referencia al documento que se actualizara
+            await updateDoc(driverDoc, { validado: true }); // Cambia validado a true
+            console.log(`Registro con ID ${id} marcado como valido.`);
+            location.reload(); // Recarga la página actual
+        } catch (error) {
+            console.error("Error al actualizar el registro: ", error);
         }
-
-        const data = consulta.data(); // Obtiene los datos del documento.
-        
-        // Asigna los valores a los inputs correspondientes en el HTML.
-        document.getElementById('usuario').value = data.nombre;
-        document.getElementById('apellido').value = data.apellido;
-        document.getElementById('correo').value = data.correo;
-        document.getElementById('telefono').value = data.telefono;
-        document.getElementById('carro').value = data.carro;
-        document.getElementById('modelo').value = data.modelo;
-
-        return;
-    } catch (error) {
-        console.error("Error al obtener los datos: ", error);
     }
 }
 
-// Crear la etiqueta <style> en el documento
 var style = document.createElement('style');
 style.innerHTML = `
     /* Estilos para la tabla */
@@ -203,8 +220,6 @@ style.innerHTML = `
         text-align: left;
         border-bottom: 1px solid #ddd;
         /*Agregar color de texto*/
-        color: black;
-
     }
 
     .tablaDrivers th {
@@ -245,11 +260,11 @@ style.innerHTML = `
         background-color: #c82333;
     }
 
-    button.editar {
+    input.validar {
         background-color: #ffc107;
     }
 
-    button.editar:hover {
+    input.validar:hover {
         background-color: #e0a800;
     }
 
