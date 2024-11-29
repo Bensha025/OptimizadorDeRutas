@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizar ruta</title>
+    <link rel="stylesheet" href="/styles/ruta.css">
+</head>
+<body>
+    <br><br><br><br><br><br><br><br>
+    <div class="container">
+        <div>
+            <button type="button" onclick="optimizar()">Optimizar ruta</button>
+            <button type="button" onclick="verRutas()">Ver detalles del lote</button><br><br>
+        </div>
+        <div>
+            <input type="text" id="buscarLote" placeholder="Ingresa el id del lote a buscar"><br>
+            <button class="search-button" type="button" onclick="buscarRutas()">Buscar lote</button>
+        </div>
+    </div>
+    <div class="background"></div>
+    <div class="overlay"></div>
+    <div class="lotes"></div>
+    <br><br><br>
+    <div class="container">
+        <button type="button" onclick="window.location.href='driver_seleccion.html'">Regresar</button>
+    </div>
+    
+    
+    <script type="module">
+        import { obtenerRuta } from './Funciones/optmizadorRuta.js'
+        import { obtenerLotes } from './Funciones/detallesLotes.js'
+        import { buscarLote } from './Funciones/detallesLotes.js'
+
+        async function optimizar() {
+            obtenerRuta();
+        }
+
+        window.optimizar = optimizar;
+
+        function verRutas() {
+            obtenerLotes();
+        }
+
+        window.verRutas = verRutas;
+        
+        function buscarRutas(){
+            const idLote = parseInt(document.getElementById("buscarLote").value);
+            buscarLote(idLote);
+        }
+
+        window.buscarRutas = buscarRutas;
+    </script>
+    
+</body>
+</html>

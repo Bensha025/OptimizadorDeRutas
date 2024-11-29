@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Guía</title>
+</head>
+<body>
+    <h2>Bucar guía</h2>
+    <label for="guia">Ingrese su número de guía (Recuerda que son 7 diguitos)</label><br>
+    <input type="text" name="guia" id="guia" placeholder="Ejemplo:1234567"> <br>
+    <button type="button" onclick="consultar()">Consultar</button> <br><br>
+    <div class="estatus"></div>
+    <script type="module">
+        import { buscarGuia } from './Funciones/buscarGuia.js';
+
+        async function consultar(){
+            const numeroGuia = document.getElementById("guia").value; // Obtienes el valor como cadena
+
+            if (numeroGuia.length === 7 && !isNaN(numeroGuia)) { // Verificamos que la longitud sea 7 y que sea un número
+                buscarGuia(parseInt(numeroGuia));
+
+            } else {
+                alert("Error al ingresar el número de guía. \nEl número debe contener 7 dígitos");
+                document.getElementById("guia").value = "";
+            }
+        }
+
+        window.consultar = consultar;
+    </script>
+</body>
+</html>
