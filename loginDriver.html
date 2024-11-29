@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Driver</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
     <div class="form">
@@ -27,7 +28,7 @@
             if (correo != "" && pass != ""){ // Validamos que no este vacio.
                 validaDriver(correo,pass); // Pasamos los datos a una funcion externa para validar la info.
             } else {
-                alert("Por favor, completa todos los campos.");
+                swal("Por favor, completa todos los campos.");
             }
         }
 

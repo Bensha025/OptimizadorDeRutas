@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-	<link rel="stylesheet" href="css/toast-styles.css"/>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="icon" href="img/Logo - icon.png">
     <title>πTech | Login </title>
@@ -22,9 +21,9 @@
         </div>
         <nav class="navigation">
             <a href="home.html">Inicio</a>
-            <a href="#">Acerca de nosotros</a>
-            <a href="#">Contactanos</a>
-            <a href="registro_driver.html" class="btnLogin-popup">Login</a>
+            <a href="home.html">Acerca de nosotros</a>
+            <a href="home.html">Contactanos</a>
+            <a href="registrarDriver.html" class="btnLogin-popup">Login</a>
         </nav>
     </header>
 
@@ -45,7 +44,6 @@
                     <ion-icon name="lock-closed-outline"></ion-icon>
                     <input type="password" name="passi" id="passi" placeholder="Password">
                 </div>
-                <a href="#">Olvidaste tu contraseña?</a>
                 <div class="contenedor-botones" id="contenedor-botones">
                     <button type="submit" value="probar" id="probar" class="botton">INICIAR SESION</button>
                 </div>
@@ -55,18 +53,14 @@
     <div class="container-form">
         <form class="sign-up">
             <h2>Registrarse</h2>
-            <div class="social-networks">
-                <ion-icon name="logo-google"></ion-icon>
-                <ion-icon name="logo-facebook"></ion-icon>
-            </div>
             <span>Ingrese los siguientes datos para registrarse</span>
             <div class="container-input">
                 <ion-icon name="person-circle-outline"></ion-icon>
-                <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario">
+                <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del usuario" onblur="validaNombre();">
             </div>
             <div class="container-input">
                 <ion-icon name="person-circle-outline"></ion-icon>
-                <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario">
+                <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del usuario" onblur="validaApellido();">
             </div>
             <div class="container-input">
                 <ion-icon name="mail-outline"></ion-icon>
@@ -78,18 +72,35 @@
             </div>
             <div class="container-input">
                 <ion-icon name="car-outline"></ion-icon>
-                <input type="text" name="carro" id="carro" placeholder="Ingrese la marca del carro">
+                <select name="carro" id="carro">
+                    <option value="0">Selecciona el modelo de tu auto</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="otro">otro</option>
+                </select><br>
             </div>
-            <select name="modelo" id="modelo">
-                <option value="0">Selecciona el modelo de tu vehículo</option>
-            </select><br>
+            <div class="container-input">
+                <ion-icon name="car-outline"></ion-icon>
+                <select name="modelo" id="modelo">
+                    <option value="0">Selecciona el año de tu vehículo</option>
+                </select><br>
+            </div>
             <div class="container-input">
                 <p>Suba su foto</p>
                 <input type="file" name="archivo" id="archivo">
             </div>
             <div class="container-input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña" required>
+                <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña" onblur="validaPass();">
+            </div>
+            <div class="remember-forgot">
+                <label>
+                    <input type="checkbox" required> Yo acepto los 
+                    <a href="tym.html">términos y condiciones</a>
+                </label>
             </div>
             <button type="submit" value="Enviar" id="enviar" class="botton">REGISTRARSE</button>
         </form>
@@ -152,12 +163,35 @@
             select.appendChild(opcion);
         }
     </script>
-    <script type="module">
+    <script type="module">        
         // Importamos funciones externas.
         import { driverUser } from './Funciones/altasUsuarios.js';
         import { validarCorreoDriver } from './Funciones/altasUsuarios.js'
         import { db, storage} from './Funciones/firebaseConect.js';
         import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
+
+        function validaNombre(){
+            const usuario = document.getElementById("usuario").value.trim();
+            const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
+
+            if (!regex.test(usuario)) {
+                swal('Error','El nombre es invalido','error');
+                document.getElementById("usuario").value = '';
+            }
+        }
+        window.validaNombre = validaNombre;
+        
+        function validaApellido(){
+            const apellido = document.getElementById("apellido").value.trim();
+            const regex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
+
+            if (!regex.test(apellido)) {
+                swal('Error','El nombre es invalido','error');
+                document.getElementById("apellido").value = '';
+            } 
+        }
+        window.validaApellido = validaApellido;
+
 
         // Validamos el número de telefono.
         function validarNumero(){
@@ -176,7 +210,7 @@
             if (correo.includes("@")) {
                 const resultado = await validarCorreoDriver(correo);
                 if(resultado == 1){
-                    swal('Excelente','Correo registrado','error');
+                    swal('Error','Correo registrado','error');
                     document.getElementById("correo").value = "";
                 }
             }else{
@@ -186,6 +220,7 @@
         }
 
         window.validaCorreo = validaCorreo;
+
         
         // Almacena la imagen.
         async function uploadFile(file){
@@ -196,6 +231,20 @@
             
             return url;
         }
+
+
+        //Validacion de contraseñas
+        function validaPass(){
+            const pass = document.getElementById("pass").value.trim();
+            const regex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+            if (!regex.test(pass)){
+                document.getElementById("pass").value = '';
+                swal('Atencion','La contraseña tiene que tener 5-6 caracteres como maximo y minimo una MAYUSCULA, una MINUSCULA y un numero','info');
+            }
+        }
+        window.validaPass = validaPass;
+
 
         // Valida el formulario para enviarlo a la base de datos.
         async function validar(){
@@ -244,50 +293,4 @@
             validar(); 
         });
     </script>
-
-    <!-- APARTADO DE NOTIFICACIONES PARA EL SISTEMA DE VALIDACIONES -->
-
-    <div class="contenedor-toast" id="contenedor-toast">
-             <!-- <div class="toast exito" id="1">
-                <div class="contenido">
-                    <div class="icono">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
-                        </svg>
-                    </div>
-                    <div class="texto">
-                        <p class="titulo">Felicidades!</p>
-                        <p class="descripcion">Usted se a registrado de manera correcta</p>
-                    </div>
-                </div>
-                <button class="btn-cerrar">
-                    <div class="icono">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                        </svg>
-                    </div>
-                </button>
-            </div>
-            <div class="toast error" id="2">
-                <div class="contenido">
-                    <div class="icono">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353zM8 4c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995A.905.905 0 0 1 8 4m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                          </svg>
-                    </div>
-                    <div class="texto">
-                        <p class="titulo">Error!</p>
-                        <p class="descripcion">No ha completado el apartado de registro</p>
-                    </div>
-                </div>
-                <button class="btn-cerrar">
-                    <div class="icono">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                          </svg>
-                    </div>
-                </button>
-            </div> -->
-    </div>
-
 </html>

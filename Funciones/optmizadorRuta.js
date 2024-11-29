@@ -1,5 +1,5 @@
 import { db } from './firebaseConect.js'; // Importamos la conexión a la base de datos.
-import { collection, query, where, getDocs, addDoc, doc, updateDoc  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { collection, query, where, getDocs, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 // Función para obtener los datos de Firestore.
 export async function obtenerRuta() {
@@ -11,32 +11,33 @@ export async function obtenerRuta() {
     try {
         const snapshot = await getDocs(consulta);
         if (snapshot.empty) {
-            alert("No hay rutas para optimizar.");
-            console.log("No hay datos disponibles.");
+            console.log("No hay rutas para optimizar.");
+            swal("No hay rutas para optimizar.");
             return;
         }
 
         snapshot.forEach(doc => {
             const data = doc.data();
-            const ubicacion = data.ubicacion;
-            const id = doc.id; // Guardamos el ID de la dirección
-
-            direcciones.push({ ubicacion, id });
+            if (data.coordenadas) {
+                const { lat, lon } = data.coordenadas;
+                if (lat !== undefined && lon !== undefined) {
+                    direcciones.push({ coordenadas: { lat, lon }, id: doc.id });
+                } else {
+                    console.warn(`Coordenadas inválidas para el documento ID: ${doc.id}`);
+                }
+            }
         });
-
-        optimizarRuta(direcciones);
+        console.log(direcciones.length)
+        if (direcciones.length > 1) {
+            await optimizarRuta(direcciones);
+        } else {
+            console.log("No hay direcciones con coordenadas válidas.");
+            swal("El número de rutas para optimizar es menor, intente mas tarde.");
+        }
 
     } catch (error) {
         console.error("Error al obtener los datos: ", error);
     }
-}
-
-// Geocodificación de direcciones usando Fetch API en lugar de `require`
-async function geocodificar(direccion) {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccion)}`;
-    const response = await fetch(url, { headers: { 'User-Agent': 'cctmexico' } });
-    const data = await response.json();
-    return data.length ? { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) } : null;
 }
 
 // Calcular distancia de Haversine entre dos coordenadas
@@ -52,25 +53,23 @@ function haversine(coord1, coord2) {
 // Guardar lote en Firebase con todas las coordenadas en un solo documento
 async function guardarLoteEnFirebase(loteId, paquetes) {
     const lotesRef = collection(db, "lotes");
-
-    // Crear el documento del lote con las coordenadas e IDs de direcciones
     const loteDoc = {
         id_lote: loteId,
-        coordenadas: paquetes.map(paquete => ({ lat: paquete.lat, lon: paquete.lon, direccionId: paquete.id })), // Almacena todas las coordenadas y los IDs de las direcciones
+        coordenadas: paquetes.map(paquete => ({
+            lat: paquete.lat,
+            lon: paquete.lon,
+            direccionId: paquete.id
+        })),
         estatus: 0
     };
 
     try {
-        // Guardar el lote en la colección 'lotes'
         await addDoc(lotesRef, loteDoc);
-
-        // Actualizar el estatus de cada dirección en 'direcciones'
         for (const paquete of paquetes) {
-            const editarEstatus = doc(db, "direcciones", paquete.id);
-            await updateDoc(editarEstatus, { agregado: true });
+            const direccionRef = doc(db, "direcciones", paquete.id);
+            await updateDoc(direccionRef, { agregado: true });
         }
-        
-        console.log(`Lote ${loteId} añadido a Firebase con ${paquetes.length} coordenadas`);
+        console.log(`Lote ${loteId} añadido a Firebase con ${paquetes.length} coordenadas.`);
     } catch (error) {
         console.error("Error al guardar lote en Firebase: ", error);
     }
@@ -86,58 +85,48 @@ async function optimizacionRutaAEstrella(coordenadas, maxDistanciaKm = 5, minPaq
 
         let lote = [coordenadas[i]];
         visitados.add(i);
-        const monton = [];
+
+        const proximos = [];
 
         for (let j = 0; j < coordenadas.length; j++) {
-            if (j !== i && !visitados.has(j)) {
+            if (i !== j && !visitados.has(j)) {
                 const distancia = haversine(coordenadas[i], coordenadas[j]);
                 if (distancia <= maxDistanciaKm) {
-                    monton.push({ distancia, coord: coordenadas[j], index: j });
+                    proximos.push({ distancia, coord: coordenadas[j], index: j });
                 }
             }
         }
 
-        monton.sort((a, b) => a.distancia - b.distancia);
+        proximos.sort((a, b) => a.distancia - b.distancia);
 
-        while (monton.length && lote.length < maxPaquetes) {
-            const { distancia, coord, index } = monton.shift();
-            if (!visitados.has(index) && distancia <= maxDistanciaKm) {
-                lote.push(coord);
-                visitados.add(index);
-            }
+        while (proximos.length && lote.length < maxPaquetes) {
+            const { coord, index } = proximos.shift();
+            lote.push(coord);
+            visitados.add(index);
         }
 
         if (lote.length >= minPaquetes) {
-            const loteId = Math.floor(Math.random() * 9000) + 1000; // Genera un ID de 4 dígitos
+            const loteId = Math.floor(Math.random() * 9000) + 1000;
             lotes.push({ id: loteId, paquetes: lote });
         }
     }
-    console.log(lotes);
     return lotes;
 }
 
-// Función principal para obtener rutas
+// Función principal para optimizar rutas
 async function optimizarRuta(direcciones) {
-    console.log(direcciones)
-    const inicio = Date.now();
-    const coordenadas = [];
+    console.log("Iniciando optimización de rutas...");
+    const coordenadas = direcciones.map(direccion => ({
+        ...direccion.coordenadas,
+        id: direccion.id
+    }));
 
-    for (const direccion of direcciones) {
-        const ubicacion = await geocodificar(direccion.ubicacion);
-        if (ubicacion) {
-            coordenadas.push({ ...ubicacion, id: direccion.id }); // Incluimos el ID de la dirección
-        }
-    }
-    
-    const fin = Date.now();
-    console.log(`Tiempo de geocodificación: ${(fin - inicio) / 1000} segundos`);
-    
     const lotes = await optimizacionRutaAEstrella(coordenadas);
-    
-    // Guardar cada lote en Firebase
+
     for (const lote of lotes) {
-        console.log(`Guardando lote ID ${lote.id} con ${lote.paquetes.length} coordenadas`);
-        await guardarLoteEnFirebase(lote.id, lote.paquetes); // Guardar todas las coordenadas del lote en un solo documento
+        await guardarLoteEnFirebase(lote.id, lote.paquetes);
     }
-    alert("Se han optimizado las rutas.");
+
+    console.log("Optimización completada.");
+    swal("Se han optimizado las rutas.");
 }

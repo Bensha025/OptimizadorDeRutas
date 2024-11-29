@@ -4,15 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Administrador</title>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/alphardex/aqua.css@master/dist/aqua.min.css'>
+    <link rel="stylesheet" href="/styles/transicion.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="cssq/load.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
-    <form  >
-        <input type="text" name="usuario" id="usuario" placeholder="Ingrese el nombre del administador"> <br>
-        <input type="text" name="apellido" id="apellido" placeholder="Ingrese el apellido del administador"> <br>
-        <input type="text" name="correo" id="correo" placeholder="Ingrese el correo del administrador" onblur="validaCorreo();"> <br>
-        <input type="file" name="archivo" id="archivo"> <br>
-        <input type="password" name="pass" id="pass" placeholder="Ingrese su contraseña"> <br><br>
-        <input type="submit" value="Enviar" id="enviar">
+    <form class="form">
+        <div class="login-form" action="javascript:void(0);">
+            <h1>Registrarse</h1>
+            <div class="form-input-material">
+                <input type="text" name="usuario" id="usuario" placeholder=" " autocomplete="off" class="form-control-material" required"> <br>
+                <label for="nombre">Nombre</label>
+            </div>
+            <div class="form-input-material">
+                <input type="text" name="apellido" id="apellido" placeholder=" " autocomplete="off" class="form-control-material" required"> <br>
+                <label for="apellido">Apellido</label>
+            </div>
+            <div class="form-input-material">
+            <input type="text" name="correo" id="correo" placeholder=" " autocomplete="off" class="form-control-material" required"> <br>
+            <label for="correo">Correo</label>
+            </div>
+            <div class="form-input-material">
+                <input type="file" name="archivo" id="archivo" placeholder=" " autocomplete="off" class="form-control-material" required"> <br>
+                <label for="file"></label>
+            </div>
+            <div class="form-input-material">
+                <input type="password" name="pass" id="pass" placeholder=" " autocomplete="off" class="form-control-material" required"> <br>
+                <label for="pass">Contraseña</label>
+            </div>
+            <button type="submit" value="Enviar" id="enviar" class="btn btn-primary btn-ghost">Enviar</button>
+        </div>
     </form>
 </body>
     <script src="lib/jquery-3.3.1.min.js"></script>
@@ -30,12 +54,12 @@
             if (correo.includes("@")) {
                 const resultado = await validarCorreoAdmin(correo);
                 if(resultado == 1){
-                    alert("Correo registrado");
+                    swal("Correo registrado");
                     document.getElementById("correo").value = "";
                 }
             }else{
                 document.getElementById("correo").value = "";
-                alert("Ingresa un correo valido.")
+                swal("Ingresa un correo valido.")
             }
         }
 
@@ -79,10 +103,10 @@
                     adminUser(adminData);
                 } catch (error){
                     console.error("Error al subir el archivo:", error);
-                    alert("Error al subir el archivo. Inténtalo de nuevo.");
+                    swal("Error al subir el archivo. Inténtalo de nuevo.");
                 }
             } else{
-                alert("Por favor, completa todos los campos.");
+                swal("Por favor, completa todos los campos.");
             }
         }
 

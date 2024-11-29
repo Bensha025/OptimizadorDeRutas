@@ -9,23 +9,32 @@
     <link rel="icon" href="img/Logo - icon.png">
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/alphardex/aqua.css@master/dist/aqua.min.css'>
     <link rel="stylesheet" href="/styles/transicion.css">
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="stylesheet" href="cssq/load.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
     <div class="form">
         <form class="login-form" action="javascript:void(0);">
             <h1>Inicia Sesion</h1>
             <div class="form-input-material">
-            <input type="text" name="correo" id="correo" placeholder=" " autocomplete="off" class="form-control-material" required />
-            <label for="correo">Correo</label>
+                <input type="text" name="correo" id="correo" placeholder=" " autocomplete="off" class="form-control-material" required />
+                <label for="correo">Correo</label>
             </div>
+                <div class="form-input-material">
+                <input type="password" name="pass" id="pass" placeholder=" " autocomplete="off" class="form-control-material" required />
+                <label for="pass">Contraseña</label>
+            </div>
+            <button type="submit" value="Enviar" id="enviar" class="btn btn-primary btn-ghost">Enviar</button><br>
             <div class="form-input-material">
-            <input type="password" name="pass" id="pass" placeholder=" " autocomplete="off" class="form-control-material" required />
-            <label for="pass">Contraseña</label>
+                <a class="btn btn-primary btn-ghost" href="registrarAdministrador.html">Registrar</a><br>
             </div>
-            <button type="submit" value="Enviar" id="enviar" class="btn btn-primary btn-ghost">Enviar</button>
         </form>
     </div>
+
+    
 </body>
+
     <script src="lib/jquery-3.3.1.min.js"></script>
     <script type="module" src="/Funciones/firebaseConect.js"></script>
     <script type="module">
@@ -39,7 +48,7 @@
             if (correo != "" && pass != ""){ // Validamos que no este vacio.
                 validarUser(correo,pass); // Pasamos los datos a una funcion externa para validar la info.
             } else {
-                alert("Por favor, completa todos los campos.");
+                swal("Por favor, completa todos los campos.");
             }
         }
 

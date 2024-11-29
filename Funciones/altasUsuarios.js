@@ -29,8 +29,6 @@ export async function driverUser(userData){ // Guarda al driver.
         const docRef = await addDoc(collection(db, "driver"), userData);
         console.log("Usuario guardado con ID: ", docRef.id);
         alert("Usuario guardado con éxito");
-        // Redirigir al Driver a su guía
-            window.location.href = "driver_seleccion.html";
     } catch (error) {
         console.error("Error al guardar los datos: ", error);
         alert("Error al guardar usuario");

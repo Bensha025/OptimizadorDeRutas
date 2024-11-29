@@ -10,8 +10,14 @@ export async function buscaCoordenadas(numeroLote) {
 
         if (obtenerLote.empty) {
             console.log("No hay datos disponibles.");
-            alert("No hay datos disponibles.");
-            window.location.href = `tomarRuta.html`;
+            swal({
+                title: "¡No hay datos disponibles o esta ruta ya fue tomada por otro driver!",
+                text: "Vuelve a intentarlo",
+                icon: "warning"
+            }).then(() => {
+                // Recargar la página después de cerrar la alerta
+                window.location.href = `tomarRuta.html`;
+            });
             return;
         }
 
@@ -27,6 +33,13 @@ export async function buscaCoordenadas(numeroLote) {
 
     } catch (error) {
         console.error("Error al obtener los datos: ", error);
-        alert("Hubo un error al obtener los datos.");
+        swal({
+            title: "¡Hubo un error al obtener los datos!",
+            text: "Vuelve a intentarlo",
+            icon: "warning"
+        }).then(() => {
+            // Recargar la página después de cerrar la alerta
+            window.location.href = `tomarRuta.html`;
+        });
     }
 }

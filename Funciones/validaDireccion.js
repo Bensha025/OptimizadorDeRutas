@@ -11,7 +11,7 @@ export async function obtenerCoordenadas(direccion) {
   
     if (data.length > 0) {
       const coordenadas = { lat: data[0].lat, lon: data[0].lon };
-      return 1;
+      return coordenadas;
     } else {
       alert("Dirección no válida.")
       console.log("Dirección no válida.");
@@ -22,48 +22,49 @@ export async function obtenerCoordenadas(direccion) {
 }
 
 export async function guardarDirec(direccionData) {
+  console.log("Conectado:", direccionData);
 
-  console.log("conectado", direccionData);
   try {
-    //enviarCorreo(direccionData);
+    // Guarda la dirección en Firestore
     const docRef = await addDoc(collection(db, "direcciones"), direccionData);
     console.log("Dirección guardada con ID: ", docRef.id);
-    alert("Dirección guardada con éxito");
-    alert("Su numero de guia es: " + direccionData.guia);
 
-    location.reload();
+    // Envía el correo
+    // await enviarCorreo(direccionData);
+    // console.log("Correo enviado correctamente");
+
+    // Retorna el número de guía si todo fue exitoso
+    return direccionData.guia;
+
   } catch (error) {
+    // Maneja errores durante el proceso
     console.error("Error al guardar los datos: ", error);
-    alert("Error al guardar la dirección");
+    alert("Error al guardar la dirección: " + error.message);
   }
-
 }
 
-export function enviarCorreo(direccionData){
-  // Inicializa EmailJS con tu API Key
-  emailjs.init('TKe2d8116SCmfmd7u'); 
+export async function enviarCorreo(direccionData) {
+  // Asegúrate de inicializar EmailJS solo una vez
+  try {
+    emailjs.init('TKe2d8116SCmfmd7u'); // Asegúrate de usar tu API Key válida
 
-  // Obtenemos los valores de direccionData
-  const nombre = direccionData.nombre;
-  const correo = direccionData.correo;
-  const guia = direccionData.guia;  // Corregido: ahora usa direccionData.guia
+    // Prepara los parámetros del correo
+    const templateParams = {
+      from_name: direccionData.nombre || "Usuario",
+      to_name: 'πTech', // Puede ser un destinatario genérico
+      from_email: "pitech.noreply@gmail.com",
+      to_email: direccionData.correo || "default@correo.com", // Evita enviar correo vacío
+      message: `Hola ${direccionData.nombre || "Usuario"}, recuerda que tu número de guía es: ${direccionData.guia || "N/A"}`
+    };
 
-  // Parámetros que se envían a EmailJS
-  const templateParams = {
-    from_name: nombre,
-    to_name: 'πTech', // Puede ser tu propio correo
-    from_email: "pitech.noreply@gmail.com",
-    to_email: correo,
-    message: `Hola ${nombre}, ¿Dónde está mi paquete? Recuerda, tu número de guía es: ${guia}`
-  };
+    // Envía el correo con EmailJS
+    const response = await emailjs.send("service_7ddyizh", "template_7lbh886", templateParams);
+    console.log('Correo enviado con éxito:', response);
+    alert("Número de guía enviado al correo con éxito.");
 
-  // Enviar el correo utilizando EmailJS
-  emailjs.send("service_7ddyizh", "template_7lbh886", templateParams)
-    .then(function(response) {
-        console.log('Correo enviado con éxito:', response);
-        alert("Número de guía enviado al correo con éxito.");
-    }, function(error) {
-        console.log('Error al enviar correo:', error);
-        alert("ERROR AL ENVIAR EL CORREO.");
-    });
+  } catch (error) {
+    // Maneja errores al enviar el correo
+    console.error("Error al enviar el correo: ", error);
+    alert("Error al enviar el correo: " + error.message);
+  }
 }

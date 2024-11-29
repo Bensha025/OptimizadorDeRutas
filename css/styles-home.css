@@ -141,7 +141,7 @@ header::after{
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("../img/fondo.jpg") no-repeat center;
+    background: url("../img/fondo-a.jpg") no-repeat center;
     background-attachment: fixed;
     background-size: cover;
 }
@@ -151,12 +151,14 @@ header::after{
     font-size: 60px;
     font-weight: 600;
     text-transform: uppercase;
-    color: white;
+    color: black;
 }
 p {
     margin-bottom: 40px;
     font-size: 20px;
-    color: white;
+    color: black;
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 1.2));
+    font-weight: bold;
     padding: 0 100px;
 }
 
@@ -216,14 +218,14 @@ p {
     margin: 2rem;
 }
 
-.box-container .icono{
-    height: 3rem;
-    width: 3rem;
-    line-height: 3rem;
+.box-container .box i{
+    height: 4rem;
+    width: 4rem;
+    line-height: 4rem;
     text-align: center;
-    border-radius: 50%;
-    color: white;
-    background-color: #608BC1;
+    border-radius: 40%;
+    color: black;
+    background-color: white;
     font-size: 2rem;
     margin: 1rem 0;
 }
@@ -240,7 +242,7 @@ p {
 
 .content-contact{
     padding: 120px;
-    background: url("../img/fondo.jpg") no-repeat center;
+    background-color: white;
     background-attachment: fixed;
     background-size: cover;
     text-align: center;

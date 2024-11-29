@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <style>
         html, body { height: 100%; margin: 0; padding: 0; }
@@ -27,18 +28,244 @@
         #boton-cambiar-estilo:hover {
             background-color: #0056b3;
         }
+        #direc {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .iconoFlotante {
+            position: fixed;
+            top: 20px;  /* Distancia desde el fondo de la pantalla */
+            right: 250px;   /* Distancia desde el lado derecho */
+            font-size: 40px;  /* Tamaño del ícono */
+            color: #007bff;  /* Color del ícono */
+            cursor: pointer;  /* Cambia el cursor al pasar por encima */
+            z-index: 1000;  /* Asegura que el ícono esté sobre otros elementos */
+        }
+
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+            justify-content: center;
+            align-items: center; /* Centra vertical y horizontalmente */
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%; /* Ancho adaptable a pantallas pequeñas */
+            max-width: 400px; /* Limita el ancho en pantallas grandes */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .modal-content button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comenzar {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .simular {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .contenedorForm{
+            display: none;
+        }
+
+        .form {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+            justify-content: center;
+            align-items: center; /* Centra vertical y horizontalmente */
+            z-index: 2000;
+        }
+
+        .form-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%; /* Ancho adaptable a pantallas pequeñas */
+            max-width: 450px; /* Limita el ancho en pantallas grandes */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        #infoUser  {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más bonita */
+            background-color: #ffffff; /* Fondo blanco */
+            border: 2px solid #ddd; /* Borde gris claro */
+            border-radius: 10px; /* Bordes redondeados */
+            padding: 20px; /* Espacio interno */
+            margin-bottom: 20px; /* Espacio inferior */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            width: 400px; /* Ancho fijo para un diseño cuadrado */
+        }
+
+        /* Estilo del contenedor del formulario */
+        #formEntrega {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más bonita */
+            background-color: #ffffff; /* Fondo blanco */
+            border: 2px solid #ddd; /* Borde gris claro */
+            border-radius: 10px; /* Bordes redondeados */
+            padding: 20px; /* Espacio interno */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            width: 400px; /* Ancho fijo para un diseño cuadrado */
+        }
+
+        /* Centrar texto dentro del contenedor */
+        #infoUser , #formEntrega {
+            text-align: center; /* Centrar texto */
+        }
+
+        /* Estilo para los labels de los radio buttons */
+        label {
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: block; /* Asegura que cada label esté en una línea nueva */
+        }
+
+        /* Estilo para los radio buttons */
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Estilo para el contenedor de entrada adicional */
+        #extraInputContainer {
+            margin-top: 10px;
+        }
+
+        /* Estilo para el campo de texto adicional */
+        #extraInputContainer input[type="text"] {
+            width: 100%; /* Ancho completo */
+            padding: 10px; /* Espacio interno */
+            border: 1px solid #ccc; /* Borde gris */
+            border-radius: 4px; /* Bordes redondeados */
+            font-size: 16px; /* Tamaño de fuente */
+        }
+
+        /* Estilo para los botones */
+        button {
+            background-color: #28a745; /* Color verde para el botón de enviar */
+            color: white; /* Texto blanco */
+            border: none; /* Sin borde */
+            border-radius: 4px; /* Bordes redondeados */
+            padding: 10px 15px; /* Espacio interno */
+            font-size: 16px; /* Tamaño de fuente */
+            cursor: pointer; /* Cambia el cursor al pasar */
+            margin-top: 10px; /* Espacio superior */
+            margin-right: 10px; /* Espacio entre botones */
+            transition: background-color 0.3s; /* Transición suave */
+        }
+
+        /* Estilo para el botón de entrega fallida */
+        button:nth-of-type(2) {
+            background-color: #dc3545; /* Color rojo para el botón de entrega fallida */
+        }
+
+        /* Efecto hover para los botones */
+        button:hover {
+            background-color: #218838; /* Color más oscuro para el botón de enviar */
+        }
+
+        button:nth-of-type(2):hover {
+            background-color: #c82333; /* Color más oscuro para el botón de entrega fallida */
+        }
+
+        /* Estilo para los mensajes de alerta */
+        .alert {
+            color: red; /* Color rojo para alertas */
+            font-weight: bold; /* Negrita */
+            margin-top: 10px; /* Espacio superior */
+        }
     </style>
 </head>
 <body>
+    <a id="enlaceLote" href="reporte.html" class="iconoFlotante">
+        <i class="fa-solid fa-circle-info"></i>
+    </a>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Elige una opción</h2>
+            <button class="comenzar" onclick="comenzarRuta()">Comenzar Ruta</button>
+            <button class="simular" onclick="simularRuta()">Simular Ruta</button>
+        </div>
+    </div>
+    <div id="contenedorForm" class="contenedorForm">
+        <div id="form" class="form">
+            <div class="form-content">
+                <div id="infoUser"></div>
+                <div id="formEntrega"></div>
+            </div>
+        </div>
+    </div>    
     <div id="mi_mapa"></div>
     <button id="boton-cambiar-estilo">Cambiar a estilo oscuro</button>
-
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src='https://unpkg.com/leaflet.marker.slideto@0.2.0/Leaflet.Marker.SlideTo.js'></script>
+    <script>
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        
+       if (!sessionStorage.getItem('nombreUser')) {
+           window.location.href = 'loginDriver.html';
+       } else {
+           const idUsuario = sessionStorage.getItem('idUser');
+           const nombreUsuario = sessionStorage.getItem('nombreUser');
+           const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+           console.log(`Nombre: ${nombreUsuario}`);
+           console.log(`Apellido: ${apellidoUsuario}`);
+        }
+    </script>
     <script type="module">
         import { buscaCoordenadas } from './Funciones/buscarRuta.js';
+        import { modificarEstadoPaquete } from './Funciones/estadoPaquete.js';
+        import { modificarRecibido } from './Funciones/estadoPaquete.js';
+        import { modificarEntrega } from './Funciones/estadoPaquete.js';
+        import { consultaEstatusPaquete } from './Funciones/estadoPaquete.js';
+        import { obtenerInfoUsuario } from './Funciones/infoUsuario.js';
+        import { calcularRutaCompleta } from './Funciones/calcularRuta.js';
+        import { historialHora } from './Funciones/estadoPaquete.js';
+        import { modificarEstatusAdmin } from './Funciones/estadoPaquete.js';
 
         const params = new URLSearchParams(window.location.search);
         const numeroLote = parseInt(params.get('num'));
+
+        // Manda el lote al reportar un percance
+        const enlace = document.getElementById('enlaceLote');
+        enlace.href = `reporte.html?num=${numeroLote}`;
 
         let coordenadas;
 
@@ -47,7 +274,6 @@
         }
 
         await obterInfo();
-
 
         // Inicializa el mapa con estilo "Voyager" (estilo claro)
         let map = L.map('mi_mapa').setView([20.6665, -103.3487], 10);
@@ -70,13 +296,24 @@
             maxZoom: 18
         });
 
-
-
         // Añade el estilo normal inicialmente
         estiloNormal.addTo(map);
 
         // Estado inicial
         let esEstiloOscuro = false;
+
+        //Configuracion de hora.
+        const hora = new Date();
+        const opciones = {
+            weekday: 'long', // día de la semana
+            year: 'numeric',
+            month: 'long', // mes en texto (ejemplo: noviembre)
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+
+        const fechaYhora = new Intl.DateTimeFormat('es-ES', opciones).format(hora);
 
         // Cambia el estilo al presionar el botón
         document.getElementById('boton-cambiar-estilo').addEventListener('click', () => {
@@ -91,52 +328,498 @@
             }
             esEstiloOscuro = !esEstiloOscuro;
         });
-
-        const apiKey = '5b3ce3597851110001cf6248dbd8021674c347ecacee268e7e4915ac';
         
-        function trazarRuta() {
-            const coordenadasArray = Object.values(coordenadas); // Convertir coordenadas en un array para recorrer por índice
+        const coordenadasArray = Object.values(coordenadas); // Convertir coordenadas en un array para recorrer por índice
+        console.log(coordenadasArray)
+        let marcadores = [];
+        let direccionesEntrega = [];
+        // Agregar marcadores en el mapa para cada coordenada
+        coordenadasArray.forEach( async (coordenada, index) => {
+            let consultaEstatus = await consultaEstatusPaquete(coordenada.direccionId);
+            if (consultaEstatus[0] === 4){
+                estadoPaquete(consultaEstatus[1], 0, coordenada.lat, coordenada.lon)
+            }else if (consultaEstatus[0] === 5) {
+                estadoPaquete(consultaEstatus[1], 2, coordenada.lat, coordenada.lon)
+            } else if (consultaEstatus[0] === 6){
+                estadoPaquete(consultaEstatus[1], 1, coordenada.lat, coordenada.lon)
+            }else {
+                let estatusAsignado = await modificarEstadoPaquete(coordenada.direccionId, 1);
+                let agregarHora = historialHora(coordenada.direccionId, 1, fechaYhora);
+                historialHora(coordenada.direccionId, 2, fechaYhora);
+                await modificarEstatusAdmin(numeroLote, 2);
 
-            // Agregar marcadores en el mapa para cada coordenada
-            coordenadasArray.forEach((coordenada, index) => {
-                L.marker([coordenada.lat, coordenada.lon]).addTo(map)
-                    .bindPopup('Dirección número: ' + (index + 1)).openPopup();
-            });
-
-            // Función para obtener la ruta entre dos puntos consecutivos
-            function obtenerRuta(inicio, destino) {
-                return fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${inicio.lon},${inicio.lat}&end=${destino.lon},${destino.lat}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        return data.features[0].geometry.coordinates.map(coord => [coord[1], coord[0]]);
-                    })
-                    .catch(error => {
-                        console.error('Error al obtener la ruta:', error);
-                        return [];
-                    });
+                if(agregarHora){
+                    let marcador = L.marker([coordenada.lat, coordenada.lon]).addTo(map)
+                    .bindPopup('Dirección número: ' + (index + 1));
+                
+                    marcadores.push(marcador); 
+                    
+                    let lat = coordenada.lat.toString().slice(0, 9); // Limita lat a 9 caracteres
+                    let lon = coordenada.lon.toString().slice(0, 10); // Limita lon a 10 caracteres
+                    direccionesEntrega.push([lat, lon]);
+                } 
+                
             }
+            let estatusAsignado = await modificarEstadoPaquete(coordenadasArray[0].direccionId, 2);
+        });       
 
-            // Función para calcular la ruta completa recorriendo todas las direcciones
-            async function calcularRutaCompleta() {
-                let rutasCompletas = [];
+        async function elegirRuta(){
+            modificarEstatusAdmin(numeroLote, 1);
+            document.getElementById("modal").style.display = "flex";
 
-                // Llamar a obtenerRuta para cada par de destinos consecutivos y unir las rutas
-                for (let i = 0; i < coordenadasArray.length - 1; i++) {
-                    const coordenadasRuta = await obtenerRuta(coordenadasArray[i], coordenadasArray[i + 1]);
-                    rutasCompletas = rutasCompletas.concat(coordenadasRuta);
-                }
-
-                // Traza la ruta completa en el mapa
-                const ruta = L.polyline(rutasCompletas, { color: 'blue', weight: 5 }).addTo(map);
-                map.fitBounds(ruta.getBounds());
+            function comenzarRuta(){
+                console.log("comenzar")
+                document.getElementById("modal").style.display = "none";
+                ubi();
             }
+            window.comenzarRuta = comenzarRuta;
 
-            // Llamamos a la función que calcula la ruta entre todos los destinos
-            calcularRutaCompleta();
+            function simularRuta(){
+                console.log("simulacion")
+                document.getElementById("modal").style.display = "none";
+                simularDriver();
+            }
+            window.simularRuta = simularRuta;
         }
 
-        // Llamar a la función trazarRuta
-        trazarRuta();
+        elegirRuta()        
+
+        // Ícono del driver
+        const customIcon = L.icon({
+            iconUrl: './img/entrega.png', // Cambia esta ruta por tu imagen personalizada
+            iconSize: [45, 45],
+            iconAnchor: [16, 32]
+        });
+
+        // Crear el marcador inicial en la ubicación por defecto
+        const markerDriver = L.marker([20.65652, -103.325269], { icon: customIcon }).addTo(map);
+
+        // Variables de geolocalización
+        let watchId; // Variable para almacenar el ID del rastreo
+
+        let ubiVisitadas = 0;
+        let ubicacionTiempoReal = false;
+
+        // Verificar si el navegador soporta geolocalización
+        if (!navigator.geolocation) {
+           console.log("Tu navegador no soporta la geolocalización.");
+        } else {
+            console.log("Iniciando seguimiento de ubicación...");
+        }
+
+        let coorDriver = 0;
+        function ubi(){
+            // Función para obtener la ubicación
+            const obtenerUbicacion = async () => {
+                const ruta = await calcularRutaCompleta(coordenadasArray, map);
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        console.log(`Latitud: ${latitude.toFixed(6)}, Longitud: ${longitude.toFixed(6)}`);
+                        console.log("Ubicación actualizada.");
+                        markerDriver.setLatLng([latitude, longitude]); // Ubicación real del driver.
+                        if (coorDriver === 0) {
+                            // Crear objeto con las coordenadas del conductor.
+                            const driverCoords = { lat: latitude, lon: longitude };
+                            console.log(driverCoords);
+
+                            // Agregar las coordenadas al inicio del arreglo coordenadasArray.
+                            coordenadasArray.unshift(driverCoords); // Modifica el arreglo original.
+                            console.log(coordenadasArray);
+
+                            // Calcular la ruta completa con las nuevas coordenadas.
+                            calcularRutaCompleta(coordenadasArray, map);
+
+                            // Incrementar el estado de coorDriver para que no vuelva a entrar en este bloque.
+                            coorDriver++;
+                        }
+                        
+                    },
+                    (error) => {
+                        // Manejar errores
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                console.log("El usuario denegó el permiso de ubicación.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                console.log("La información de ubicación no está disponible.");
+                                break;
+                            case error.TIMEOUT:
+                                console.log("La solicitud de ubicación se agotó.");
+                                break;
+                            default:
+                                console.log("Ocurrió un error desconocido.");
+                                break;
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true, // Intentar obtener la mejor precisión
+                        maximumAge: 0, // No usar caché de ubicaciones
+                        timeout: 5000, // Máximo tiempo para obtener una actualización
+                    }
+                );
+            };
+            setInterval(obtenerUbicacion, 4000)
+        }    
+        
+
+        async function simularDriver() {
+            try {
+                const ruta = await calcularRutaCompleta(coordenadasArray, map);
+                console.log("Ruta calculada:", ruta);
+                simularMovimientoRuta(ruta);
+            } catch (error) {
+                console.error("Error al calcular la ruta:", error);
+            }
+        }
+
+        // Variable para mantener el índice de la ruta y el estado global
+        let rutaIndex = 0;
+        let intervalId;
+
+        // Función para calcular la distancia entre dos coordenadas (en metros) usando la fórmula de Haversine
+        function calcularDistancia(lat1, lng1, lat2, lng2) {
+            const R = 6371e3; // Radio de la Tierra en metros
+            const rad = Math.PI / 180;
+            const dLat = (lat2 - lat1) * rad;
+            const dLng = (lng2 - lng1) * rad;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(lat1 * rad) * Math.cos(lat2 * rad) *
+                    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Retorna la distancia en metros
+        }
+
+        let entregaRealizada = false; // Bandera para controlar la entrega
+
+        async function simularMovimientoRuta(ruta) {
+            if (rutaIndex < ruta.length) {
+                const [lat, lng] = ruta[rutaIndex];
+
+                // Validar que direccionesEntrega y ubiVisitadas sean correctos
+                if (!direccionesEntrega || !direccionesEntrega[ubiVisitadas]) {
+                    console.error("Las direcciones de entrega o el índice no son válidos.");
+                    return;
+                }
+
+                const [latEntrega, lngEntrega] = direccionesEntrega[ubiVisitadas].map(coord => parseFloat(coord));
+
+                // Calcular la distancia al punto de entrega
+                const distancia = calcularDistancia(lat, lng, latEntrega, lngEntrega);
+
+                // Verificar si está dentro del rango de 200 metros
+                if (distancia <= 200 && !entregaRealizada || rutaIndex === ruta.length - 1) {
+                    if (!entregaRealizada) {  // Solo mover el marcador y entregar el paquete si no se ha entregado ya
+                        entregaRealizada = true; // Marca que el paquete ya fue entregado
+
+                        await entregarPaquete(latEntrega, lngEntrega); // Ejecutar la entrega
+                    }
+                } else {
+                    console.warn("No es un punto de entrega o está fuera del rango, continuando...");
+                }
+
+                // No mover el último marcador, solo los anteriores
+                if (rutaIndex < ruta.length - 1) {
+                    // Solo mover el marcador si no es el último punto de la ruta
+                    markerDriver.slideTo([lat, lng], {
+                        duration: 1000,
+                        keepAtCenter: true,
+                    });
+                }
+
+                // Manejar el marcador previo (si aplica)
+                if (rutaIndex > 0) {
+                    const [prevLat, prevLng] = ruta[rutaIndex - 1];
+                    const prevLatLng = [prevLat, prevLng];
+                    markerDriver.setLatLng(prevLatLng);
+                    console.log("Coordenada anterior:", prevLatLng);
+                }
+
+                rutaIndex++; // Incrementar el índice de la ruta
+            } else {
+                console.log("Ruta completada, reiniciando...");
+                clearInterval(intervalId); // Detener el intervalo
+            }
+        }
+
+
+        // Función para entregar un paquete en una ubicación específica
+        async function entregarPaquete(lat, lon) {
+            // Verificar si existe el marcador anterior y eliminarlo
+            if (marcadores[ubiVisitadas]) {
+                marcadores[ubiVisitadas].remove();
+            }
+
+            // Crear un nuevo marcador en la posición indicada
+            let marcador = L.marker([lat, lon])
+                .addTo(map)
+                .bindPopup(
+                    'Dirección número: ' +
+                    (ubiVisitadas + 1) +
+                    "<br><button id='entrega' onClick='realizarEntrega()'>Entregar paquete</button>"
+                )
+                .openPopup();
+        }
+
+        // Función para esperar el clic en un botón específico
+        async function realizarEntrega() {
+            let id = coordenadasArray[ubiVisitadas].direccionId;
+            const confirmar = confirm("¿Desea entregar el paquete?");
+            if(confirmar){
+                document.getElementById("contenedorForm").style.display = "block";
+                const info = await obtenerInfoUsuario(id);
+                console.log(info);
+
+                // Mostrar información del usuario
+                const infoContainer = document.getElementById("infoUser");
+                infoContainer.innerHTML = `<div><br>Genial, estás a punto de entregar el paquete para ${info.nombre} <br>
+                Recibe: ${info.nombre} ${info.apellido} <br>
+                Dirección : ${info.ubicacion} <br>
+                Teléfono : ${info.telefono}</div><br><br>
+                ¿Quien recibe?`;
+
+                // Verificar si el formulario ya existe
+                const formularioContainer = document.getElementById("formEntrega");
+                formularioContainer.innerHTML = ""; // Limpia el contenido anterior
+
+                // Crear el elemento del formulario
+                const formulario = document.createElement("form");
+
+                // Crear un contenedor para los radio buttons
+                const radioContainer = document.createElement("div");
+                radioContainer.setAttribute("id", "radioRecibe");
+
+                // Opciones de selección
+                const opciones = [info.nombre, "Familiar", "Vecino", "Otro"];
+                opciones.forEach(opcion => {
+                    // Crear un contenedor para cada radio button
+                    const label = document.createElement("label");
+                    label.style.display = "block"; // Opcional: Estilo para mostrar cada opción en una línea diferente
+
+                    // Crear el radio button
+                    const radio = document.createElement("input");
+                    radio.setAttribute("type", "radio");
+                    radio.setAttribute("name", "recibe");
+                    radio.setAttribute("value", opcion.toLowerCase());
+
+                    // Crear la etiqueta asociada al radio button
+                    const text = document.createTextNode(opcion);
+
+                    // Agregar el radio button y el texto al label
+                    label.appendChild(radio);
+                    label.appendChild(text);
+
+                    // Agregar el label al contenedor principal
+                    radioContainer.appendChild(label);
+
+                    // Agregar un evento para mostrar el campo adicional si la opción es "Otro"
+                    radio.addEventListener("change", () => {
+                        if (radio.value !== info.nombre.toLowerCase()) {
+                            extraInputContainer.style.display = "block";
+                        } else {
+                            extraInputContainer.style.display = "none";
+                        }
+                    });
+                });
+
+                // Crear un contenedor para el campo de texto adicional
+                const extraInputContainer = document.createElement("div");
+                extraInputContainer.setAttribute("id", "extraInputContainer");
+                extraInputContainer.style.display = "none";
+
+                // Crear el campo de texto adicional
+                const inputTexto = document.createElement("input");
+                inputTexto.setAttribute("type", "text");
+                inputTexto.setAttribute("name", "nombreExtra");
+                inputTexto.setAttribute("placeholder", "Ingrese el nombre");
+                extraInputContainer.appendChild(inputTexto);
+
+                // Crear un botón de envío
+                const botonEnviar = document.createElement("button");
+                botonEnviar.setAttribute("type", "button"); // Cambiar a tipo botón para manejar evento manualmente
+                botonEnviar.textContent = "Enviar";
+
+                // Crear un botón para indicar que no se encontró al destinatario
+                const botonEntregaFall = document.createElement("button");
+                botonEntregaFall.setAttribute("type", "button"); // Cambiar a tipo botón
+                botonEntregaFall.textContent = "No se encontró a " + info.nombre;
+
+                // Agregar un evento para manejar la entrega exitosa
+                botonEnviar.addEventListener("click", async () => {
+                    const seleccionado = document.querySelector('input[name="recibe"]:checked');
+                    const nombre = document.querySelector('input[name="nombreExtra"]');
+
+                    if (!seleccionado) {
+                        alert("Por favor, selecciona quién recibe el paquete.");
+                        return;
+                    }
+
+                    // Validar si se seleccionó "Otro" y el campo de texto está vacío
+                    if (seleccionado.value !== info.nombre.toLowerCase()) {
+                        if (!inputTexto.value.trim()) {
+                            alert("Por favor, ingrese el nombre del receptor.");
+                            return;
+                        } 
+                    }
+
+                    try {
+                        const recibe = seleccionado.value + " (" + nombre.value + ")";
+
+                        const respuesta = await modificarRecibido(id, recibe);
+                        const mensaje = respuesta ? 0 : 1;
+                        const idProxPaquete = ubiVisitadas+1
+                        if (mensaje == 0){
+                            await modificarEstadoPaquete(id,4);
+                            await historialHora(id, 4, fechaYhora);
+                            console.log(coordenadasArray.length)
+                            if (coordenadasArray.length > idProxPaquete){
+                                const nextPaqueteId = coordenadasArray[idProxPaquete].direccionId;
+                                await modificarEstadoPaquete(nextPaqueteId, 3);
+                                await historialHora(nextPaqueteId, 3, fechaYhora);
+                            }
+                            if(coordenadasArray.length === idProxPaquete){
+                                await modificarEstatusAdmin(numeroLote, 3);
+                            }
+                        }
+                        estadoDeEntrega(info,mensaje)
+                    } catch (error) {
+                        console.error("Error al modificar estado:", error);
+                        alert("Hubo un error al procesar la entrega.");
+                    }
+                });
+
+                // Agregar un evento para manejar la entrega fallida
+                botonEntregaFall.addEventListener("click", async () => {
+                    const confirmar = confirm("¿Estás seguro que el paquete no ha podido ser entregado?");
+                    if (!confirmar) return;
+
+                    try {
+                        const respuesta = await modificarEntrega(id);
+                        const mensaje = respuesta ? 2 : 3;
+                        const idProxPaquete = ubiVisitadas+1
+                        if (mensaje == 2){
+                            await modificarEstadoPaquete(id,5);
+                            historialHora(id, 5, fechaYhora);
+                            if (coordenadasArray.length > idProxPaquete){
+                                await modificarEstadoPaquete(coordenadasArray[idProxPaquete].direccionId,3)
+                                historialHora(coordenadasArray[idProxPaquete], 3, fechaYhora)
+                            }
+                            if(coordenadasArray.length === idProxPaquete){
+                                await modificarEstatusAdmin(numeroLote, 4);
+                            }
+                        }
+                        estadoDeEntrega(info,mensaje)
+                    } catch (error) {
+                        console.error("Error al modificar estado de entrega:", error);
+                        alert("Hubo un error al procesar la entrega fallida.");
+                    }
+                });
+
+                // Agregar los elementos al formulario
+                formulario.appendChild(radioContainer);
+                formulario.appendChild(extraInputContainer);
+                formulario.appendChild(botonEnviar);
+                formulario.appendChild(botonEntregaFall);
+
+                // Agregar el formulario al contenedor
+                formularioContainer.appendChild(formulario);
+                
+            }
+            
+        }
+
+        let colorEntrega;
+
+        function estadoPaquete(info, mensaje, coor1, coor2) {
+            let estadoMensaje; // Variable para almacenar el mensaje del estado
+
+            switch (mensaje) {
+                case 0:
+                    estadoMensaje = `De ${info} fue entregado con éxito!`;
+                    colorEntrega = "./img/entregaExitosa.png";
+                    break;
+                case 1:
+                    estadoMensaje = `De ${info} se entregará en otra ruta ya que no se encontro en el dómicilio.`;
+                    colorEntrega = "./img/entregaFallida.png";
+                    break;
+                case 2:
+                    estadoMensaje = `De ${info.nombre} se entregará en otra ruta ya el driver tuvo un percance.`;
+                    colorEntrega = "./img/entregaFallida.png";
+                    break;
+                default:
+                    estadoMensaje = "Error, vuelve a intentar";
+                    colorEntrega = "./img/entregaFallida.png";
+            }
+
+            const iconoColor = L.icon({
+                iconUrl: colorEntrega, // Cambia esta ruta por tu imagen personalizada
+                iconSize: [25, 41],  // Tamaño del icono ajustado al tamaño del marcador por defecto
+                iconAnchor: [12, 41], // Ajuste del punto de anclaje al borde inferior centra
+            });
+
+            L.marker([coor1, coor2],{ icon: iconoColor })
+                .addTo(map)
+                .bindPopup(
+                    'El paquete ' + estadoMensaje
+                )
+                .openPopup();
+        }
+
+        function estadoDeEntrega(info, mensaje) {
+            let estadoMensaje; // Variable para almacenar el mensaje del estado
+
+            switch (mensaje) {
+                case 0:
+                    estadoMensaje = `De ${info.nombre} fue entregado con éxito!`;
+                    colorEntrega = "./img/entregaExitosa.png";
+                    break;
+                case 1:
+                    estadoMensaje = `Ha ocurrido un error en la entrega del paquete de ${info.nombre}...`;
+                    colorEntrega = "./img/entregaFallida.png";
+                    break;
+                case 2:
+                    estadoMensaje = `De ${info.nombre} se entregará en otra ruta ya que no se encontro en el dómicilio.`;
+                    colorEntrega = "./img/entregaFallida.png";
+                    break;
+                case 3:
+                    estadoMensaje = `Ha ocurrido un error.`;
+                    colorEntrega = "./img/entregaFallida.png";
+                    break;
+                default:
+                    estadoMensaje = "Error, vuelve a intentar";
+                    colorEntrega = "./img/entregaFallida.png";
+            }
+
+            const iconoColor = L.icon({
+                iconUrl: colorEntrega, // Cambia esta ruta por tu imagen personalizada
+                iconSize: [25, 41],  // Tamaño del icono ajustado al tamaño del marcador por defecto
+                iconAnchor: [12, 41], // Ajuste del punto de anclaje al borde inferior centra
+            });
+            
+            // Acción posterior al switch
+            if(marcadores){
+                marcadores[ubiVisitadas].remove();
+            }
+            L.marker([coordenadasArray[ubiVisitadas].lat, coordenadasArray[ubiVisitadas].lon],{ icon: iconoColor })
+                .addTo(map)
+                .bindPopup(
+                    'El paquete de la dirección número (' +
+                    (ubiVisitadas + 1) + "): " + estadoMensaje
+                )
+                .openPopup();
+            document.getElementById("contenedorForm").style.display = "none";
+            ubiVisitadas++;
+            entregaRealizada = false;
+
+
+            if (!intervalId) {
+                intervalId = setInterval(simularDriver, 1000); // Reiniciar el simulador cada 4 segundos
+            }
+        }
+
+
+        // Exponer la función `esperarClickBoton` al contexto global
+        window.realizarEntrega = realizarEntrega;
 
     </script>
 </body>

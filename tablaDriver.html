@@ -6,6 +6,7 @@
     <link href="/styles/driver.css" rel="stylesheet"/>
     <title>πTech | Drivers</title>
     <link rel="icon" href="img/Logo - icon.png">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
  <div class="hover-area" onmouseover="showSidebar()">
@@ -18,15 +19,6 @@
    Jonathan Ramos
   </h2>
   <ul class="menu">
-
-   <li>
-     <a href="login_a.html" class="enlace-driver">
-        <i>
-           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
-        </i>
-        Home
-     </a>
-   </li>
      
    <li>
      <a href="tablaDriver.html" class="enlace-driver">
@@ -46,23 +38,14 @@
       </a>
     </li>
 
-   <li>
-     <a href="registrarDriver.html" class="enlace-driver">
-        <i>
-           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
-        </i>
-        Alta de usuarios
-     </a>
-   </li>
-
-   <li>
-     <a href="mapaRuta.html" class="enlace-driver">
-        <i>
-           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-map-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5" /><path d="M9 4v13" /><path d="M15 7v5.5" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" /><path d="M19 18v.01" /></svg>
-        </i>
-        Mapa
-     </a>
-   </li>
+    <li>
+      <a href="tablaValidar.html" class="enlace-driver">
+         <i>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
+         </i>
+         Validar Driver
+      </a>
+    </li>
 
    <li>
      <a href="formularioDireccion.html" class="enlace-driver">
@@ -88,7 +71,7 @@
     <i>
        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
     </i>
-    Cerrar Sesión 
+    <button type="button" onclick="cerrarSesión()">Cerrar sesión</button> 
     <!--Conectar el cerrado de sesion-->
    </li>
   </ul>
@@ -98,13 +81,36 @@
     <h1>
      Lista de drivers
     </h1>
+
     <div class="table-container">
         <div class="tabla"> <!--Sin esta linea no hay tabla-->
         </div>
-        
     </div>
 
-    
+    <script>
+      // Simulamos el inicio de sesión asignando valores a sessionStorage
+      // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+      if (!sessionStorage.getItem('nombreUser')) {
+          window.location.href = 'notFound.html';
+      } else {
+          const idUsuario = sessionStorage.getItem('idUser');
+          const nombreUsuario = sessionStorage.getItem('nombreUser');
+          const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+          console.log(`Nombre: ${nombreUsuario}`);
+          console.log(`Apellido: ${apellidoUsuario}`);
+          
+          // Actualizamos el contenido del elemento de bienvenida
+          document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+      }
+  </script>
+  <script>
+   function cerrarSesión(){
+       sessionStorage.clear();
+
+       // Redirige al usuario a la página de inicio de sesión
+       window.location.href = 'login_a.html';
+   }
+   </script>
     <script type="module">
         import { obtenerDriver } from './Funciones/consultaDriver.js';
 

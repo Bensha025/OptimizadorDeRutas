@@ -3,25 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegir ruta</title>
+    <link rel="stylesheet" href="css/style-tomarRuta.css">
+    <link rel="icon" href="img/Logo - icon.png">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>πTech | Elegir Ruta </title>
 </head>
+<header>
+    <div class="container-botton-back">
+        <button class="botton-back" type="button" onclick="window.location.href='driver_seleccion.html'">Regresar</button>
+    </div>
+</header>
 <body>
     <div class="bienvenida">
-        <h2 id="bienvenida" class="nombre">Bienvenido {nombreUsuario}</h2>
-    </div>
-    <h2>¿Listo para elegir tu ruta?</h2>
-    <div class="rutasDisponibles"></div>
-    <div class="ruta">
-        <label for="guia">Ingrese el número de lote para comenzar a trabajar</label><br>
-        <input type="text" name="lote" id="lote" placeholder="Ejemplo:1234"> <br>
-        <button type="button" onclick="tomarRuta()">Consultar</button> <br><br>
+        <div class="container-form">
+            <form class="sign-in">
+                <h2 id="bienvenida" class="nombre">Bienvenido {nombreUsuario}</h2>
+                <h2>¿Listo para elegir tu ruta?</h2>
+                <div class="rutasDisponibles"></div>
+                <div class="ruta">
+                    <label for="guia">Ingrese el número de lote para comenzar a trabajar</label><br><br>
+                    <div class="container-input">
+                        <ion-icon name="analytics-outline"></ion-icon>
+                        <input type="text" name="lote" id="lote" placeholder="Ejemplo:1234">
+                    </div>
+                    <div class="contenedor-botones" id="contenedor-botones">
+                        <button class="botton" type="button" onclick="tomarRuta()">Consultar</button> <br><br>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <script>
         // Simulamos el inicio de sesión asignando valores a sessionStorage
         // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
         
         if (!sessionStorage.getItem('nombreUser')) {
-            window.location.href = 'index.html';
+            window.location.href = 'notFound.html';
         } else {
             const idUsuario = sessionStorage.getItem('idUser');
             const nombreUsuario = sessionStorage.getItem('nombreUser');
@@ -38,18 +55,31 @@
         async function tomarRuta(){
             const numeroLote = document.getElementById("lote").value; // Obtienes el valor como cadena
 
+            console.log(numeroLote);
+
             if (numeroLote.length === 4 && !isNaN(numeroLote)) { // Verificamos que la longitud sea 4 y que sea un número
-                const confirmar = confirm("¿Esta seguro de tomar esta ruta? Considere que no se podra cambiar.");
-                if(confirmar){
-                    const params = new URLSearchParams();
-                    params.append('num', numeroLote);
-                    window.location.href = `mapaRuta.html?${params.toString()}`;
-                }else{
-                    alert("Por favor, seleccione otra ruta.");
-                    document.getElementById("lote").value = "";
-                }
+                
+                swal({
+                    title: '¿Está seguro de tomar esta ruta?',
+                    text: 'Considere que no se podrá cambiar.',
+                    buttons: ['Cancelar', 'Tomar'],
+                    dangerMode: true
+                }).then((willConfirm) => {
+                    if (willConfirm) {
+                        // Si confirma, redirigir con el número de lote como parámetro en la URL
+                        const params = new URLSearchParams();
+                        params.append("num", numeroLote);
+                        window.location.href = `mapaRuta.html?${params.toString()}`;
+                    } else {
+                        swal('Cancelado', 'No se tomó ninguna acción.', 'error');
+                    }
+                });
+
+                //const confirmar = swal("¿Esta seguro de tomar esta ruta? Considere que no se podra cambiar.",{
+                 //   buttons:["Ok","No"]  
+                //});
             } else {
-                alert("Error al ingresar el número de lote. \nEl número debe contener 4 dígitos");
+                swal('Error al ingresar el número de lote.','El número debe contener 4 dígitos','error');
                 document.getElementById("lote").value = "";
             }
         }
@@ -57,4 +87,6 @@
         window.tomarRuta = tomarRuta;
     </script>
 </body>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 </html>

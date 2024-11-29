@@ -23,9 +23,10 @@ h1:hover
 }
 
 body {
+
     background: 
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-        url(/img/fondo_driver.jpg);
+        url(/img/fondo-home.jpg);
     background-position: center;
     background-size: cover;
     font-family: Poppins;
@@ -34,6 +35,7 @@ body {
     display: grid;
     place-items: center;
     background-color: var(--background);
+    color: white;
 }
 
 .gallery {

@@ -7,16 +7,22 @@
 
 
 body{
+    width: 100%;
+    position: relative;
     display: flex;
+
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url(../img/ciudad.jpg) no-repeat;
+    background: url(../img/ciudad.jpg) no-repeat center;
     background-size: cover;
     background-position: center;
 }
 
 header {
+    background-color: transparent;
+    backdrop-filter: blur(50px);
+    border-radius: 5%;
     position: fixed;
     top: 0;
     left: 0;
@@ -85,9 +91,10 @@ header {
 /*Aqui empieza los estilos para el formulario*/
 
 .wrapper {
-    position: relative;
+    position: relative; 
+    top: -5%; /* Puedes ajustar este valor si es necesario */
     width: 400px;
-    height: 440px;
+    height: auto; /* Permitir que el formulario crezca dinámicamente */
     background: transparent;
     border: 2px solid rgba(255, 255, 255, .5);
     border-radius: 20px;
@@ -107,7 +114,9 @@ header {
 
 /*Este apartado es para modificar el tamaño del formulario en el area de registro*/
 .wrapper.active {
-    height: 480px;
+    height: 200vh;
+    height: 800px;
+
 }
 
 .wrapper .form-box{

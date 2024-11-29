@@ -1,7 +1,7 @@
 body {
     background: 
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-    url(/img/fondo_driver.jpg);
+    url(/img/fondoblanco.jpg);
     display: block; /* Cambia de flex a block */
     min-height: 100vh;
     background-repeat: no-repeat; /* Evita que la imagen se repita */

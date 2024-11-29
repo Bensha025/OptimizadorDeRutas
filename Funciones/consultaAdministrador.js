@@ -58,7 +58,8 @@ export async function obtenerAdministrador() {
             eventoEditar();
     
         } catch (error) {
-            console.error("Error al obtener los datos: ", error);
+            //console.error("Error al obtener los datos: ", error);
+            swal('Intentalo de nuevo','Error al obtener los datos: ','error', error);
         }
     }
 

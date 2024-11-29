@@ -3,29 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validacion</title>
+    <link href="/styles/driver.css" rel="stylesheet"/>
+    <title>πTech | Drivers Validar</title>
+    <link rel="icon" href="img/Logo - icon.png">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
-    <div class="tabla">
-        <div>
-            <div class="titulo"><h1>Drivers pendientes de validar</h1></div>
-        </div>
-        <div class="tabla1">
-            <div class="id1">Id <br> <i class="fa-solid fa-hashtag"></i></div>
-            <div class="nombre1">Nombre completo <br><i class="fa-solid fa-user"></i></div>
-            <div class="correo1">Correo <br><i class="fa-solid fa-envelope"></i></div>
-            <div class="rol1">Rol <br><i class="fa-solid fa-id-card"></i></div>
-            <div class="boton1">Eliminar <br><i class="fa-solid fa-trash"></i></div>
-            <div class="boton2">Ver detalle<br><i class="fa-solid fa-circle-info"></i></div>
-            <div class="boton3">Validar<br><i class="fa-solid fa-user-pen"></i></div> <br><br>
-        </div>
-        
-        <div class="resultado"></div> <!-- Div donde se mostrarán los resultados -->
-    </div>
-    <script type="module">
-        import { obtenerDriver } from './Funciones/validarDriver.js';
+ <div class="hover-area" onmouseover="showSidebar()">
+ </div>
+ <div class="sidebar" onmouseleave="hideSidebar()">
 
-        obtenerDriver(); // Llama a la función para obtener los datos
+  <img alt="FOTO" height="60" src="/img/jona.png" width="60"/><!--Vincular con el id del admin-->
+  <h2>
+   <!--Colocar el id del driver-->
+   Jonathan Ramos
+  </h2>
+  <ul class="menu">
+     
+   <li>
+     <a href="tablaDriver.html" class="enlace-driver">
+        <i>
+           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-car"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" /></svg>
+        </i>
+        Listado de drivers
+     </a>
+   </li>
+
+   <li>
+      <a href="tablaAdministrador.html" class="enlace-driver">
+         <i>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-car"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M5 17h-2v-6l2 -5h9l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-6m-6 -6h15m-6 0v-5" /></svg>
+         </i>
+         Listato de Administradores
+      </a>
+    </li>
+
+    <li>
+      <a href="tablaValidar.html" class="enlace-driver">
+         <i>
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M16 19h6" /><path d="M19 16v6" /></svg>
+         </i>
+         Validar Driver
+      </a>
+    </li>
+
+   <li>
+     <a href="formularioDireccion.html" class="enlace-driver">
+        <i>
+           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-manual-gearbox"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19 3a3 3 0 0 1 1 5.829v1.171a3 3 0 0 1 -3 3h-4v2.171a3.001 3.001 0 1 1 -4 2.829l.005 -.176a3 3 0 0 1 1.995 -2.654v-2.17h-5v2.171a3.001 3.001 0 1 1 -4 2.829l.005 -.176a3 3 0 0 1 1.995 -2.654v-6.341a3 3 0 0 1 -2 -2.829l.005 -.176a3 3 0 1 1 3.996 3.005l-.001 2.171h5v-2.17a3 3 0 0 1 -2 -2.83l.005 -.176a3 3 0 1 1 3.996 3.005l-.001 2.171h4a1 1 0 0 0 1 -1v-1.17a3 3 0 0 1 -2 -2.83l.005 -.176a3 3 0 0 1 2.995 -2.824" /></svg>
+        </i>
+        Detalle de rutas
+     </a>
+   </li>
+
+   <li>
+     <a href="optimizarRuta.html" class="enlace-driver">
+        <i>
+           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-route-alt-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 3h-5v5" /><path d="M16 3h5v5" /><path d="M3 3l7.536 7.536a5 5 0 0 1 1.464 3.534v6.93" /><path d="M18 6.01v-.01" /><path d="M16 8.02v-.01" /><path d="M14 10v.01" /></svg>
+        </i>
+        Optimizador de ruta
+     </a>
+   </li>
+
+   <br><br><br><br><br><br>
+
+   <li>
+    <i>
+       <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-logout"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" /><path d="M9 12h12l-3 -3" /><path d="M18 15l3 -3" /></svg>
+    </i>
+    <button type="button" onclick="cerrarSesión()">Cerrar sesión</button>
+    <!--Conectar el cerrado de sesion-->
+   </li>
+  </ul>
+ </div>
+    
+ <div class="content">
+    <h1>
+     Lista de drivers
+    </h1>
+
+    <div class="table-container">
+        <div class="tabla"> <!--Sin esta linea no hay tabla-->
+        </div>
+    </div>
+
+    <script>
+        // Simulamos el inicio de sesión asignando valores a sessionStorage
+        // En una aplicación real, estos datos se establecerían después de un inicio de sesión exitoso
+        if (!sessionStorage.getItem('nombreUser')) {
+            window.location.href = 'notFound.html';
+        } else {
+            const idUsuario = sessionStorage.getItem('idUser');
+            const nombreUsuario = sessionStorage.getItem('nombreUser');
+            const apellidoUsuario = sessionStorage.getItem('apellidosUser');
+            console.log(`Nombre: ${nombreUsuario}`);
+            console.log(`Apellido: ${apellidoUsuario}`);
+            
+            // Actualizamos el contenido del elemento de bienvenida
+            document.getElementById("bienvenida").innerHTML = `Bienvenido ${nombreUsuario}`;
+        }
     </script>
+    <script>
+     function cerrarSesión(){
+         sessionStorage.clear();
+  
+         // Redirige al usuario a la página de inicio de sesión
+         window.location.href = 'login_a.html';
+     }
+     </script>
+    <script>
+        function showSidebar() {
+                 document.querySelector('.sidebar').classList.remove('hidden');
+                 document.querySelector('.content').classList.remove('shifted');
+             }
+     
+             function hideSidebar() {
+                 document.querySelector('.sidebar').classList.add('hidden');
+                 document.querySelector('.content').classList.add('shifted');
+             }
+     
+             // esconder la barra lateral
+             hideSidebar();
+       </script>
+
+        <script type="module">
+            import { obtenerDriver } from './Funciones/validarDriver.js';
+
+            obtenerDriver(); // Llama a la función para obtener los datos
+        </script>
 </body>
 </html>

@@ -8,3 +8,9 @@
     margin-top: 5px;
     font-family: Arial, sans-serif;
 }
+
+.img{
+    position: relative; /* El div se mueve relativo a su posición inicial */
+    left: 10px; 
+    top: 15px;
+}

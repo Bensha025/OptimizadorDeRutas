@@ -31,9 +31,10 @@ export async function editAdministradorDatos(id, dataAdministrador){
     const administradorDocRef = doc(db, "administrador", id); // Referencia al documento que se consultara.
     try {
         await updateDoc(administradorDocRef, dataAdministrador); // Actualizar el documento
-        alert("Datos actualizados correctamente");
+        swal('Proceso completado','Datos actualizados correctamente','success');
     } catch (error) {
-        console.error("Error al actualizar los datos: ", error);
+        //console.error("Error al actualizar los datos: ", error);
+        swal('Intentalo de nuevo','Error al actualizar los datos: ','error', error);
     }
 }
 
@@ -42,9 +43,10 @@ export async function editAdministradorPass(id, dataAdministrador){
     const administradorDocRef = doc(db, "administrador", id); // Referencia al documento que se consultara.
     try {
         await updateDoc(administradorDocRef, dataAdministrador); // Actualizar el documento
-        alert("Contraseña actualizada correctamente");
+        swal('Proceso completado','Contraseña actualizada correctamente','success');
     } catch (error) {
-        console.error("Error al actualizar los datos: ", error);
+        //console.error("Error al actualizar los datos: ", error);
+        swal('Intentalo de nuevo','Error al actualizar los datos: ','error', error);
     }
 }
 
@@ -53,8 +55,9 @@ export async function editAdministradorArchivo(id, dataAdministrador){
     const administradorDocRef = doc(db, "administrador", id); // Referencia al documento que se consultara.
     try {
         await updateDoc(administradorDocRef, dataAdministrador); // Actualizar el documento
-        alert("Archivo actualizado correctamente");
+        swal('Proceso completado','Archivo actualizado correctamente','success');
     } catch (error) {
-        console.error("Error al actualizar los datos: ", error);
+        //console.error("Error al actualizar los datos: ", error);
+        swal('Intentalo de nuevo','Error al actualizar los datos: ','error', error);
     }
 }
